@@ -6,172 +6,32 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "446690",
-      "name": "刷新",
-      "font_class": "shuaxin",
-      "unicode": "e626",
-      "unicode_decimal": 58918
+      "icon_id": "376663",
+      "name": "搭配工具",
+      "font_class": "dapeigongju",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
     },
     {
-      "icon_id": "560202",
-      "name": "更多",
-      "font_class": "more",
-      "unicode": "e656",
-      "unicode_decimal": 58966
+      "icon_id": "3239730",
+      "name": "工具",
+      "font_class": "gongju",
+      "unicode": "e606",
+      "unicode_decimal": 58886
     },
     {
-      "icon_id": "906124",
-      "name": "导航",
-      "font_class": "daohang",
-      "unicode": "e631",
-      "unicode_decimal": 58929
+      "icon_id": "5482991",
+      "name": "测量工具",
+      "font_class": "celianggongju",
+      "unicode": "e695",
+      "unicode_decimal": 59029
     },
     {
-      "icon_id": "1309012",
-      "name": "954菜单_名片",
-      "font_class": "954caidan_mingpian",
-      "unicode": "e68b",
-      "unicode_decimal": 59019
-    },
-    {
-      "icon_id": "1527483",
-      "name": "提示",
-      "font_class": "tishi",
-      "unicode": "e64c",
-      "unicode_decimal": 58956
-    },
-    {
-      "icon_id": "2722388",
-      "name": "在线聊天",
-      "font_class": "liaotian",
-      "unicode": "e64b",
-      "unicode_decimal": 58955
-    },
-    {
-      "icon_id": "2764035",
-      "name": "回复",
-      "font_class": "huifu",
-      "unicode": "e634",
-      "unicode_decimal": 58932
-    },
-    {
-      "icon_id": "2824969",
-      "name": "一键呼叫",
-      "font_class": "yijianhujiao",
-      "unicode": "e657",
-      "unicode_decimal": 58967
-    },
-    {
-      "icon_id": "2857246",
-      "name": "呼出",
-      "font_class": "huchu",
-      "unicode": "e6ec",
-      "unicode_decimal": 59116
-    },
-    {
-      "icon_id": "3193294",
-      "name": "未接电话",
-      "font_class": "weijiedianhua",
-      "unicode": "e635",
-      "unicode_decimal": 58933
-    },
-    {
-      "icon_id": "3695280",
-      "name": "返回按钮",
-      "font_class": "fanhuianniu",
-      "unicode": "e636",
-      "unicode_decimal": 58934
-    },
-    {
-      "icon_id": "4214777",
-      "name": "消息",
-      "font_class": "xiaoxi",
-      "unicode": "e737",
-      "unicode_decimal": 59191
-    },
-    {
-      "icon_id": "4413492",
-      "name": "链接",
-      "font_class": "lianjie",
-      "unicode": "e61b",
-      "unicode_decimal": 58907
-    },
-    {
-      "icon_id": "5763397",
-      "name": "箭头-下",
-      "font_class": "xia",
-      "unicode": "e6df",
-      "unicode_decimal": 59103
-    },
-    {
-      "icon_id": "6119234",
-      "name": "疑问",
-      "font_class": "question-line",
-      "unicode": "e62d",
-      "unicode_decimal": 58925
-    },
-    {
-      "icon_id": "6169540",
-      "name": "预约",
-      "font_class": "yuyue",
-      "unicode": "e62c",
-      "unicode_decimal": 58924
-    },
-    {
-      "icon_id": "6265049",
-      "name": "相机",
-      "font_class": "camera-line",
-      "unicode": "e644",
-      "unicode_decimal": 58948
-    },
-    {
-      "icon_id": "6499889",
-      "name": "输入",
-      "font_class": "shuru",
-      "unicode": "e683",
-      "unicode_decimal": 59011
-    },
-    {
-      "icon_id": "6651518",
-      "name": "连接失败",
-      "font_class": "lianjieshibai",
-      "unicode": "e648",
-      "unicode_decimal": 58952
-    },
-    {
-      "icon_id": "7034022",
-      "name": "分享",
-      "font_class": "fenxiang",
-      "unicode": "e820",
-      "unicode_decimal": 59424
-    },
-    {
-      "icon_id": "7607292",
-      "name": "日志",
-      "font_class": "rizhi",
-      "unicode": "e72e",
-      "unicode_decimal": 59182
-    },
-    {
-      "icon_id": "7748982",
-      "name": "左箭头",
-      "font_class": "arrow-left",
-      "unicode": "e616",
-      "unicode_decimal": 58902
-    },
-    {
-      "icon_id": "8924744",
-      "name": "通话01",
-      "font_class": "tonghua",
-      "unicode": "e637",
-      "unicode_decimal": 58935
-    },
-    {
-      "icon_id": "8945945",
-      "name": "关  闭",
-      "font_class": "guanbi",
-      "unicode": "e6aa",
-      "unicode_decimal": 59050
+      "icon_id": "5714723",
+      "name": "工具",
+      "font_class": "gongju1",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
     }
   ]
 }

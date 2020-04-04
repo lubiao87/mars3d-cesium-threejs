@@ -174,13 +174,12 @@ export default {
       "ORDERSDATA" //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
     ]),
     pushPage(name) {
-      // this.$router.push({ path: url, query: param });
-      // this.$store.dispatch("collection/ORDERS_DATA", ); //重新给store中的scorketId赋值（数据格式问题先转了json）
-      this.$store.dispatch("collection/ORDERSDATA", {
+      let obj = {
         name: name,
         id: 23
-      });
-      console.log(this.$store.state);
+      };
+      this.$store.dispatch("collection/ORDERS_DATA", obj);
+      console.log(this.$store.getters["collection/renderOrdersData"]);
     },
     tologin() {
       this.$router.push("/login");
@@ -214,7 +213,7 @@ export default {
   }
 };
 </script>
-<style>
+<style  scoped lang="scss">
 .header_icon_logout {
   background-image: url(../assets/common/image/header_icon_logout.png);
   width: 20px;

@@ -120,4 +120,19 @@ a:hover{color:#fff}
 .fn-pobot{clear:both;position:relative;bottom:0;left:0}
 .fn-pt0{padding-top: 0;}
 
-
+@font-face {
+  font-family: 'iconfont';
+  src: url('../common/iconfont/iconfont.eot');
+  src: url('../common/iconfont/iconfont.eot?#iefix') format('embedded-opentype'),
+      url('../common/iconfont/iconfont.woff2') format('woff2'),
+      url('../common/iconfont/iconfont.woff') format('woff'),
+      url('../common/iconfont/iconfont.ttf') format('truetype'),
+      url('../common/iconfont/iconfont.svg#iconfont') format('svg');
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
