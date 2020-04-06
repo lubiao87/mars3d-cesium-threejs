@@ -7,12 +7,23 @@
       </h1>
       <div class="ui-nav-center clearfix">
         <ul class="ui-nav-menu clearfix">
-          <!-- <li class="ui-menu-firstli">
-            <a class="ui-menu-firsta"
-               :class="{ 'iscur':['//populationHome','/wifiHome','/regionalHome','/tradeHome'].indexOf(currentPath)>-1}">首页</a>
-          </li> -->
+          <li class="ui-menu-firstli">
+            <a
+              class="ui-menu-firsta"
+              @click="pushPage('首页')"
+              :class="{
+                iscur:
+                  [
+                    '/index',
+                    '/populationTrends',
+                    '/populationPortrait',
+                    '/populationFlow'
+                  ].indexOf(currentPath) > -1
+              }"
+              >首页</a>
+          </li>
 
-          <li class="ui-menu-firstli current" v-show="isShowPlanManagement">
+          <li class="ui-menu-firstli current">
             <a
               class="ui-menu-firsta"
               :class="{
@@ -29,7 +40,6 @@
             <ul class="ui-menu-second">
               <li
                 class="ui-menu-secondli"
-                v-show="isShowPopulationDistribution"
               >
                 <a class="ui-menu-seconda" @click="pushPage('文庙单体化')"
                   >文庙单体化</a
@@ -37,30 +47,7 @@
               </li>
             </ul>
           </li>
-          <li class="ui-menu-firstli" v-show="isShowPlanManagement">
-            <a
-              class="ui-menu-firsta"
-              :class="{
-                iscur:
-                  [
-                    '/index',
-                    '/populationTrends',
-                    '/populationPortrait',
-                    '/populationFlow'
-                  ].indexOf(currentPath) > -1
-              }"
-              >323</a
-            >
-            <ul class="ui-menu-second">
-              <li
-                class="ui-menu-secondli"
-              >
-                <a class="ui-menu-seconda" @click="pushPage()"
-                  >123</a
-                >
-              </li>
-            </ul>
-          </li>
+
         </ul>
       </div>
       <div class="ui-nav-right clearfix">
@@ -90,13 +77,7 @@ export default {
   data() {
     return {
       logined: false,
-      userName: "",
-      isShowPlanManagement: true, //是否展示规划使用管理
-      isShowPopulationDistribution: true,
-      isShowApplicationList: true, //是否展示申请单
-      isShowpreemptMessageList: true, //是否展示预占设备
-      isShowMaintainList: true, // false,//是否展示资源列表
-      isShowResourcePlanList: true // false,//是否显示资源规划
+      userName: ""
     };
   },
   computed: {
@@ -111,62 +92,13 @@ export default {
       //用mapGetters来获取collection.js里面的getters
       arrList: "renderOrdersData",
       // MyordersData: "renderOrdersData"
-    })
+    }),
+    currentPath() {
+      return this.$route.path;
+    }
   },
   mounted() {
-    let isLogin = sessionStorage.getItem("logined");
-    var headers = JSON.parse(sessionStorage.getItem("headers"));
-    if (
-      isLogin &&
-      headers != null &&
-      headers.userId != null &&
-      headers.userName != null
-    ) {
-      this.logined = true;
-      this.userName = headers.userName;
-    }
-    if (!headers) {
-      return;
-    }
-    let menuList = JSON.parse(headers.menuList);
-    let buttonList = JSON.parse(headers.buttonList);
-    // this.menuList = menuList;
-    // console.log(menuList);
-    // console.log(buttonList);
-    for (var i = 0; i < menuList.length; i++) {
-      if (menuList[i] == null || menuList[i].menuUrl == null) {
-        continue;
-      }
-      // console.log(menuList[i]);
-      let flag = 0; //无查看权限
-      if (menuList[i].parenId != 0) {
-        //二级目录
-        for (var j = 0; j < buttonList.length; j++) {
-          if (
-            menuList[i].menuId == buttonList[j].parenMenuId &&
-            buttonList[j].buttonName == "查看"
-          ) {
-            flag = 1;
-          }
-        }
-      } else {
-        flag = 1;
-      }
-      //规划使用管理-二级
-      if (menuList[i].menuUrl.indexOf("/populationDistribution") >= 0) {
-        //这个无须查看
-        this.isShowPopulationDistribution = true;
-      }
-    }
-    if (this.isShowPopulationDistribution) {
-      this.isShowPlanManagement = true;
-    }
-    if (menuList[i].menuUrl.indexOf("/application") >= 0) {
-      this.isShowApplicationList = true;
-    }
-    if (menuList[i].menuUrl.indexOf("/preemptMessage") >= 0) {
-      this.isShowpreemptMessageList = true;
-    }
+
   },
   methods: {
     ...mapActions("collection", [
@@ -176,7 +108,7 @@ export default {
     pushPage(name) {
       let obj = {
         name: name,
-        id: 23
+        id: Math.random()
       };
       this.$store.dispatch("collection/ORDERS_DATA", obj);
       console.log(this.$store.getters["collection/renderOrdersData"]);
@@ -204,11 +136,6 @@ export default {
           // window.sessionStorage.removeItem("logined");
         })
         .catch(() => {});
-    }
-  },
-  computed: {
-    currentPath() {
-      return this.$route.path;
     }
   }
 };

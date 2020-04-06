@@ -733,3 +733,46 @@ body .el-dropdown-menu__item:focus,body .el-dropdown-menu__item:not(.is-disabled
   background-color: $smainColor;
   color: $writeColor;
 }
+// 搜索框
+body .cesium-geocoder-input {
+  width: 260px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+  text-indent: 8px;
+  outline: none;
+  float: left;
+  border: none;
+  box-shadow: 0px 2px 6px #3a3c42;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  color: #ffffff;
+    background-color: rgba(63, 72, 84, 0.7);
+    border: none;
+}
+body .search-results {
+  width: 260px;
+  box-shadow: 1px 2px 1px rgba(0,0,0,.15);
+  background: rgba(63, 72, 84,0.9);
+  overflow: hidden;
+}
+body .search-results li{
+  font-size: 12px;
+    height: 36px;
+    line-height: 36px;
+    list-style-type: none;
+    padding-left: 20px;
+    text-decoration: none;
+    color: #dcdcdc;
+}
+body .cesium-geocoder-searchButton {
+  top: 0;
+  width: 50px;
+  height: 40px;
+  float: left;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background-color: rgba(35, 68, 117, 0.85);
+  right: inherit;
+}

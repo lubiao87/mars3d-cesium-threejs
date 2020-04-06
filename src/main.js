@@ -7,6 +7,7 @@ import store from '@/store'
 //引入element
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import "cesium/Widgets/widgets.css";
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 

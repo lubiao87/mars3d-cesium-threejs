@@ -11,7 +11,7 @@ import mars3d from "../../map/mars3d/mars3d";
 
 
 import { getMapConfig, getPoint } from "../../map/api";
-import { createMap, createLayer } from "../../map/main";
+import { createLayer } from "../../map/main";
 
 
 

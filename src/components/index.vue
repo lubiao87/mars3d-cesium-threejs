@@ -26,7 +26,9 @@ export default {
 </script>
 
 <style>
+@import "../map/mars3d/mars3d.css";
 @import "../assets/theme/base.css";
+
 
 .page-index {
   /* overflow-y: auto; */

@@ -6,8 +6,9 @@ import {loadCesiumZH} from "./plugins/class/cesium-zh";
 
 //导航球插件
 import "./plugins/navigation/mars3d-navigation.css";
+
 import  "./plugins/navigation/mars3d-navigation";
-import {Haoutils} from "../utils/cesium/haoutil";
+// import {Haoutils} from "../utils/cesium/haoutil";
 //地图创建
 export function createMap(id, config) {
   var viewer = mars3d.createMap({

@@ -50,15 +50,10 @@ export default new Router({
       name: 'cesiumtext',
       component: () => import("./views/webglText/cesiumtext.vue")
     },
-    {
+    { //单体化文庙
       path: '/createLayer',
       name: 'createLayer',
       component: () => import("./views/webglText/createLayer.vue")
-    },
-    {
-      path: '/radarReflect',
-      name: 'radarReflect',
-      component: () => import("./views/radarReflect/radarReflect.vue")
     },
   ]
 })
