@@ -28,6 +28,7 @@ export default {
 <style>
 @import "../map/mars3d/mars3d.css";
 @import "../assets/theme/base.css";
+@import "../assets/common/iconfont/iconfont.css";
 
 
 .page-index {

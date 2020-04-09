@@ -23,10 +23,11 @@ export const listSearch = {
         }
       }).then((res) => {
         // 如果该请求不需要干扰到loading，那么需要设置 doNotDisturbLoading 为 true
-        if (res && res.data) {
-          // callback && callback(res.data)
-          return Promise.resolve(res.data)
-        }
+        // if (res && res.data) {
+        //   // callback && callback(res.data)
+        //   return Promise.resolve(res.data)
+        // }
+        callback(res)
       }, (error) => {
         let res = error.data
         Message({

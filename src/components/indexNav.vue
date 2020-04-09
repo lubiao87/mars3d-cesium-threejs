@@ -7,7 +7,7 @@
       </h1>
       <div class="ui-nav-center clearfix">
         <ul class="ui-nav-menu clearfix">
-          <li class="ui-menu-firstli">
+          <!-- <li class="ui-menu-firstli">
             <a
               class="ui-menu-firsta"
               @click="pushPage('首页')"
@@ -21,28 +21,37 @@
                   ].indexOf(currentPath) > -1
               }"
               >首页</a>
-          </li>
+          </li> -->
 
-          <li class="ui-menu-firstli current">
+          <li class="ui-menu-firstli" v-for="(item, index) in navList.menu" :key="index">
             <a
               class="ui-menu-firsta"
-              :class="{
-                iscur:
-                  [
-                    '/index',
-                    '/populationTrends',
-                    '/populationPortrait',
-                    '/populationFlow'
-                  ].indexOf(currentPath) > -1
-              }"
-              >产品模型</a
+              >
+              <span class="iconfont icon-archive-outline" v-if="item.icon"></span>
+              {{item.name}}
+              </a
             >
             <ul class="ui-menu-second">
               <li
-                class="ui-menu-secondli"
+                class=""
+                 v-for="(children, index) in item.children" :key="children.name"
               >
-                <a class="ui-menu-seconda" @click="pushPage('文庙单体化')"
-                  >文庙单体化</a
+                <a class="" >
+                  <div  class="nohover"> <span class="iconfont icon-activity-outline" v-if="children.icon"></span> {{children.name}}</div>
+                  <ul class="">
+                    <li
+                      class=""
+                      v-for="(grandson, index) in children.children" :key="grandson.name"
+                    >
+                      <a class="ui-menu-seconda" @click="pushPage(children.name)"
+                        >
+                        {{grandson.name}}
+
+                        </a
+                      >
+                    </li>
+                  </ul>
+                  </a
                 >
               </li>
             </ul>
@@ -67,17 +76,18 @@
 </template>
 
 <script>
-import { listSearchMixin } from "../mixin"; //混淆请求
-import { api } from "../api/api"; //api配置请求的路径
+// import { listSearchMixin } from "../mixin"; //混淆请求
+import { getMenus } from "../api/api"; //api配置请求的路径
 import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 
 export default {
   name: "indexNav",
-  mixins: [listSearchMixin],
+  // mixins: [listSearchMixin],
   data() {
     return {
       logined: false,
-      userName: ""
+      userName: "",
+      navList:[]
     };
   },
   computed: {
@@ -98,9 +108,17 @@ export default {
     }
   },
   mounted() {
-
+    this.getMenu();
   },
   methods: {
+    getMenu(){
+      let self = this;
+      let project__id = this.$route.query.project__id;
+      getMenus(project__id).then(data => {
+        console.log("nav", data)
+        self.navList = data[0].data;
+      });
+    },
     ...mapActions("collection", [
       //collection是指modules文件夹下的collection.js
       "ORDERSDATA" //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
@@ -150,6 +168,20 @@ export default {
 .header_icon_logout:hover {
   opacity: 1;
   cursor: pointer;
+}
+.nohover:hover {
+ cursor: initial;
+ width: 100%;
+}
+.nohover {
+    text-align: left;
+    margin-left: 15px;
+    padding-top: 6px;
+}
+.ui-menu-seconda {
+    text-align: left;
+    padding-left: 30px;
+    padding-top: 6px;
 }
 </style>
 <style scoped>

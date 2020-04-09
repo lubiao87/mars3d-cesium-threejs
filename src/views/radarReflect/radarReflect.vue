@@ -4,20 +4,7 @@
     <div id="mask" class="signmask" onclick="removeMask()"></div>
 
     <div id="cesiumContainer" class="cesium-container"></div>
-    <el-row class="block-col-2 tool-btn">
-      <el-col>
-        <el-dropdown>
-          <span class="el-dropdown-link">
-            <span class="iconfont">&#xe606;</span>工具<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-plus">标签工具</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-circle-plus">测量工具</el-dropdown-item>
-
-          </el-dropdown-menu>
-        </el-dropdown>
-      </el-col>
-    </el-row>
+    <nal-tool></nal-tool>
     <div v-text="inputText" class="inputText" id="inputText"></div>
 
   </div>
@@ -39,13 +26,17 @@ import {
   initPointWork,
   createWenmiao,
   startRaodian
-} from "./app";
+} from "../../map/app";
 
 import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
+import nalTool from "../../components/navTool"; //先要引入
 
 
 export default {
   name: "radarReflect",
+  components: {
+    nalTool
+  },
   data: function (){
     return {
       viewer: null,
@@ -63,8 +54,6 @@ export default {
       InitMap(params,function (viewer) {
         that.viewer = viewer;
         initWork(); // 上海白模
-        //  let urlArr = UrlArr();
-        // startRadar(urlArr,1); //时空雷达
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         that.clearRaodia(handler)
         initPointWork();
@@ -88,6 +77,10 @@ export default {
     })
   },
   methods: {
+    addCloud() {
+      let urlArr = UrlArr();
+      startRadar(urlArr,1); //时空雷达
+    },
     clearRaodia(obj) {
       const that = this;
       document.onmousemove=function(){

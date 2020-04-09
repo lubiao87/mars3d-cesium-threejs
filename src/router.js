@@ -37,15 +37,24 @@ export default new Router({
             auth: false,
             keepAlive: false
           }
-        }
+        },
+        {
+          path: '/leafletAndMap3d',
+          name: 'leafletAndMap3d',
+          component: () => import("./views/twoThreeMap/leafletAndMap3d.vue"),
+          meta: {
+            auth: false,
+            keepAlive: false
+          }
+        },
       ]
     },
-    {
+    { // 科技标签
       path: '/cesiumContainer',
       name: 'cesiumContainer',
       component: () => import("./views/webglText/cesiumContainer.vue")
     },
-    {
+    { // 中关村
       path: '/cesiumtext',
       name: 'cesiumtext',
       component: () => import("./views/webglText/cesiumtext.vue")

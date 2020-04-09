@@ -3,6 +3,7 @@ import * as mars3d from "@/map/mars3d/mars3d";
 import {loadCesiumZH} from "@/map/plugins/class/cesium-zh";
 var camera, scene, clock, viewer, geoCoder, layerWork;
 export function InitMap(params, fn) {
+  console.log("params.data", params.data)
   mars3d.createMap({
       id: params.id,
       data: params.data.map3d,

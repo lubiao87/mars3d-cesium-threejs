@@ -1,17 +1,24 @@
-// 导入api接口模块
-import reqUrl from "./api-p/request_url";
-import reqUrl2 from "./api-p/module_url";
+// 图层
+import axios from 'axios';
 
-// 获取当前环境变量 true => 生产环境 false => 开发环境
-const BASEURL =
-  process.env.NODE_ENV === "production"
-    ? "/infoCollectTool"
-    : "/infoCollectTool";
 
-export const api = {
-  ...reqUrl(BASEURL)
-};
-export const api2 = {
-  ...reqUrl2(BASEURL)
-};
-export default [api, api2];
+export function getMenus(id){
+	// const url = 'config/config.json';
+	const url = '/cesium/manager/api/menus/?project__id=' + id;
+	return axios.get(url, {
+    // params: data,
+    dataType: "json",
+	}).then(res => {
+    console.log("getMenus--", res)
+		return Promise.resolve(res.data);
+	});
+}
+
+
+export function getTool(id){
+	const url = '/cesium/manager/api/widgets/?project__id=' + id;
+	return axios.get(url, {
+	}).then(res => {
+		return Promise.resolve(res.data);
+	});
+}
