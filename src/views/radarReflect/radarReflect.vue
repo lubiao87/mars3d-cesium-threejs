@@ -88,7 +88,6 @@ export default {
         that.motionlessTime = 0;
       }
       document.onclick=function(){
-        console.log("点击事件")
         stopRaodian();
         that.motionlessTime = 0;
       }
@@ -119,7 +118,7 @@ export default {
       stopRaodian();
       console.log("val",val)
       switch (val.name) {
-        case "文庙单体化":
+        case "文庙单体示例":
           getMapConfig().then(data => {
             console.log("camera", that.viewer.camera);
             createWenmiao("cesiumContainer", data);

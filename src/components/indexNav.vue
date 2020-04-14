@@ -43,7 +43,7 @@
                       class=""
                       v-for="(grandson, index) in children.children" :key="grandson.name"
                     >
-                      <a class="ui-menu-seconda" @click="pushPage(children.name)"
+                      <a class="ui-menu-seconda" @click="pushPage(grandson.name)"
                         >
                         {{grandson.name}}
 
