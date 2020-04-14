@@ -38,15 +38,15 @@ export default new Router({
             keepAlive: false
           }
         },
-        {
-          path: '/leafletAndMap3d',
-          name: 'leafletAndMap3d',
-          component: () => import("./views/twoThreeMap/leafletAndMap3d.vue"),
-          meta: {
-            auth: false,
-            keepAlive: false
-          }
-        },
+        // {
+        //   path: '/leafletAndMap3d',
+        //   name: 'leafletAndMap3d',
+        //   component: () => import("./views/twoThreeMap/leafletAndMap3d.vue"),
+        //   meta: {
+        //     auth: false,
+        //     keepAlive: false
+        //   }
+        // },
       ]
     },
     { // 科技标签
