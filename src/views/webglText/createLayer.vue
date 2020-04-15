@@ -3,24 +3,28 @@
 </template>
 
 <script>
-import "cesium/Widgets/widgets.css";
 import * as Cesium from "cesium/Cesium";
-
-import "../../map/mars3d/mars3d.css";
 import mars3d from "../../map/mars3d/mars3d";
 
 
 import { getMapConfig, getPoint } from "../../map/api";
-import { createLayer } from "../../map/main";
-
+// import { createLayer } from "../../map/main";
+import {
+  createWenmiao,
+  // UrlArr,
+  // startRadar,
+  // initWork,
+  // stopRaodian,
+  // initPointWork,
+  // startRaodian
+} from "../../map/app";
 
 
 export default {
   name: "createLayer",
   mounted() {
     getMapConfig().then(data => {
-      console.log("data", data)
-      var viewer = createLayer("cesiumContainer", data);
+      createWenmiao("cesiumContainer", data);
     });
   },
 
@@ -34,6 +38,9 @@ export default {
 .cesium-container {
   width: 100%;
   height: 100%;
+  -webkit-box-shadow: 0 2px 10px 0 rgba(0,0,0,.7);
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,.7);
+    overflow: hidden;
 }
 /**cesium按钮背景色*/
 .cesium-button {

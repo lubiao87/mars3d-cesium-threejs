@@ -15,38 +15,16 @@ export default new Router({
       path: "/index",
       name: "index",
       component: () => import("./components/index.vue"),
-      redirect: "/radarReflect",
+      redirect: "/quanjingSystem",
       meta: {
         auth: false // 这里设置，当前路由需要校验
       },
       children: [
-        {
-          path: "/buildModel",
-          name: "buildModel",
-          component: () => import("./views/webglText/build-model.vue"),
-          meta: {
-            auth: false,
-            keepAlive: false
-          }
-        },
-        {
-          path: '/radarReflect',
-          name: 'radarReflect',
-          component: () => import("./views/radarReflect/radarReflect.vue"),
-          meta: {
-            auth: false,
-            keepAlive: false
-          }
-        },
-        // {
-        //   path: '/leafletAndMap3d',
-        //   name: 'leafletAndMap3d',
-        //   component: () => import("./views/twoThreeMap/leafletAndMap3d.vue"),
-        //   meta: {
-        //     auth: false,
-        //     keepAlive: false
-        //   }
-        // },
+        { // 中关村
+          path: '/quanjingSystem',
+          name: 'quanjingSystem',
+          component: () => import("./views/quanjingSystem/index.vue")
+        }
       ]
     },
     { // 科技标签
@@ -54,15 +32,11 @@ export default new Router({
       name: 'cesiumContainer',
       component: () => import("./views/webglText/cesiumContainer.vue")
     },
-    { // 中关村
-      path: '/cesiumtext',
-      name: 'cesiumtext',
-      component: () => import("./views/webglText/cesiumtext.vue")
-    },
+
     { //单体化文庙
       path: '/createLayer',
       name: 'createLayer',
       component: () => import("./views/webglText/createLayer.vue")
-    },
+    }
   ]
 })

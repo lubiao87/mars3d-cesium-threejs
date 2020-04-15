@@ -89,6 +89,7 @@ export function initWork() {
 
   showPickedFeatureinfo();
 }
+
 //3dtile模型的单体化信息鼠标移入显示
 function showPickedFeatureinfo() {
   var nameOverlay = document.createElement('div');
@@ -229,17 +230,6 @@ function icrf(scene, time) {
 export function startRaodian() {
   stopRaodian();
   var point = mars3d.point.getCenter(viewer);
-
-  //加个模型，效果更NB
-  // lastModel = mars3d.model.createModel({
-  //     uri: 'http://data.marsgis.cn/gltf/mars/fengche.gltf',
-  //     x: point.x,
-  //     y: point.y,
-  //     z: point.z,
-  //     scale: 80,
-  //     heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-  // }, viewer);
-
   mars3d.point.windingPoint.start(viewer,point);
 }
 export function stopRaodian() {
@@ -337,7 +327,7 @@ export function createWenmiao(id, config) {
     "infoBox": false,
     center: { "y": 33.589536, "x": 119.032216, "z": 145.08, "heading": 3.1, "pitch": -22.9, "roll": 0 },
     success: function (_viewer, jsondata) {//地图成功加载完成后执行
-        // viewer = _viewer;
+        viewer = _viewer;
         // console.log("_viewer", _viewer)
         initWenMiaoWork();
     }
@@ -353,34 +343,33 @@ function initWenMiaoWork() {
       "name": "文庙",
       "type": "3dtiles",
       "url": "http://data.marsgis.cn/3dtiles/qx-simiao/tileset.json",
-      // "url": "http://reparo.okaygis.com:10092/result/005a417b-0761-4842-9d43-f2be3da3fd55/Scene/Production_1.json",
       "offset": { "z": 81.5 },
       "visible": true
   }, viewer);
 
 
   //单体化图层
-  var layerWorkDTH = mars3d.layer.createLayer({
-      "type": "geojson",
-      "name": "文庙-单体化",
-      "url": " http://data.marsgis.cn/file/geojson/draw-dth-wm.json",
-      "symbol": {
-          "styleOptions": {
-              "clampToGround": true
-          }
-      },
-      "dth": {//表示“单体化”专用图层
-          "buffer": 3,
-          "color": "#ffff00",
-          "opacity": 0.5
-      },
-      "popup": [
-          { "field": "name", "name": "房屋名称" },
-          { "field": "jznf", "name": "建造年份" },
-          { "field": "ssdw", "name": "所属单位" },
-          { "field": "remark", "name": "备注信息" }
-      ],
-      "visible": true
-  }, viewer);
+  // var layerWorkDTH = mars3d.layer.createLayer({
+  //     "type": "geojson",
+  //     "name": "文庙-单体化",
+  //     "url": " http://data.marsgis.cn/file/geojson/draw-dth-wm.json",
+  //     "symbol": {
+  //         "styleOptions": {
+  //             "clampToGround": true
+  //         }
+  //     },
+  //     "dth": {//表示“单体化”专用图层
+  //         "buffer": 3,
+  //         "color": "#ffff00",
+  //         "opacity": 0.5
+  //     },
+  //     "popup": [
+  //         { "field": "name", "name": "房屋名称" },
+  //         { "field": "jznf", "name": "建造年份" },
+  //         { "field": "ssdw", "name": "所属单位" },
+  //         { "field": "remark", "name": "备注信息" }
+  //     ],
+  //     "visible": true
+  // }, viewer);
 
 }

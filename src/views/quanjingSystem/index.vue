@@ -1,0 +1,123 @@
+<template>
+  <div class="quanjing flexBox" id="quanjing-ststem">
+    <index-hearder></index-hearder>
+    <div class="conterner">
+      <index-nav @fromChild="navChangh"></index-nav>
+      <div class="App_center flexBox">
+        <div class="App_pano_2xzzit border-style1">
+          <create-layer></create-layer>
+        </div>
+        <div class="App_category_1ZQvXj flexBox border-style1">
+
+        </div>
+      </div>
+      <div class="App_sidebar border-style1">
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import indexHearder from "./index-hearder.vue";
+import indexNav from "./indexNav.vue";
+import createLayer from "../webglText/createLayer.vue";
+
+import * as Cesium from "cesium/Cesium";
+import mars3d from "@/map/mars3d/mars3d";
+
+
+import { getMapConfig, getPoint } from "@/map/api";
+import {
+  createWenmiao
+} from "@/map/app";
+
+
+export default {
+  name: "index",
+  components: {
+    indexNav,
+    indexHearder,
+    createLayer
+  },
+  mounted() {
+    // getMapConfig().then(data => {
+    //   createWenmiao("cesiumContainer", data);
+    // });
+  },
+
+  methods: {
+    navChangh (data){
+      console.log("navChangh: ", data)
+    }
+  }
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss">
+@import "../../assets/theme/base.css";
+@import "../../assets/common/iconfont/iconfont.css";
+@import "../../assets/theme/common.scss";
+.quanjing {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: $bodyBgColor;
+  color: $mainTextColor;
+  .conterner {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: auto;
+    flex: auto;
+    -webkit-box-ordinal-group: 3;
+    -ms-flex-order: 2;
+    order: 2;
+    max-height: 900px;
+      .App_center {
+        position: relative;
+        -webkit-box-flex: 1;
+        -ms-flex: auto;
+        flex: auto;
+        -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+        order: 2;
+        .App_pano_2xzzit {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          -webkit-box-flex: 1;
+          -ms-flex: auto;
+          flex: auto;
+          -webkit-box-ordinal-group: 2;
+          -ms-flex-order: 1;
+          order: 1;
+          overflow: hidden;
+          padding: 15px;
+        }
+        .App_category_1ZQvXj {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 150px;
+            flex: 0 0 150px;
+            -webkit-box-ordinal-group: 3;
+            -ms-flex-order: 2;
+            order: 2;
+            overflow: hidden;
+        }
+      }
+      .App_sidebar {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 230px;
+        flex: 0 0 230px;
+        width: 230px;
+        -webkit-box-ordinal-group: 4;
+        -ms-flex-order: 3;
+        order: 3;
+      }
+  }
+
+
+}
+</style>
