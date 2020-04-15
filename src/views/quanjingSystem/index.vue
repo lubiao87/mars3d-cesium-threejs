@@ -8,7 +8,10 @@
           <create-layer></create-layer>
         </div>
         <div class="App_category_1ZQvXj flexBox border-style1">
-
+          <!-- 失活的组件将会被缓存！-->
+          <keep-alive>
+            <component v-bind:is="currentTabComponent"></component>
+          </keep-alive>
         </div>
       </div>
       <div class="App_sidebar border-style1">
@@ -23,14 +26,16 @@ import indexHearder from "./index-hearder.vue";
 import indexNav from "./indexNav.vue";
 import createLayer from "../webglText/createLayer.vue";
 
-import * as Cesium from "cesium/Cesium";
-import mars3d from "@/map/mars3d/mars3d";
+// import AddCon from './children-right/addCon.vue';
+
+// import * as Cesium from "cesium/Cesium";
+// import mars3d from "@/map/mars3d/mars3d";
 
 
-import { getMapConfig, getPoint } from "@/map/api";
-import {
-  createWenmiao
-} from "@/map/app";
+// import { getMapConfig, getPoint } from "@/map/api";
+// import {
+//   createWenmiao
+// } from "@/map/app";
 
 
 export default {
