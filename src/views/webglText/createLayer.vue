@@ -19,7 +19,8 @@ export default {
     const that = this;
     getMapConfig().then(data => {
       that.Userdata = data.data;
-      createWenmiao("cesiumContainer", that.Userdata, that.setDataWindow);
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+      createWenmiao("cesiumContainer", that.Userdata);
     });
   },
   computed: {
@@ -30,14 +31,6 @@ export default {
     })
   },
   methods: {
-    setDataWindow(viewer) {
-     expImage(viewer, this.getBase64);
-    },
-    getBase64(data) {
-      this.Userdata.viewerImgbase64 = data;
-      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
-      console.log("collection/renderOrdersData", this.$store.getters["collection/renderOrdersData"]);
-    },
     ...mapActions("collection", [
       //collection是指modules文件夹下的collection.js
       "ORDERSDATA" //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参

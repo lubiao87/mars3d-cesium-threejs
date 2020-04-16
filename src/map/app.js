@@ -317,7 +317,7 @@ function drawPoint() {
   });
 }
 //地图文庙创建 2
-export function createWenmiao(id, config, fn) {
+export function createWenmiao(id, config) {
   //url传参，一个系统动态使用不同配置
   mars3d.createMap({
     id: id,
@@ -328,12 +328,6 @@ export function createWenmiao(id, config, fn) {
         viewer = _viewer;
         // console.log("_viewer", _viewer)
         initWenMiaoWork();
-        if(fn) {
-          setTimeout(function (params) {
-            fn(viewer)
-          },3000)
-
-        }
     }
 });
   //汉化

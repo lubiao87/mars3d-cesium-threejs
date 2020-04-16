@@ -5,7 +5,7 @@
       <span class="iconfont icon-undo-outline"></span>
        <span class="fh">返回</span>
     </div>
-    <div class="baocun">
+    <div class="baocun" @click="baocunPut">
       <span class="iconfont icon-checkmark-square-outline"></span>
        <span class="fh">保存</span>
     </div>
@@ -17,10 +17,14 @@
 </template>
 
 <script>
-import { getMenus } from "@/api/api"; //api配置请求的路径
+import { putUserdata } from "@/api/api"; //api配置请求的路径
 import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
+import { listSearchMixin } from "@/mixin"; //混淆请求
+import { Message } from "element-ui";
+
 
 export default {
+  mixins: [listSearchMixin],
   name: "indexHearder",
   data() {
     return {
@@ -65,7 +69,21 @@ export default {
     tologin() {
       this.$router.push("/login");
     },
+    baocunPut() {
+      const that = this;
+      this.getUserdata();
+      let formData = new FormData();
+      formData.append("data", JSON.stringify(this.Userdata));
+      putUserdata(formData).then(data => {
+        Message({
+          showClose: true,
+          message: "保存成功",
+          type: 'success',
+          duration: 1000
+        });
 
+      })
+    }
   }
 };
 </script>

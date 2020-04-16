@@ -21,17 +21,19 @@
 import { getWindowObj } from "@/map/app.js";
 
 import { expImage } from "./visualAngle.js";
+import { listSearchMixin } from "@/mixin"; //混淆请求
 
 export default {
+  mixins: [listSearchMixin],
   data() {
     return {
       base64: "",
-      creadflag: false,
+      // creadflag: false,
       Userdata: null
     };
   },
   created() {
-    this.Userdata = this.$store.getters["collection/renderOrdersData"];
+    this.getUserdata();
   },
   mounted() {
     this.creadflag = true;
