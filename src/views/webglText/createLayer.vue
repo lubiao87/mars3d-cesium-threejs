@@ -3,32 +3,45 @@
 </template>
 
 <script>
-import * as Cesium from "cesium/Cesium";
-import mars3d from "../../map/mars3d/mars3d";
+// import * as Cesium from "cesium/Cesium";
+// import mars3d from "@/map/mars3d/mars3d";
+import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 
-
-import { getMapConfig, getPoint } from "../../map/api";
-// import { createLayer } from "../../map/main";
+import { getMapConfig, getPoint } from "@/map/api";
 import {
-  createWenmiao,
-  // UrlArr,
-  // startRadar,
-  // initWork,
-  // stopRaodian,
-  // initPointWork,
-  // startRaodian
-} from "../../map/app";
-
+  createWenmiao
+} from "@/map/app";
+import { expImage } from "@/views/quanjingSystem/childrenRight/visualAngle";
 
 export default {
   name: "createLayer",
   mounted() {
+    const that = this;
     getMapConfig().then(data => {
-      createWenmiao("cesiumContainer", data);
+      that.Userdata = data.data;
+      createWenmiao("cesiumContainer", that.Userdata, that.setDataWindow);
     });
   },
-
+  computed: {
+    ...mapGetters("collection", {
+      //用mapGetters来获取collection.js里面的getters
+      arrList: "renderOrdersData",
+      // MyordersData: "renderOrdersData"
+    })
+  },
   methods: {
+    setDataWindow(viewer) {
+     expImage(viewer, this.getBase64);
+    },
+    getBase64(data) {
+      this.Userdata.viewerImgbase64 = data;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+      console.log("collection/renderOrdersData", this.$store.getters["collection/renderOrdersData"]);
+    },
+    ...mapActions("collection", [
+      //collection是指modules文件夹下的collection.js
+      "ORDERSDATA" //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
+    ])
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="index-nav2 border-style1">
     <el-menu
-      default-active="2"
+      default-active="基础"
       class="el-menu-vertical-demo"
       @select="handleSelect"
       background-color="#545c64"
@@ -27,15 +27,18 @@ export default {
       navList:[
         {
           name: "基础",
-          icon: "el-icon-menu"
+          icon: "el-icon-menu",
+          component: ""
         },
         {
           name: "视角",
-          icon: "el-icon-document"
+          icon: "el-icon-document",
+          component: "visualAngle"
         },
         {
           name: "热点",
-          icon: "el-icon-setting"
+          icon: "el-icon-setting",
+          component: ""
         }
       ]
     };
@@ -77,10 +80,9 @@ export default {
       this.$router.push("/login");
     },
     handleSelect(key, keyPath) {
-      // console.log("handleSelect:");
-      // console.log(key, keyPath);
-      this.$emit('fromChild', key);
-    },
+      let obj = this.navList.find((item)=> item.name === key);
+      this.$emit('fromChild', obj);
+    }
   }
 };
 </script>
@@ -98,6 +100,12 @@ export default {
     background-color: transparent !important;
     border-right: none;
     width: 100%;
+    flex-direction: row-reverse;
+    position: absolute;
+    height: 100%;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
 
   }
   .el-menu-item {

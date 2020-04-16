@@ -2,6 +2,7 @@ import * as Cesium from "cesium/Cesium";
 import * as mars3d from "@/map/mars3d/mars3d";
 import {loadCesiumZH} from "@/map/plugins/class/cesium-zh";
 var camera, scene, clock, viewer, geoCoder, layerWork;
+
 export function InitMap(params, fn) {
   console.log("params.data", params.data)
   mars3d.createMap({
@@ -316,11 +317,8 @@ function drawPoint() {
   });
 }
 //地图文庙创建 2
-export function createWenmiao(id, config) {
+export function createWenmiao(id, config, fn) {
   //url传参，一个系统动态使用不同配置
-  // var haoutil =new Haoutils();
-  // var configfile = haoutil.system.getRequestByName("config", config);
-  // console.log("configfile", configfile)
   mars3d.createMap({
     id: id,
     data: config.map3d,
@@ -330,6 +328,12 @@ export function createWenmiao(id, config) {
         viewer = _viewer;
         // console.log("_viewer", _viewer)
         initWenMiaoWork();
+        if(fn) {
+          setTimeout(function (params) {
+            fn(viewer)
+          },3000)
+
+        }
     }
 });
   //汉化
@@ -372,4 +376,14 @@ function initWenMiaoWork() {
   //     "visible": true
   // }, viewer);
 
+}
+export function getWindowObj() {
+  return {
+    camera,
+    scene,
+    clock,
+    viewer,
+    geoCoder,
+    layerWork
+  };
 }

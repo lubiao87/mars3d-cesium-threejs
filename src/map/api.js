@@ -3,14 +3,14 @@ import axios from 'axios';
 
 
 export function getMapConfig(){
-	const url = './config/config.json';
-	// const url = '/cesium/manager/api/configs/';
+	// const url = './config/config.json';
+	const url = '/cesium/manager/api/menus/3/';
 	const data = '';
 	return axios.get(url, {
     params: data,
     dataType: "json",
 	}).then(res => {
-    console.log("data--", res.data)
+    // console.log("data--", res.data)
 		return Promise.resolve(res.data);
 	});
 }

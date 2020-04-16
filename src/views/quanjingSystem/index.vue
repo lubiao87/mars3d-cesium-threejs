@@ -8,14 +8,14 @@
           <create-layer></create-layer>
         </div>
         <div class="App_category_1ZQvXj flexBox border-style1">
-          <!-- 失活的组件将会被缓存！-->
-          <keep-alive>
-            <component v-bind:is="currentTabComponent"></component>
-          </keep-alive>
+
         </div>
       </div>
       <div class="App_sidebar border-style1">
-
+        <!-- 失活的组件将会被缓存！-->
+          <keep-alive>
+            <component v-bind:is="currentTabComponent"></component>
+          </keep-alive>
       </div>
     </div>
   </div>
@@ -26,10 +26,7 @@ import indexHearder from "./index-hearder.vue";
 import indexNav from "./indexNav.vue";
 import createLayer from "../webglText/createLayer.vue";
 
-// import AddCon from './children-right/addCon.vue';
-
-// import * as Cesium from "cesium/Cesium";
-// import mars3d from "@/map/mars3d/mars3d";
+import visualAngle from './childrenRight/visualAngle.vue';
 
 
 // import { getMapConfig, getPoint } from "@/map/api";
@@ -40,10 +37,16 @@ import createLayer from "../webglText/createLayer.vue";
 
 export default {
   name: "index",
+  data: function (params) {
+    return {
+      currentTabComponent: ""
+    }
+  },
   components: {
     indexNav,
     indexHearder,
-    createLayer
+    createLayer,
+    visualAngle
   },
   mounted() {
     // getMapConfig().then(data => {
@@ -53,7 +56,8 @@ export default {
 
   methods: {
     navChangh (data){
-      console.log("navChangh: ", data)
+      // console.log("navChangh: ", data);
+      this.currentTabComponent = data.component;
     }
   }
 };
