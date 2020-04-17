@@ -1,84 +1,62 @@
-<!-- 2020-3-24 08:23:44 | 版权所有 火星科技 http://marsgis.cn -->
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1,maximum-scale=1" />
-  <meta name="apple-touch-fullscreen" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="x5-fullscreen" content="true" />
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-  <meta name="keywords"
-    content="&#x706B;&#x661F;&#x79D1;&#x6280;,cesium,3D,GIS,marsgis,&#x4E09;&#x7EF4;,&#x5730;&#x7403;,&#x5730;&#x56FE;,&#x5F00;&#x53D1;,&#x6846;&#x67B6;,&#x7CFB;&#x7EDF;,&#x793A;&#x4F8B;,&#x8D44;&#x6599;,&#x6A21;&#x578B;,&#x79BB;&#x7EBF;,&#x5916;&#x5305;,&#x5408;&#x80A5;,&#x5B89;&#x5FBD;,&#x4E2D;&#x56FD;" />
-  <meta name="description"
-    content="&#x706B;&#x661F;&#x79D1;&#x6280; &#x5408;&#x80A5;&#x706B;&#x661F; &#x5408;&#x80A5;&#x706B;&#x661F;&#x79D1;&#x6280; &#x5408;&#x80A5;&#x706B;&#x661F;&#x79D1;&#x6280;&#x6709;&#x9650;&#x516C;&#x53F8; leaflet leaflet&#x6846;&#x67B6; leaflet&#x5F00;&#x53D1; cesium cesium&#x5F00;&#x53D1; cesium&#x6846;&#x67B6; &#x4E09;&#x7EF4; &#x5730;&#x7403; &#x6A21;&#x578B;  gis marsgis &#x5730;&#x56FE;&#x79BB;&#x7EBF; &#x5730;&#x56FE;&#x5F00;&#x53D1; &#x5730;&#x56FE;&#x6846;&#x67B6; &#x5730;&#x56FE;&#x5916;&#x5305; &#x6846;&#x67B6; &#x5F00;&#x53D1; &#x5916;&#x5305;  &#x5730;&#x56FE;&#x79BB;&#x7EBF; &#x4E8C;&#x7EF4;&#x5730;&#x56FE; &#x4E09;&#x7EF4;&#x5730;&#x56FE; &#x5168;&#x666F;&#x6F2B;&#x6E38; &#x5730;&#x7406;&#x4FE1;&#x606F;&#x7CFB;&#x7EDF; &#x4E91;GIS &#x4E09;&#x7EF4;GIS GIS&#x5E73;&#x53F0; WebGIS" />
-  <link rel="shortcut icon" type="image/x-icon" href="http://cesium.marsgis.cn/favicon.ico" />
-  <title>
-    &#x52A0;&#x8F7D;&#x5929;&#x5730;&#x56FE;&#x5728;&#x7EBF;&#x5730;&#x56FE;
-    |Mars3D ( MarsGIS for Cesium )|&#x4E09;&#x7EF4;&#x5730;&#x56FE;|
-    &#x706B;&#x661F;&#x79D1;&#x6280;|&#x5408;&#x80A5;&#x706B;&#x661F;&#x79D1;&#x6280;|&#x5408;&#x80A5;&#x706B;&#x661F;&#x79D1;&#x6280;&#x6709;&#x9650;&#x516C;&#x53F8;
-  </title>
-  <script src="../lib/include-lib.js" libpath="../lib/"
-    include="jquery,font-awesome,bootstrap,layer,haoutil,mars3d"></script>
-  <link href="css/style.css" rel="stylesheet" />
-</head>
-
-<body class="dark">
-  <div id="cesiumContainer" class="cesium-container"></div>
-  <script>
-    var viewer = new Cesium.Viewer('cesiumContainer', {
-      animation: false,//是否创建动画小器件，左下角仪表
-      baseLayerPicker: false,//是否显示图层选择器
-      fullscreenButton: false,//是否显示全屏按钮
-      geocoder: false,//是否显示geocoder小器件，右上角查询按钮
-      homeButton: false,//是否显示Home按钮
-      infoBox: false,//是否显示信息框
-      sceneModePicker: false,//是否显示3D/2D选择器
-      selectionIndicator: false,//是否显示选取指示器组件
-      timeline: false,//是否显示时间轴
-      navigationHelpButton: false,//是否显示右上角的帮助按钮
-      scene3DOnly: true,//如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源
-      clock: new Cesium.Clock(),//用于控制当前时间的时钟对象
-      selectedImageryProviderViewModel: undefined,//当前图像图层的显示模型，仅baseLayerPicker设为true有意义
-      imageryProviderViewModels: Cesium.createDefaultImageryProviderViewModels(),//可供BaseLayerPicker选择的图像图层ProviderViewModel数组
-      selectedTerrainProviderViewModel: undefined,//当前地形图层的显示模型，仅baseLayerPicker设为true有意义
-      terrainProviderViewModels: Cesium.createDefaultTerrainProviderViewModels(),//可供BaseLayerPicker选择的地形图层ProviderViewModel数组
-      imageryProvider: new Cesium.OpenStreetMapImageryProvider({
-        credit: '',
-        url: '//192.168.0.89:5539/planet-satellite/'
-      }),//图像图层提供者，仅baseLayerPicker设为false有意义
-      terrainProvider: new Cesium.EllipsoidTerrainProvider(),//地形图层提供者，仅baseLayerPicker设为false有意义
-      skyBox: new Cesium.SkyBox({
-        sources: {
-          positiveX: 'Cesium-1.7.1/Skybox/px.jpg',
-          negativeX: 'Cesium-1.7.1/Skybox/mx.jpg',
-          positiveY: 'Cesium-1.7.1/Skybox/py.jpg',
-          negativeY: 'Cesium-1.7.1/Skybox/my.jpg',
-          positiveZ: 'Cesium-1.7.1/Skybox/pz.jpg',
-          negativeZ: 'Cesium-1.7.1/Skybox/mz.jpg'
+    <title>Test position</title>
+    <style type="text/css">
+        .a {
+            position: absolute;
+            border: solid 1px red;
+            width: 400px;
+            height: 400px;
+            left: 0px;
+            pointer-events:none;
         }
-      }),//用于渲染星空的SkyBox对象 ，换句话说，就是地球后面的大背景。这个地方为6张图片，但图片必须为正方形，就好像正六面体的六个面一样，更换图片要保证6张图片之前过渡流畅，否则会很尴尬，实际试一下就知道了。
-      fullscreenElement: document.body,//全屏时渲染的HTML元素,
-      useDefaultRenderLoop: true,//如果需要控制渲染循环，则设为true
-      targetFrameRate: undefined,//使用默认render loop时的帧率
-      showRenderLoopErrors: false,//如果设为true，将在一个HTML面板中显示错误信息
-      automaticallyTrackDataSourceClocks: true,//自动追踪最近添加的数据源的时钟设置
-      contextOptions: undefined,//传递给Scene对象的上下文参数（scene.options）
-      sceneMode: Cesium.SceneMode.SCENE3D,//初始场景模式
-      mapProjection: new Cesium.WebMercatorProjection(),//地图投影体系
-      dataSources: new Cesium.DataSourceCollection()
-      //需要进行可视化的数据源的集合
-    });
-    var scene = viewer.scene;
-    var canvas = viewer.canvas;
-    var clock = viewer.clock;
-    var camera = viewer.scene.camera;
-    var entities = viewer.entities;
 
-  </script>
+        .b {
+            position: absolute;
+            border: solid 1px green;
+            width: 400px;
+            height: 400px;
+            left: 200px;
+            pointer-events:none;
+        }
+
+        .a1 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: red;
+            left: 250px;
+            top: 50px;
+            pointer-events:auto;
+        }
+
+        .b1 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: green;
+            left: 50px;
+            top: 250px;
+            pointer-events:auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="a" onclick="onclicka()">
+        <div class="a1"></div>
+    </div>
+    <div class="b" onclick="onclickb()">
+        <div class="b1"></div>
+    </div>
+    <script type="text/javascript">
+        function onclicka() {
+            console.log('click a');
+        }
+
+        function onclickb() {
+            console.log('click b');
+        }
+    </script>
 </body>
-
 </html>

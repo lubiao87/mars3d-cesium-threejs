@@ -28,17 +28,17 @@ export default {
         {
           name: "基础",
           icon: "el-icon-menu",
-          component: ""
+          component_right: "basicInfor"
         },
         {
           name: "视角",
           icon: "el-icon-document",
-          component: "visualAngle"
+          component_right: "visualAngle"
         },
         {
           name: "热点",
           icon: "el-icon-setting",
-          component: ""
+          component_right: ""
         }
       ]
     };

@@ -74,6 +74,7 @@ export default {
       this.getUserdata();
       let formData = new FormData();
       formData.append("data", JSON.stringify(this.Userdata));
+      console.log("this.Userdata提交", this.Userdata)
       putUserdata(formData).then(data => {
         Message({
           showClose: true,
@@ -81,7 +82,6 @@ export default {
           type: 'success',
           duration: 1000
         });
-
       })
     }
   }

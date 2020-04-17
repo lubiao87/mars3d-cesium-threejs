@@ -5,7 +5,8 @@
       <index-nav @fromChild="navChangh"></index-nav>
       <div class="App_center flexBox">
         <div class="App_pano_2xzzit border-style1">
-          <create-layer></create-layer>
+          <children-center  v-if="componentData.name === '基础'"></children-center>
+          <create-layer v-else></create-layer>
         </div>
         <div class="App_category_1ZQvXj flexBox border-style1">
 
@@ -24,9 +25,12 @@
 <script>
 import indexHearder from "./index-hearder.vue";
 import indexNav from "./indexNav.vue";
+import childrenCenter from "./childrenCenter/basicInfor.vue";
 import createLayer from "../webglText/createLayer.vue";
 
+// 右侧组件
 import visualAngle from './childrenRight/visualAngle.vue';
+import basicInfor from './childrenRight/basicInfor.vue';
 
 
 // import { getMapConfig, getPoint } from "@/map/api";
@@ -39,14 +43,21 @@ export default {
   name: "index",
   data: function (params) {
     return {
-      currentTabComponent: ""
+      currentTabComponent: "basicInfor",
+      componentData: {
+        name: "基础",
+        icon: "el-icon-menu",
+        component_right: "basicInfor"
+      }
     }
   },
   components: {
     indexNav,
     indexHearder,
     createLayer,
-    visualAngle
+    visualAngle,
+    basicInfor,
+    childrenCenter
   },
   mounted() {
     // getMapConfig().then(data => {
@@ -56,8 +67,9 @@ export default {
 
   methods: {
     navChangh (data){
+      this.componentData = data;
       // console.log("navChangh: ", data);
-      this.currentTabComponent = data.component;
+      this.currentTabComponent = data.component_right;
     }
   }
 };

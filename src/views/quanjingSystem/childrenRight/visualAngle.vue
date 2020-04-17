@@ -6,11 +6,11 @@
         <img :src="base64" style="width:100%;" ref="base64"/>
       </div>
       <div class="view_frame" ref="view_frame">
-        <a
+        <div
           class="pano-button pano-button-sm pano-button-primary CaptureButton_btn_1RuE7w"
           width="200"
           id="view_frame_btn"
-        >把当前视角设为初始视角</a>
+        > 把当前视角设为初始视角</div>
       </div>
     </div>
   </div>
@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     getBase64(data) {
+      this.getUserdata();
       this.Userdata.viewerImgbase64 = data;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
       this.base64 = data;
@@ -55,6 +56,7 @@ export default {
       document.getElementById("view_frame_btn").onclick = this.setViewerImage;
     },
     setViewerImage() {
+      console.log("ssss");
       let obj = getWindowObj();
       expImage(obj.viewer, this.getBase64);
     }
