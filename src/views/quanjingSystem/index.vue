@@ -5,8 +5,11 @@
       <index-nav @fromChild="navChangh"></index-nav>
       <div class="App_center flexBox">
         <div class="App_pano_2xzzit border-style1">
-          <children-center  v-if="componentData.name === '基础'"></children-center>
-          <create-layer v-else></create-layer>
+          <keep-alive>
+            <component v-bind:is="componentData.component"></component>
+          </keep-alive>
+          <!-- <children-center  v-if="componentData.name === '基础'"></children-center> -->
+          <!-- <create-layer v-else></create-layer> -->
         </div>
         <div class="App_category_1ZQvXj flexBox border-style1">
 
@@ -47,7 +50,8 @@ export default {
       componentData: {
         name: "基础",
         icon: "el-icon-menu",
-        component_right: "basicInfor"
+        component_right: "basicInfor",
+        component: "childrenCenter"
       }
     }
   },
