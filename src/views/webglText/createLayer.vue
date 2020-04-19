@@ -30,42 +30,34 @@ export default {
     createWenmiao("cesiumContainer", that.Userdata, function(viewer) {
       that.viewer = viewer;
       console.log("this.Userdata: ", that.Userdata);
-      // that.setMoveEnd();
-      setLEFT_CLICK(that.setLEFT_CLICK);
-      // setMoveEnd(that.setMoveEnd);
+      that.$store.dispatch("collection/set_viewer", viewer);
     });
   },
   methods: {
     ...mapActions("collection", [
       //collection是指modules文件夹下的collection.js
-      "ORDERSDATA" //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
+      "ORDERSDATA", //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
+      "setViewer"
     ]),
     setMoveEnd(data) {
       console.log("setMoveEnd", this.viewer.scene.camera.position);
+      let position = this.viewer.scene.camera.position;
+      var cartesian3=new Cesium.Cartesian3(position.x,position.y,position.z);
       //拾取笛卡尔坐标
       var ellipsoid = this.viewer.scene.globe.ellipsoid; //全局椭球体
       //中心点位置
-
-      // var rectangle = this.viewer.camera.computeViewRectangle();
-      // var west = (rectangle.west / Math.PI) * 180;
-      // var north = (rectangle.north / Math.PI) * 180;
-      // var east = (rectangle.east / Math.PI) * 180;
-      // var south = (rectangle.south / Math.PI) * 180;
-      // var centerx = (west + east) / 2;
-      // var cnetery = (north + south) / 2;
-      // 鉴于高德、leaflet获取的边界都是southwest和northeast字段来表示，本例保持一致性
-      // //相机高度
-      // var height = this.viewer.camera.positionCartographic.height.toFixed(2);
-      var heading = Cesium.Math.toDegrees(this.viewer.camera.heading).toFixed(
-        2
-      );
-      var pitch = Cesium.Math.toDegrees(this.viewer.camera.pitch).toFixed(2);
-      var roll = Cesium.Math.toDegrees(this.viewer.camera.roll).toFixed(2);
+      var cartographic=ellipsoid.cartesianToCartographic(cartesian3);
+      var lat= Cesium.Math.toDegrees(cartographic.latitude);
+      var lng= Cesium.Math.toDegrees(cartographic.longitude);
+      var alt= cartographic.height;
+      var heading = Cesium.Math.toDegrees(this.viewer.camera.heading);
+      var pitch = Cesium.Math.toDegrees(this.viewer.camera.pitch);
+      var roll = Cesium.Math.toDegrees(this.viewer.camera.roll);
 
       this.center = {
-        y: data.latitudeString,
-        x: data.longitudeString,
-        z: data.height,
+        y: lng,
+        x: lat,
+        z: alt,
         heading: JSON.parse(heading),
         pitch: JSON.parse(pitch),
         roll: JSON.parse(roll)

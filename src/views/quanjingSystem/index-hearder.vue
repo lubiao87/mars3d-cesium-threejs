@@ -22,6 +22,7 @@ import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { Message } from "element-ui";
 
+import * as Cesium from "cesium/Cesium";
 
 export default {
   mixins: [listSearchMixin],
@@ -72,17 +73,57 @@ export default {
     baocunPut() {
       const that = this;
       this.getUserdata();
+      this.getViewerData();
+      this.setMoveEnd();
       let formData = new FormData();
       formData.append("data", JSON.stringify(this.Userdata));
-      console.log("this.Userdata提交", this.Userdata)
-      putUserdata(formData).then(data => {
+      console.log("this.Userdata提交", this.Userdata);
+      if(this.Userdata) {
+        putUserdata(formData).then(data => {
+          Message({
+            showClose: true,
+            message: "保存成功",
+            type: 'success',
+            duration: 1000
+          });
+        })
+      } else {
         Message({
           showClose: true,
-          message: "保存成功",
-          type: 'success',
+          message: "保存失败",
+          type: 'error',
           duration: 1000
         });
-      })
+      }
+
+    },
+    setMoveEnd() {
+      // console.log("setMoveEnd", this.viewer.scene.camera.position);
+      let position = this.viewer.scene.camera.position;
+      var cartesian3=new Cesium.Cartesian3(position.x,position.y,position.z);
+      //拾取笛卡尔坐标
+      var ellipsoid = this.viewer.scene.globe.ellipsoid; //全局椭球体
+      //中心点位置
+      var cartographic=ellipsoid.cartesianToCartographic(cartesian3);
+      var lat= Cesium.Math.toDegrees(cartographic.latitude);
+      var lng= Cesium.Math.toDegrees(cartographic.longitude);
+      var alt= cartographic.height;
+      var heading = Cesium.Math.toDegrees(this.viewer.camera.heading);
+      var pitch = Cesium.Math.toDegrees(this.viewer.camera.pitch);
+      var roll = Cesium.Math.toDegrees(this.viewer.camera.roll);
+
+      this.center = {
+        y: lat,
+        x: lng,
+        z: alt,
+        heading: JSON.parse(heading),
+        pitch: JSON.parse(pitch),
+        roll: JSON.parse(roll)
+      };
+      this.Userdata.map3d.center = this.center;
+      console.log("this.center: ", this.center);
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+
     }
   }
 };
