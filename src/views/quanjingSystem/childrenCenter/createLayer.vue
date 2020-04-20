@@ -6,8 +6,8 @@
 import * as Cesium from "cesium/Cesium";
 import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 import { listSearchMixin } from "@/mixin"; //混淆请求
-import { getMapConfig } from "@/map/api";
 import { createWenmiao, setMoveEnd, setLEFT_CLICK } from "@/map/app";
+import { getMapConfig } from "@/map/api";
 
 import { expImage } from "@/views/quanjingSystem/childrenRight/visualAngle";
 
@@ -19,18 +19,97 @@ export default {
       base64: "",
       // creadflag: false,
       Userdata: null,
-      center: {}
+      center: {},
+      clearFlag: false,
+      btnList: [
+        {
+          value: "geocoder",
+          text: "搜索工具",
+          show: true,
+          className: "cesium-viewer-geocoderContainer"
+        },
+        {
+          value: "homeButton",
+          text: "默认窗口",
+          show: true,
+          className: "cesium-home-button"
+        },
+        {
+          value: "sceneModePicker",
+          text: "23D切换",
+          show: true,
+          className: "cesium-sceneModePicker-wrapper"
+        },
+        {
+          value: "navigationHelpButton",
+          text: "控件帮助",
+          show: true,
+          className: "cesium-navigationHelpButton-wrapper"
+        },
+        {
+          value: "animation",
+          text: "播放控制器",
+          show: true,
+          className: "cesium-viewer-animationContainer"
+        },
+        {
+          value: "fullscreenButton",
+          text: "全屏切换",
+          show: true,
+          className: "cesium-viewer-fullscreenContainer"
+        },
+        {
+          value: "vrButton",
+          text: "vr模式",
+          show: true,
+          className: "cesium-viewer-vrContainer"
+        }
+      ]
     };
   },
+  computed: {
+    ...mapState({
+      //这里的...是超引用，ES6的语法，意思是state里有多少属性值用户1可以在这里放多少属性值
+      MyordersData: state => state.collection.MyordersData
+      // arrList: state => state.collection.collects
+      //里面定义的showFooter是指footerStatus.js里state的showFooter
+    })
+  },
   created() {
-    this.getUserdata();
+    this.clearFlag = true;
   },
   mounted() {
     const that = this;
+    this.getUserdata();
+    console.log("this.MyordersData: ", that.MyordersData);
+    that.btnList.forEach((item, i) => {
+      that.Userdata.map3d[item.value]= true;
+      that.btnList[i].show = that.MyordersData.map3d[item.value];
+
+    })
     createWenmiao("cesiumContainer", that.Userdata, function(viewer) {
       that.viewer = viewer;
-      console.log("this.Userdata: ", that.Userdata);
-      that.$store.dispatch("collection/set_viewer", viewer);
+      that.btnList.forEach((item, i) => {
+        console.log(that.Userdata.map3d[item.value]);
+        let domArr = document.getElementsByClassName(item.className);
+        if(domArr.length) {
+          domArr[0].style.zIndex= -1;
+        }
+      })
+      getMapConfig(3).then(data => {
+        // console.log("this.Userdata: ", that.Userdata);
+        that.btnList.forEach((item, i) => {
+          that.btnList[i].show = data.data.map3d[item.value];
+          let domArr = document.getElementsByClassName(item.className);
+          if(domArr.length) {
+            if(that.btnList[i].show ) {
+              domArr[0].style.zIndex= 1;
+            } else {
+              domArr[0].style.zIndex= -1;
+            }
+          }
+        })
+      });
     });
   },
   methods: {
@@ -71,6 +150,28 @@ export default {
       // console.log(e);
       this.setMoveEnd(data);
     }
+  },
+  activated() {
+    const that = this;
+    getMapConfig(3).then(data => {
+        console.log("data.data: ", data.data);
+        that.btnList.forEach((item, i) => {
+          that.btnList[i].show = data.data.map3d[item.value];
+          let domArr = document.getElementsByClassName(item.className);
+          if(domArr.length) {
+            if(that.btnList[i].show ) {
+              domArr[0].style.zIndex= 1;
+            } else {
+              domArr[0].style.zIndex= -1;
+            }
+          }
+        })
+      });
+    console.log("3d地图组件被激活了", this.btnList);
+
+  },
+  deactivated() {
+    console.log("3d地图组件被停用了");
   }
 };
 </script>

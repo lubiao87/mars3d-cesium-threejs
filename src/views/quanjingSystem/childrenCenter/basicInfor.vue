@@ -130,8 +130,9 @@
           >
             <div class="Item_title_1AQDG3">{{item.text}}</div>
             <el-switch
-              v-model="item.value"
+              v-model="item.show"
               active-color="#286efa"
+              @change="switchBtn(item)"
               inactive-color="#2c2c2c">
             </el-switch>
           </div>
@@ -143,23 +144,97 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
+import { listSearchMixin } from "@/mixin"; //混淆请求
+import { getMapConfig } from "@/map/api";
+import { putUserdata } from "@/api/api"; //api配置请求的路径
+import { Message } from "element-ui";
+
 export default {
-  name: "index",
+  name: "jiChuCenter",
+  mixins: [listSearchMixin],
   data: function (params) {
     return {
       btnList: [
         {
-          value: true,
-          text: "名称"
+          value: "geocoder",
+          text: "搜索工具",
+          show: true
         },
         {
-          value: true,
-          text: "名称2"
+          value: "homeButton",
+          text: "默认窗口",
+          show: true
         },
+        {
+          value: "sceneModePicker",
+          text: "23D切换",
+          show: true
+        },
+        {
+          value: "navigationHelpButton",
+          text: "控件帮助",
+          show: true
+        },
+        {
+          value: "animation",
+          text: "播放控制器",
+          show: true
+        },
+        {
+          value: "fullscreenButton",
+          text: "全屏切换",
+          show: true
+        },
+        {
+          value: "vrButton",
+          text: "vr模式",
+          show: true
+        }
       ]
 
     }
   },
+  created() {
+    const that = this;
+    getMapConfig(3).then(data => {
+      that.Userdata = data.data;
+      console.log("this.Userdata: ", that.Userdata);
+
+      that.btnList.forEach((item, i) => {
+        that.btnList[i].show = that.Userdata.map3d[item.value]
+        // console.log("that.btnList[i].show: ", that.btnList[i].show);
+      })
+      that.$store.dispatch("collection/ORDERS_DATA", that.Userdata);
+
+    });
+  },
+  methods: {
+    ...mapActions("collection", [
+      //collection是指modules文件夹下的collection.js
+      "ORDERSDATA", //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
+      "setViewer"
+    ]),
+    switchBtn(value) {
+      console.log(value);
+      const that = this;
+      that.Userdata.map3d[value.value] = value.show;
+      that.$store.dispatch("collection/ORDERS_DATA", that.Userdata);
+      let formData = new FormData();
+      formData.append("data", JSON.stringify(this.Userdata));
+      console.log("this.Userdata提交", this.Userdata);
+      if(this.Userdata) {
+        putUserdata(formData, 3);
+      } else {
+        Message({
+          showClose: true,
+          message: "系统错误",
+          type: 'error',
+          duration: 1000
+        });
+      }
+    }
+  }
 };
 </script>
 

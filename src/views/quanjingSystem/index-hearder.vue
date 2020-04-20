@@ -74,12 +74,14 @@ export default {
       const that = this;
       this.getUserdata();
       this.getViewerData();
-      this.setMoveEnd();
+      if(this.viewer) {
+        this.setMoveEnd();
+      }
       let formData = new FormData();
       formData.append("data", JSON.stringify(this.Userdata));
       console.log("this.Userdata提交", this.Userdata);
       if(this.Userdata) {
-        putUserdata(formData).then(data => {
+        putUserdata(formData, 3).then(data => {
           Message({
             showClose: true,
             message: "保存成功",

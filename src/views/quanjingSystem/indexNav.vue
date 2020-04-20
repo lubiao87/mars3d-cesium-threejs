@@ -64,17 +64,9 @@ export default {
     }
   },
   mounted() {
-    // this.getMenu();
   },
   methods: {
-    getMenu(){
-      let self = this;
-      let project__id = this.$route.query.project__id;
-      getMenus(project__id).then(data => {
-        console.log("nav", data)
-        self.navList = data[0].data;
-      });
-    },
+
     ...mapActions("collection", [
       //collection是指modules文件夹下的collection.js
       "ORDERSDATA" //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参

@@ -9,6 +9,8 @@
         "geocoder": false,
         "baseLayerPicker": false,
         "showRenderLoopErrors": true,
+        "animation": false,
+        "timeline": false,
         "center": { "y": 33.589536, "x": 119.032216, "z": 145.08, "heading": 3.1, "pitch": -22.9, "roll": 360 },
         "minzoom": 1,
         "maxzoom": 20000000,

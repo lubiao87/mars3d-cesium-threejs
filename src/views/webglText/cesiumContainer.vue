@@ -17,7 +17,7 @@ import { createMap } from "../../map/main";
 export default {
   name: "cesiumContainer",
   mounted() {
-    getMapConfig().then(data => {
+    getMapConfig(3).then(data => {
       console.log("data", data)
       var viewer = createMap("cesiumContainer", data);
       this.addPointToMap(viewer);

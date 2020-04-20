@@ -8,8 +8,8 @@
           <keep-alive>
             <component v-bind:is="componentData.component"></component>
           </keep-alive>
-          <!-- <children-center  v-if="componentData.name === '基础'"></children-center> -->
-          <!-- <create-layer v-else></create-layer> -->
+          <!-- <children-center  v-if="componentData.component === 'childrenCenter'"></children-center>
+          <create-layer v-else></create-layer> -->
         </div>
         <div class="App_category_1ZQvXj flexBox border-style1">
 
@@ -29,17 +29,11 @@
 import indexHearder from "./index-hearder.vue";
 import indexNav from "./indexNav.vue";
 import childrenCenter from "./childrenCenter/basicInfor.vue";
-import createLayer from "../webglText/createLayer.vue";
+import createLayer from "./childrenCenter/createLayer.vue";
 
 // 右侧组件
 import visualAngle from './childrenRight/visualAngle.vue';
 import basicInfor from './childrenRight/basicInfor.vue';
-
-
-// import { getMapConfig, getPoint } from "@/map/api";
-// import {
-//   createWenmiao
-// } from "@/map/app";
 
 
 export default {
@@ -62,11 +56,6 @@ export default {
     visualAngle,
     basicInfor,
     childrenCenter
-  },
-  mounted() {
-    // getMapConfig().then(data => {
-    //   createWenmiao("cesiumContainer", data);
-    // });
   },
 
   methods: {
@@ -142,7 +131,13 @@ export default {
         order: 3;
       }
   }
-
+  .cesium-viewer-geocoderContainer {
+      position: absolute;
+      display: inline-block;
+      margin: 0 3px;
+      right: 50px;
+      top: -50px;
+  }
 
 }
 </style>

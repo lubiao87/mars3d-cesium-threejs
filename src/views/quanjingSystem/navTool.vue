@@ -32,10 +32,7 @@
 
 <script>
 
-// import * as Cesium from "cesium/Cesium";
-// import mars3d from "../../map/mars3d/mars3d";
 
-// import { getMapConfig } from "../../map/api";
 import {
   InitMap,
   UrlArr,
@@ -43,7 +40,6 @@ import {
   initWork,
   stopRaodian,
   initPointWork,
-  createWenmiao,
   startRaodian
 } from "../map/app";
 

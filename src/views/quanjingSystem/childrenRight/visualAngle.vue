@@ -61,21 +61,15 @@ export default {
       expImage(obj.viewer, this.getBase64);
     }
   },
-  beforeDestroy() {
-    console.log("beforeDestroy");
-  },
-  destroyed() {
-    console.log("destroyed");
-  },
   activated() {
-    console.log("组件被激活了");
+    // console.log("右边基础组件被激活了");
     if(this.creadflag) {
       this.view_frameHtml();
     }
   },
   deactivated() {
     this.frameHtml.parentNode.removeChild(this.frameHtml);
-    console.log("组件被停用了");
+    console.log("右边基础组件被停用了");
   }
 };
 </script>

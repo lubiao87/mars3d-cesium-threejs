@@ -13,14 +13,14 @@ module.exports = {
   assetsDir: './static',
   productionSourceMap: false,
   devServer: {
-    host: "127.0.0.1", //也可以直接写IP地址这样方便真机测试
+    host: "172.16.13.137", //也可以直接写IP地址这样方便真机测试
+    // host: "127.0.0.1", //也可以直接写IP地址这样方便真机测试
     port: 3001, // 端口号
     https: false, // https:{type:Boolean}
     open: true, //配置自动启动浏览器
     proxy: {
       "/cesium": {
         target: "http://3deditor.okaygis.com:10099/cesium",
-        // target: "http://192.168.1.178:8022/infoCollectTool",
         changeOrigin: true,
         ws: true,
         pathRewrite: {

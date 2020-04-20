@@ -2,9 +2,9 @@
 import axios from 'axios';
 
 
-export function getMapConfig(){
-	// const url = './config/config.json';
-	const url = '/cesium/manager/api/menus/3/';
+export function getMapConfig(param){
+  // const url = './config/config.json';
+	const url = `/cesium/manager/api/menus/${param}/`;
 	const data = '';
 	return axios.get(url, {
     params: data,

@@ -21,9 +21,9 @@ export function getTool(id) {
     return Promise.resolve(res.data)
   })
 }
-export function putUserdata(data) {
+export function putUserdata(data, id) {
   // const url = 'config/config.json';
-  const url = '/cesium/manager/api/menus/3/'
+  const url = `/cesium/manager/api/menus/${id}/`;
   let config = {
     headers: {
       'Content-Type': 'multipart/form-data;boundary = ' + new Date().getTime(),

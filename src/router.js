@@ -33,10 +33,10 @@ export default new Router({
       component: () => import("./views/webglText/cesiumContainer.vue")
     },
 
-    { //单体化文庙
-      path: '/createLayer',
-      name: 'createLayer',
-      component: () => import("./views/webglText/createLayer.vue")
-    }
+    // { //单体化文庙
+    //   path: '/createLayer',
+    //   name: 'createLayer',
+    //   component: () => import("./views/webglText/createLayer.vue")
+    // }
   ]
 })

@@ -46,7 +46,7 @@ export default {
   },
   created() {
     const that = this;
-    getMapConfig().then(data => {
+    getMapConfig(3).then(data => {
       that.Userdata = data.data;
       that.$store.dispatch("collection/ORDERS_DATA", that.Userdata);
       that.base64 = that.Userdata.viewerImgbase64;
