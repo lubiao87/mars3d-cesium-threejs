@@ -18,7 +18,6 @@
 
 <script>
 import { putUserdata } from "@/api/api"; //api配置请求的路径
-import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { Message } from "element-ui";
 
@@ -35,18 +34,6 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      //这里的...是超引用，ES6的语法，意思是state里有多少属性值用户1可以在这里放多少属性值
-      isShow: state => state.footerStatus.showFooter, //注意这些与上面的区别就是state.footerStatus,
-      MyordersData: state => state.MyordersData
-      // arrList: state => state.collection.collects
-      //里面定义的showFooter是指footerStatus.js里state的showFooter
-    }),
-    ...mapGetters("collection", {
-      //用mapGetters来获取collection.js里面的getters
-      arrList: "renderOrdersData",
-      // MyordersData: "renderOrdersData"
-    }),
     currentPath() {
       return this.$route.path;
     }
@@ -63,10 +50,6 @@ export default {
         self.navList = data[0].data;
       });
     },
-    ...mapActions("collection", [
-      //collection是指modules文件夹下的collection.js
-      "ORDERSDATA" //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
-    ]),
     tologin() {
       this.$router.push("/login");
     },
@@ -100,7 +83,6 @@ export default {
 
     },
     setMoveEnd() {
-      // console.log("setMoveEnd", this.viewer.scene.camera.position);
       let position = this.viewer.scene.camera.position;
       var cartesian3=new Cesium.Cartesian3(position.x,position.y,position.z);
       //拾取笛卡尔坐标

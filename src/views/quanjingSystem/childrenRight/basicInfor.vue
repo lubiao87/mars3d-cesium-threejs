@@ -126,7 +126,20 @@ export default {
     height: 40px;
     border-color: #525252;
   }
+  .SidebarBasic_tip_RJ09Ow {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 auto;
+    flex: 1 auto;
+    color: #aaa;
+    line-height: 15px;
+    font-size: 12px;
+  }
+  .pano-button-primary {
+    background-color: #286efa;
+    color: #fff;
+  }
 }
+
 </style>
 <style lang="scss">
 </style>

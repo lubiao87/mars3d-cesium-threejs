@@ -4,7 +4,6 @@
 
 <script>
 import * as Cesium from "cesium/Cesium";
-import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { createWenmiao, setMoveEnd, setLEFT_CLICK } from "@/map/app";
 import { getMapConfig } from "@/map/api";
@@ -67,14 +66,6 @@ export default {
       ]
     };
   },
-  computed: {
-    ...mapState({
-      //这里的...是超引用，ES6的语法，意思是state里有多少属性值用户1可以在这里放多少属性值
-      MyordersData: state => state.collection.MyordersData
-      // arrList: state => state.collection.collects
-      //里面定义的showFooter是指footerStatus.js里state的showFooter
-    })
-  },
   created() {
     this.clearFlag = true;
   },
@@ -113,11 +104,6 @@ export default {
     });
   },
   methods: {
-    ...mapActions("collection", [
-      //collection是指modules文件夹下的collection.js
-      "ORDERSDATA", //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
-      "setViewer"
-    ]),
     setMoveEnd(data) {
       console.log("setMoveEnd", this.viewer.scene.camera.position);
       let position = this.viewer.scene.camera.position;

@@ -28,12 +28,14 @@
 <script>
 import indexHearder from "./index-hearder.vue";
 import indexNav from "./indexNav.vue";
+
 import childrenCenter from "./childrenCenter/basicInfor.vue";
 import createLayer from "./childrenCenter/createLayer.vue";
 
 // 右侧组件
 import visualAngle from './childrenRight/visualAngle.vue';
 import basicInfor from './childrenRight/basicInfor.vue';
+import hotspot from "./childrenRight/hotspot.vue";
 
 
 export default {
@@ -55,7 +57,8 @@ export default {
     createLayer,
     visualAngle,
     basicInfor,
-    childrenCenter
+    childrenCenter,
+    hotspot
   },
 
   methods: {
