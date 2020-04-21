@@ -71,13 +71,14 @@ export default {
 
 
 <style lang="scss" scoped>
+@import "@/assets/theme/common.scss";
 .SidebarHotspot_header_3SfNUL {
   padding: 15px;
   border-bottom: 1px solid #000;
   .HelpHeader_btn_1i0VHD {
     width: 155px;
     .StyledButton_default_25Ch8E {
-      background-color: #286efa;
+      background-color: $mainColor;
       color: #fff;
       width: 100%;
       height: 30px;

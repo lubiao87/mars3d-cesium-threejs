@@ -113,7 +113,7 @@ export default {
 };
 </script>
 <style  scoped lang="scss">
-@import "../../assets/theme/common.scss";
+@import "@/assets/theme/common.scss";
  .index-hearder {
    -webkit-box-flex: 0;
     -ms-flex: 0 0 40px;

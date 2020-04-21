@@ -240,8 +240,9 @@ export default {
 
 <style  lang="scss" scoped>
 @import "./app.scss";
+@import "@/assets/theme/common.scss";
 .StyledButton_default_25Ch8E {
-  background-color: #286efa;
+  background-color: $mainColor;
   color: #fff;
 }
 .StyledButton_button_3hxqk3 {

@@ -76,6 +76,7 @@ export default {
 
 
 <style lang="scss" scoped>
+@import "@/assets/theme/common.scss";
 .SidebarBasic_container_1H0kS_ {
   padding: 25px 24px;
   .SidebarBasic_qr_1IBDjS {
@@ -135,7 +136,7 @@ export default {
     font-size: 12px;
   }
   .pano-button-primary {
-    background-color: #286efa;
+    background-color: $mainColor;
     color: #fff;
   }
 }

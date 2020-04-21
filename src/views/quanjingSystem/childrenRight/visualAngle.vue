@@ -117,6 +117,7 @@ export default {
 }
 </style>
 <style lang="scss">
+@import "@/assets/theme/common.scss";
 .view_frame {
   top: 0;
   left: 0;
@@ -144,7 +145,7 @@ export default {
     width: 200px;
     position: absolute;
     height: 30px;
-    background-color: #286efa;
+    background-color: $mainColor;
     color: #fff;
     line-height: 30px;
     text-align: center;
