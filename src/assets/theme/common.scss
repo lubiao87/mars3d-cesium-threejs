@@ -176,3 +176,9 @@ input[type="text"], input[type="password"] {
   -ms-flex-align: center;
   align-items: center;
 }
+
+// 图片
+.dian_point {
+  background: url("/img/point/dian_point.png") no-repeat center;
+  background-size: 80%;
+}

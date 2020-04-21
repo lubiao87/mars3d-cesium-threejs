@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;">
     <div class="HelpHeader_container_2CDP0j SidebarHotspot_header_3SfNUL">
-      <div class="HelpHeader_btn_1i0VHD">
+      <div class="HelpHeader_btn_1i0VHD" @click="currentTabComponent = 'addHotspot'">
         <a
           class="StyledButton_button_3hxqk3 StyledButton_default_25Ch8E"
           href="javascript: void 0;"
@@ -30,14 +30,19 @@
           v-for="(item, index) in point.dotList"
           @click="listClickDot(item)">
           <div class="SidebarHotspotItem_icon_2nsHhN">
-            <span class="iconfont icon-radio-button-on-outline"></span>
+            <div style="width: 100%; height: 100%;" class="dian_point"></div>
           </div>
           <div class="SidebarHotspotItem_name_3mSobB ellipsis"></div>
-          <div class="SidebarHotspotItem_typeName_1KKpEZ">{{item.name}}坐标点</div>
+          <div class="SidebarHotspotItem_typeName_1KKpEZ">{{item.name}}</div>
         </div>
 
       </div>
     </div>
+
+    <!-- 失活的组件将会被缓存！-->
+    <keep-alive>
+      <component v-bind:is="currentTabComponent" @childByValue="getChildByValue"></component>
+    </keep-alive>
   </div>
 </template>
 
@@ -47,8 +52,13 @@ import { getWindowObj, addFeature, flyToPoint, removeDntitie } from "@/map/app.j
 
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { getMapConfig } from "@/map/api";
+
+import addHotspot from "@/components/rightPanel/addHotspot";
 export default {
   mixins: [listSearchMixin],
+  components:{
+    addHotspot
+  },
   data() {
     return {
       point: {
@@ -70,7 +80,8 @@ export default {
             Y: 33.594408
           }
         ]
-      }
+      },
+      currentTabComponent: ""
     };
   },
   created() {
@@ -88,8 +99,13 @@ export default {
   methods: {
     listClickDot(item) {
       // console.log("item", item);
-      flyToPoint(item.point)
+      flyToPoint(item.point);
       // removeDntitie(item.point); //删除点
+    },
+    getChildByValue(val) {
+      if(val.text === "关闭") {
+        this.currentTabComponent = "";
+      }
     }
   },
   activated() {
@@ -97,6 +113,7 @@ export default {
   },
   deactivated() {
     // console.log("组件被停用了");
+    this.currentTabComponent = "";
   }
 };
 </script>

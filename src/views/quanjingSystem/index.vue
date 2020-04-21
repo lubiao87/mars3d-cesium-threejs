@@ -75,7 +75,7 @@ export default {
 <style lang="scss">
 @import "../../assets/theme/base.css";
 @import "../../assets/common/iconfont/iconfont.css";
-@import "../../assets/theme/common.scss";
+@import "@/assets/theme/common.scss";
 .quanjing {
   position: absolute;
   width: 100%;
