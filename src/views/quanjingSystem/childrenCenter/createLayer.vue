@@ -5,7 +5,7 @@
 <script>
 import * as Cesium from "cesium/Cesium";
 import { listSearchMixin } from "@/mixin"; //混淆请求
-import { createWenmiao, setMoveEnd, setLEFT_CLICK } from "@/map/app";
+import { createWenmiao } from "@/map/app";
 import { getMapConfig } from "@/map/api";
 
 import { expImage } from "@/views/quanjingSystem/childrenRight/visualAngle";
@@ -105,7 +105,6 @@ export default {
   },
   methods: {
     setMoveEnd(data) {
-      console.log("setMoveEnd", this.viewer.scene.camera.position);
       let position = this.viewer.scene.camera.position;
       var cartesian3=new Cesium.Cartesian3(position.x,position.y,position.z);
       //拾取笛卡尔坐标
@@ -131,10 +130,6 @@ export default {
       console.log("this.center: ", this.center);
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
 
-    },
-    setLEFT_CLICK(data) {
-      // console.log(e);
-      this.setMoveEnd(data);
     }
   },
   activated() {

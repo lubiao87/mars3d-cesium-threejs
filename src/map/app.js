@@ -16,7 +16,7 @@ export function InitMap(params, fn) {
       pitch: -86.7,
       roll: 0,
     },
-    success: function (_viewer, jsondata) {
+    success: function(_viewer, jsondata) {
       //地图成功加载完成后执行
       viewer = _viewer
       // Sandcastle.declare(flyToSanDiego);
@@ -35,12 +35,12 @@ export function InitMap(params, fn) {
       // console.log("geoCoder", geoCoder);
       let viewModel = geoCoder.viewModel
 
-      viewModel._searchCommand.beforeExecute._listeners.push(function (e) {
+      viewModel._searchCommand.beforeExecute._listeners.push(function(e) {
         // 开始搜索之前你的操作
         console.log('开始搜索之前', e)
       })
 
-      viewModel._searchCommand.afterExecute._listeners.push(function (e) {
+      viewModel._searchCommand.afterExecute._listeners.push(function(e) {
         //  搜索执行之后你的操作
         console.log('搜索执行之后', e)
       })
@@ -48,7 +48,7 @@ export function InitMap(params, fn) {
       // clock.multiplier = 3 * 60 * 60;
       // scene.postUpdate.addEventListener(icrf);
       // scene.globe.enableLighting = true;
-      setTimeout(function () {
+      setTimeout(function() {
         camera.flyTo({
           destination: Cesium.Cartesian3.fromDegrees(
             121.466139,
@@ -61,8 +61,8 @@ export function InitMap(params, fn) {
           //   pitch : Cesium.Math.toRadians(-50.0),
           //   roll : 0.2
           // },
-          complete: function () {
-            setTimeout(function (params) {
+          complete: function() {
+            setTimeout(function(params) {
               startRaodian()
             }, 2000)
           },
@@ -223,7 +223,7 @@ function changeRadarAlpha(time) {
   layer2.alpha = 0
 
   clearInterval(idxTimer)
-  idxTimer = window.setInterval(function () {
+  idxTimer = window.setInterval(function() {
     layer1.alpha -= alphaStep
     layer2.alpha += alphaStep
 
@@ -274,7 +274,7 @@ export function initPointWork() {
     position: Cesium.Cartesian3.fromDegrees(121.4575159, 31.256899, 100),
     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 200000), //按视距距离显示
 
-    click: function (e) {
+    click: function(e) {
       //单击后的回调
       haoutil.msg('单击了点')
     },
@@ -292,7 +292,7 @@ export function initPointWork() {
     position: position,
     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 200000), //按视距距离显示
     scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 100000, 0.5),
-    click: function (e) {
+    click: function(e) {
       //单击后的回调
       // haoutil.msg('单击了点');
     },
@@ -317,7 +317,7 @@ function drawPoint() {
       pixelSize: 12,
       color: '#ffff00',
     },
-    success: function (entity) {
+    success: function(entity) {
       var position = entity.position.getValue()
       viewer.mars.draw.deleteAll()
 
@@ -329,7 +329,7 @@ function drawPoint() {
         position: position,
         anchor: [0, 0],
         // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 100000),//按视距距离显示
-        click: function (e) {
+        click: function(e) {
           //单击后的回调
           // haoutil.msg('单击了点');
         },
@@ -353,7 +353,7 @@ export function createWenmiao(id, config, fn) {
       pitch: JSON.parse(config.map3d.center.pitch),
       roll: JSON.parse(config.map3d.center.roll),
     },
-    success: function (_viewer, jsondata) {
+    success: function(_viewer, jsondata) {
       //地图成功加载完成后执行
       viewer = _viewer
       // console.log("_viewer", _viewer)
@@ -408,52 +408,124 @@ function initWenMiaoWork() {
 export function setMoveEnd(fn) {
   viewer.scene.camera.moveEnd.addEventListener(fn)
 }
-//相机点击
-export function setLEFT_CLICK(fn) {
-  // var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-  // handler.setInputAction(function (event) {
-  //   var earthPosition = viewer.camera.pickEllipsoid(event.position, viewer.scene.globe.ellipsoid);
-  //   var cartographic = Cesium.Cartographic.fromCartesian(earthPosition, viewer.scene.globe.ellipsoid, new Cesium.Cartographic());
-  //   var lat = Cesium.Math.toDegrees(cartographic.latitude);
-  //   var lng = Cesium.Math.toDegrees(cartographic.longitude);
-  //   var height = cartographic.height;
-  //   console.log("[Lng=>" + lng + ",Lat=>" + lat + ",H=>" + height + "]");
-  //   let data = {
-  //     lng,
-  //     lat,
-  //     height
-  //   };
-  //   fn(data)
-  // }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-   // 定义当前场景的画布元素的事件处理
-   //得到当前三维场景的椭球体
-   var ellipsoid = viewer.scene.globe.ellipsoid;
-   var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-   //设置鼠标移动事件的处理函数，这里负责监听x,y坐标值变化
-   handler.setInputAction(function(movement) {
-       //通过指定的椭球或者地图对应的坐标系，将鼠标的二维坐标转换为对应椭球体三维坐标
-       var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
-       if (cartesian) {
-           //将笛卡尔坐标转换为地理坐标
-           var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-           //将弧度转为度的十进制度表示
-           var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
-           var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
-           //获取相机高度
-           var height = Math.ceil(viewer.camera.positionCartographic.height);
-           let data = {
-              longitudeString,
-              latitudeString,
-              height
-            };
-          fn(data)
-       }else {
-           entity.label.show = false;
-       }
-   }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-   //设置鼠标滚动事件的处理函数，这里负责监听高度值变化
 
+// 增加点
+// var dataSource = new Cesium.CustomDataSource();
+export function addFeature(item) {
+ var dataSource = new Cesium.CustomDataSource()
 
+  // for (var i = 0, len = arr.length; i < len; i++) {
+  // var item = arr[i];
+
+  var inthtml =
+    '<table style="width: 200px;"><tr>' +
+    '<th scope="col" colspan="4"  style="text-align:center;font-size:15px;">' +
+    item.name +
+    '</th></tr><tr>' +
+    '<td >住用单位：</td><td >XX单位</td></tr><tr>' +
+    '<td >建筑面积：</td><td >43平方米</td></tr><tr>' +
+    '<td >建筑层数：</td><td >2</td></tr><tr>' +
+    '<td >建筑结构：</td><td >钢混</td></tr><tr>' +
+    '<td >建筑年份：</td><td >2006年</td></tr><tr>' +
+    '<td colspan="4" style="text-align:right;"><a href="javascript:showXQ(\'' +
+    item.ID +
+    '\')">更多</a></td></tr></table>'
+
+  //添加实体
+  var entitie = dataSource.entities.add({
+    name: item.name,
+    position: Cesium.Cartesian3.fromDegrees(item.X, item.Y, 30),
+    point: {
+      color: new Cesium.Color.fromCssColorString('#3388ff'),
+      pixelSize: 10,
+      outlineColor: new Cesium.Color.fromCssColorString('#ffffff'),
+      outlineWidth: 2,
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.2),
+    },
+    label: {
+      text: item.name,
+      font: 'normal small-caps normal 17px 楷体',
+      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+      fillColor: Cesium.Color.AZURE,
+      outlineColor: Cesium.Color.BLACK,
+      outlineWidth: 2,
+      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset: new Cesium.Cartesian2(0, -20), //偏移量
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+        0.0,
+        2000000
+      ),
+    },
+    data: item,
+    tooltip: {
+      html: inthtml,
+      anchor: [0, -12],
+    },
+    click: function(entity) {
+      //单击
+      if (viewer.camera.positionCartographic.height > 1000) {
+        viewer.flyTo(entity, {
+          offset: {
+            heading: 0,
+            pitch: Cesium.Math.toRadians(-90),
+            range: 1000,
+          },
+        })
+      }
+      // viewer.dataSources.remove(dataSource, entitie);
+    },
+  })
+  // }
+  // viewer.flyTo(dataSource.entities, { duration: 3 })
+  // console.log(Cesium.HeightReference.CLAMP_TO_GROUND)
+  //========聚合 start==========
+  dataSource.clustering.enabled = false
+  //dataSource.clustering.clusterLabels = false;
+  dataSource.clustering.pixelRange = 20 //多少像素矩形范围内聚合
+
+  var singleDigitPins = {}
+  var pinBuilder = new Cesium.PinBuilder()
+  dataSource.clustering.clusterEvent.addEventListener(function(
+    clusteredEntities,
+    cluster
+  ) {
+    var count = clusteredEntities.length
+
+    cluster.label.show = false
+    cluster.billboard.show = true
+    cluster.billboard.id = cluster.label.id
+    cluster.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM
+
+    if (!singleDigitPins[count]) {
+      singleDigitPins[count] = pinBuilder
+        .fromText(count, Cesium.Color.BLUE, 48)
+        .toDataURL()
+    }
+    cluster.billboard.image = singleDigitPins[count]
+  })
+  //========聚合 end==========
+
+  viewer.dataSources.add(dataSource)
+  return {dataSource, entitie};
+}
+// 删除点
+export function removeDntitie(obj) {
+  viewer.dataSources.remove(obj.dataSource, obj.entitie);
+}
+// 飞行目标点
+export function flyToPoint(obj) {
+  // if (viewer.camera.positionCartographic.height > 500) {
+    viewer.flyTo(obj.entitie, {
+      offset: {
+        heading: 0,
+        pitch: Cesium.Math.toRadians(-90),
+        range: 500,
+      },
+    })
+  // }
 }
 export function getWindowObj() {
   return {
