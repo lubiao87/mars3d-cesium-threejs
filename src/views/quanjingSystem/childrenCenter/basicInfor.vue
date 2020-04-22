@@ -199,13 +199,9 @@ export default {
     const that = this;
     getMapConfig(3).then(data => {
       that.Userdata = data.data;
-      console.log("this.Userdata: ", that.Userdata);
-
       that.btnList.forEach((item, i) => {
         that.btnList[i].show = that.Userdata.map3d[item.value]
-        // console.log("that.btnList[i].show: ", that.btnList[i].show);
       })
-      that.$store.dispatch("collection/ORDERS_DATA", that.Userdata);
 
     });
   },
