@@ -4,7 +4,8 @@ const state = {
     id: 1,
     name: ""
   },
-  viewer: null
+  viewer: null,
+  rightComponentName: ""
 };
 const getters = {
   renderCollects(state) {
@@ -18,7 +19,11 @@ const getters = {
   renderViewersData(state) {
     //承载变化的ordersData
     return state.viewer;
-  }
+  },
+  renderComponentName(state) {
+    //承载变化的ordersData
+    return state.rightComponentName;
+  },
 };
 const mutations = {
   pushCollects(state, items) {
@@ -30,6 +35,9 @@ const mutations = {
   },
   setViewer(state, obj) {
     state.viewer = obj;
+  },
+  setComponentName(state, obj) {
+    state.rightComponentName = obj;
   }
 };
 const actions = {
@@ -44,6 +52,10 @@ const actions = {
   set_viewer(context, obj) {
     //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
     context.commit("setViewer", obj);
+  },
+  set_ComponentName(context, obj) {
+    //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
+    context.commit("setComponentName", obj);
   }
 };
 export default {

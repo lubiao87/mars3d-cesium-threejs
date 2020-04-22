@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;">
     <div class="HelpHeader_container_2CDP0j SidebarHotspot_header_3SfNUL">
-      <div class="HelpHeader_btn_1i0VHD" @click="currentTabComponent = 'addHotspot'">
+      <div class="HelpHeader_btn_1i0VHD" @click="addHotFn">
         <a
           class="StyledButton_button_3hxqk3 StyledButton_default_25Ch8E"
           href="javascript: void 0;"
@@ -41,7 +41,12 @@
 
     <!-- 失活的组件将会被缓存！-->
     <keep-alive>
-      <component v-bind:is="currentTabComponent" @childByValue="getChildByValue"></component>
+      <component
+        v-bind:is="rightTabComponent"
+        :data="selectItem"
+        @setChildrenData="setChildrenData"
+        @deletChildrenData="deletChildrenData">
+      </component>
     </keep-alive>
   </div>
 </template>
@@ -53,59 +58,112 @@ import { getWindowObj, addFeature, flyToPoint, removeDntitie } from "@/map/app.j
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { getMapConfig } from "@/map/api";
 
-import addHotspot from "@/components/rightPanel/addHotspot";
+import addHotspot from "@/views/rightPanel/addHotspot";
+import setHotspot_dian from "@/views/rightPanel/setHotspot_dian";
 export default {
   mixins: [listSearchMixin],
+  name:"hotspot",
   components:{
-    addHotspot
+    addHotspot,
+    setHotspot_dian
   },
   data() {
     return {
       point: {
         dotList: [
-          {
-            key: "22",
-            ID: "f1e27c9d-8b77-c520-494e-08d19fa0f849",
-            name: "丹东港",
-            Type: "一般",
-            X: 119.033069,
-            Y: 33.589196
-          },
-          {
-            key: "23",
-            ID: "3dbb7a20-c926-c7e9-f119-08d19fa0f898",
-            name: "大连港",
-            Type: "重点",
-            X: 119.030937,
-            Y: 33.594408
-          }
+          // {
+          //   name: "丹东港",
+          //   X: 119.033069,
+          //   Y: 33.589196,
+          //   zydw: "茂名单位",
+          //   jzmj: "43平方米",
+          //   jzcs: 2,
+          //   jzjg: "钢混",
+          //   jzlf: "2006年",
+          //   id: 111
+          // },
+          // {
+          //   name: "茂民港",
+          //   X: 119.031069,
+          //   Y: 33.583196,
+          //   zydw: "茂名单位",
+          //   jzmj: "43平方米",
+          //   jzcs: 4,
+          //   jzjg: "钢混",
+          //   jzlf: "2003年",
+          //   id: 112
+          // },
+          // {
+          //   name: "广州港",
+          //   X: 119.034069,
+          //   Y: 33.583796,
+          //   zydw: "茂名单位",
+          //   jzmj: "43平方米",
+          //   jzcs: 4,
+          //   jzjg: "钢混",
+          //   jzlf: "2003年",
+          //   id: 114
+          // }
         ]
       },
-      currentTabComponent: ""
+      selectItem: null,
+      rightTabComponent: "",
+      featureList: []
     };
   },
   created() {
     const that = this;
     this.getUserdata();
-    this.Userdata.point = this.point;
-    this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    this.point = this.Userdata.point;
+    // this.Userdata.point =this.point;
+    // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
   mounted() {
+    const that = this;
     this.point.dotList.forEach((item, index, arr) => {
       let obj = addFeature(item);
-      arr[index].point = obj;
+      that.featureList.push({
+        id: item.id,
+        feature: obj
+      })
+      // arr[index].feature = obj;
     });
   },
   methods: {
     listClickDot(item) {
-      // console.log("item", item);
-      flyToPoint(item.point);
-      // removeDntitie(item.point); //删除点
+      console.log("item", item);
+      let select = this.featureList.find((selet) => selet.id === item.id);
+      flyToPoint(select.feature);
+      this.selectItem = item;
+      // this.rightTabComponent = 'setHotspot';
+      this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
     },
-    getChildByValue(val) {
-      if(val.text === "关闭") {
-        this.currentTabComponent = "";
-      }
+    deletChildrenData(item) {
+      let select = this.featureList.find((selet) => selet.id === item.id);
+      removeDntitie(select.feature); //删除点
+      this.point.dotList.forEach((val, index) => {
+        if(item.id === val.id) {
+          this.point.dotList.splice(index, 1);
+        }
+      })
+      console.log("删除后的结果", this.point.dotList);
+      this.Userdata.point = this.point;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+      this.$store.dispatch("collection/set_ComponentName", "");
+    },
+    addHotFn() {
+      this.$store.dispatch("collection/set_ComponentName", "addHotspot");
+    },
+    setChildrenData(data) {
+      const that = this;
+      this.selectItem = data;
+      this.point.dotList.forEach((item, index, arr) => {
+        if(item.id === data.id) {
+          that.point.dotList[index] = data
+        }
+      });
+      this.Userdata.point = this.point;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
     }
   },
   activated() {
@@ -113,7 +171,13 @@ export default {
   },
   deactivated() {
     // console.log("组件被停用了");
-    this.currentTabComponent = "";
+    // this.rightTabComponent = "";
+    this.$store.dispatch("collection/set_ComponentName", "");
+  },
+  watch: {
+    MyrightComponentName(val) {
+      this.rightTabComponent = val;
+    }
   }
 };
 </script>

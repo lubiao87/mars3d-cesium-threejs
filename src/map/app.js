@@ -418,29 +418,28 @@ export function addFeature(item) {
   // var item = arr[i];
 
   var inthtml =
-    '<table style="width: 200px;"><tr>' +
-    '<th scope="col" colspan="4"  style="text-align:center;font-size:15px;">' +
-    item.name +
-    '</th></tr><tr>' +
-    '<td >住用单位：</td><td >XX单位</td></tr><tr>' +
-    '<td >建筑面积：</td><td >43平方米</td></tr><tr>' +
-    '<td >建筑层数：</td><td >2</td></tr><tr>' +
-    '<td >建筑结构：</td><td >钢混</td></tr><tr>' +
-    '<td >建筑年份：</td><td >2006年</td></tr><tr>' +
-    '<td colspan="4" style="text-align:right;"><a href="javascript:showXQ(\'' +
-    item.ID +
-    '\')">更多</a></td></tr></table>'
+    `<table style="width: 200px;"><tr>
+    <th scope="col" colspan="4"  style="text-align:center;font-size:15px;">
+    ${ item.name }
+    </th></tr><tr>
+    <td >住用单位：</td><td >${ item.zydw }</td></tr><tr>
+    <td >建筑面积：</td><td >${ item.jzmj }</td></tr><tr>
+    <td >建筑层数：</td><td >${ item.jzcs }</td></tr><tr>
+    <td >建筑结构：</td><td >${ item.jzjg }</td></tr><tr>
+    <td >建筑年份：</td><td >${ item.jzlf }</td></tr><tr>
+    <td colspan="4" style="text-align:right;"><a href="javascript:;">更多</a></td></tr></table>`
+
 
   //添加实体
   var entitie = dataSource.entities.add({
     name: item.name,
-    position: Cesium.Cartesian3.fromDegrees(item.X, item.Y, 30),
+    position: Cesium.Cartesian3.fromDegrees(item.X, item.Y, 10),
     point: {
       color: new Cesium.Color.fromCssColorString('#3388ff'),
       pixelSize: 10,
       outlineColor: new Cesium.Color.fromCssColorString('#ffffff'),
       outlineWidth: 2,
-      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
       scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.2),
     },
     label: {
@@ -453,7 +452,7 @@ export function addFeature(item) {
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, -20), //偏移量
-      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
         0.0,
         2000000
@@ -478,35 +477,6 @@ export function addFeature(item) {
       // viewer.dataSources.remove(dataSource, entitie);
     },
   })
-  // }
-  // viewer.flyTo(dataSource.entities, { duration: 3 })
-  // console.log(Cesium.HeightReference.CLAMP_TO_GROUND)
-  //========聚合 start==========
-  dataSource.clustering.enabled = false
-  //dataSource.clustering.clusterLabels = false;
-  dataSource.clustering.pixelRange = 20 //多少像素矩形范围内聚合
-
-  var singleDigitPins = {}
-  var pinBuilder = new Cesium.PinBuilder()
-  dataSource.clustering.clusterEvent.addEventListener(function(
-    clusteredEntities,
-    cluster
-  ) {
-    var count = clusteredEntities.length
-
-    cluster.label.show = false
-    cluster.billboard.show = true
-    cluster.billboard.id = cluster.label.id
-    cluster.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM
-
-    if (!singleDigitPins[count]) {
-      singleDigitPins[count] = pinBuilder
-        .fromText(count, Cesium.Color.BLUE, 48)
-        .toDataURL()
-    }
-    cluster.billboard.image = singleDigitPins[count]
-  })
-  //========聚合 end==========
 
   viewer.dataSources.add(dataSource)
   return {dataSource, entitie};
