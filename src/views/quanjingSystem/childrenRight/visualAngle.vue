@@ -56,7 +56,7 @@ export default {
       document.getElementById("view_frame_btn").onclick = this.setViewerImage;
     },
     setViewerImage() {
-      console.log("ssss");
+      // console.log("ssss");
       let obj = getWindowObj();
       expImage(obj.viewer, this.getBase64);
     }

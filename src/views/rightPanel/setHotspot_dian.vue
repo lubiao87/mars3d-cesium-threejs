@@ -20,8 +20,10 @@
           <el-input v-model="formData.jzlf"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="setHotspot">完成</el-button>
-          <el-button @click="deletHotspot">删除</el-button>
+          <el-button type="primary" v-if="formData.type === '修改'" @click="setHotspot">完成</el-button>
+          <el-button v-if="formData.type === '修改'"  @click="deletHotspot">删除</el-button>
+          <el-button v-if="formData.type === '增加'"  type="primary" @click="addHotspot">增加</el-button>
+          <el-button v-if="formData.type === '增加'" @click="cancelHotspot">取消</el-button>
         </el-form-item>
       </el-form>
     </right-panel>
@@ -51,6 +53,13 @@ export default {
     deletHotspot() {
       this.$emit("deletChildrenData", this.formData);
       this.$store.dispatch("collection/set_ComponentName", "");
+    },
+    addHotspot() {
+      this.formData.id = Date.now().toString(36);
+      this.$emit("addChildrenData", this.formData);
+    },
+    cancelHotspot() {
+      this.$emit("cancelChildrenData", null);
     }
   },
   activated() {

@@ -135,6 +135,7 @@ export default {
       let select = this.featureList.find((selet) => selet.id === item.id);
       flyToPoint(select.feature);
       this.selectItem = item;
+      this.selectItem.type = "修改";
       // this.rightTabComponent = 'setHotspot';
       this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
     },
@@ -156,12 +157,20 @@ export default {
     },
     setChildrenData(data) {
       const that = this;
-      this.selectItem = data;
-      this.point.dotList.forEach((item, index, arr) => {
-        if(item.id === data.id) {
-          that.point.dotList[index] = data
-        }
-      });
+      if(data.type === "增加") {
+        this.point.dotList.push(data);
+        that.featureList.push({
+          id: data.id,
+          feature: data.feature
+        });
+      } else {
+        this.point.dotList.forEach((item, index, arr) => {
+          if(item.id === data.id) {
+            that.point.dotList[index] = data
+          }
+        });
+      }
+      console.log("增加后dotList", this.point.dotList);
       this.Userdata.point = this.point;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
     }

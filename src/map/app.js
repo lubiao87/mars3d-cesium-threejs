@@ -412,23 +412,21 @@ export function setMoveEnd(fn) {
 // 增加点
 // var dataSource = new Cesium.CustomDataSource();
 export function addFeature(item) {
- var dataSource = new Cesium.CustomDataSource()
+  var dataSource = new Cesium.CustomDataSource()
 
   // for (var i = 0, len = arr.length; i < len; i++) {
   // var item = arr[i];
 
-  var inthtml =
-    `<table style="width: 200px;"><tr>
+  var inthtml = `<table style="width: 200px;"><tr>
     <th scope="col" colspan="4"  style="text-align:center;font-size:15px;">
-    ${ item.name }
+    ${item.name}
     </th></tr><tr>
-    <td >住用单位：</td><td >${ item.zydw }</td></tr><tr>
-    <td >建筑面积：</td><td >${ item.jzmj }</td></tr><tr>
-    <td >建筑层数：</td><td >${ item.jzcs }</td></tr><tr>
-    <td >建筑结构：</td><td >${ item.jzjg }</td></tr><tr>
-    <td >建筑年份：</td><td >${ item.jzlf }</td></tr><tr>
+    <td >住用单位：</td><td >${item.zydw}</td></tr><tr>
+    <td >建筑面积：</td><td >${item.jzmj}</td></tr><tr>
+    <td >建筑层数：</td><td >${item.jzcs}</td></tr><tr>
+    <td >建筑结构：</td><td >${item.jzjg}</td></tr><tr>
+    <td >建筑年份：</td><td >${item.jzlf}</td></tr><tr>
     <td colspan="4" style="text-align:right;"><a href="javascript:;">更多</a></td></tr></table>`
-
 
   //添加实体
   var entitie = dataSource.entities.add({
@@ -479,23 +477,48 @@ export function addFeature(item) {
   })
 
   viewer.dataSources.add(dataSource)
-  return {dataSource, entitie};
+  return { dataSource, entitie }
 }
 // 删除点
 export function removeDntitie(obj) {
-  viewer.dataSources.remove(obj.dataSource, obj.entitie);
+  viewer.dataSources.remove(obj.dataSource, obj.entitie)
 }
 // 飞行目标点
 export function flyToPoint(obj) {
   // if (viewer.camera.positionCartographic.height > 500) {
-    viewer.flyTo(obj.entitie, {
-      offset: {
-        heading: 0,
-        pitch: Cesium.Math.toRadians(-90),
-        range: 500,
-      },
-    })
+  viewer.flyTo(obj.entitie, {
+    offset: {
+      heading: 0,
+      pitch: Cesium.Math.toRadians(-90),
+      range: 500,
+    },
+  })
   // }
+}
+// 点击地图
+export function left_click(fn) {
+  var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
+  handler.setInputAction(function(event) {
+    var earthPosition = viewer.camera.pickEllipsoid(
+      event.position,
+      viewer.scene.globe.ellipsoid
+    )
+    var cartographic = Cesium.Cartographic.fromCartesian(
+      earthPosition,
+      viewer.scene.globe.ellipsoid,
+      new Cesium.Cartographic()
+    )
+    var lat = Cesium.Math.toDegrees(cartographic.latitude)
+    var lng = Cesium.Math.toDegrees(cartographic.longitude)
+    var height = cartographic.height
+    // console.log('[Lng=>' + lng + ',Lat=>' + lat + ',H=>' + height + ']');
+    fn({
+      lat,
+      lng,
+      height
+    });
+    handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 }
 export function getWindowObj() {
   return {
