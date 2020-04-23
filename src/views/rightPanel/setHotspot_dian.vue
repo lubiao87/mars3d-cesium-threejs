@@ -2,7 +2,7 @@
     <right-panel>
       <el-form ref="form" :model="formData">
         <el-form-item label="名称">
-          <el-input v-model="formData.name"></el-input>
+          <el-input v-model="formData.name" :disabled="formData.type === '修改'"></el-input>
         </el-form-item>
         <el-form-item label="住用单位">
           <el-input v-model="formData.zydw"></el-input>
@@ -42,9 +42,9 @@ export default {
       }
     };
   },
-  // created() {
-  //   this.formData = this.data;
-  // },
+  created() {
+    this.formData = this.data;
+  },
   methods: {
     setHotspot() {
       this.$emit("setChildrenData", this.formData);
@@ -62,9 +62,9 @@ export default {
       this.$emit("cancelChildrenData", null);
     }
   },
-  activated() {
-    this.formData = this.data;
-  }
+  // activated() {
+  //   this.formData = this.data;
+  // }
 };
 </script>
 

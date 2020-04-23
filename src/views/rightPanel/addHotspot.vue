@@ -57,12 +57,12 @@ export default {
         type: "增加"
       },
       myTabComponent: "setHotspot_dian",
-      pointValue: "点标签",
+      pointValue: "圆点标签",
       pointTypeList: [
         {
-          text: "点标签",
+          text: "圆点标签",
           imgClass: "dian_point",
-          value: "点标签"
+          value: "圆点标签"
         },
         {
           text: "文字标签",
@@ -120,7 +120,7 @@ export default {
     pointValue(value) {
       console.log("pointValue", value);
       switch (value) {
-        case "点标签":
+        case "圆点标签":
           this.myTabComponent = "setHotspot_dian";
           break;
 

@@ -188,3 +188,7 @@ input[type="text"], input[type="password"] {
     border-color: #525252 ;
     color: #fff ;
 }
+.el-input.is-disabled .el-input__inner {
+  background-color: #2c2c2c;
+  border-color: #2c2c2c;
+}

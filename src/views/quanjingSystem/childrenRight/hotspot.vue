@@ -42,6 +42,7 @@
     <!-- 失活的组件将会被缓存！-->
     <keep-alive>
       <component
+        :class="setClass"
         :key="Date.now().toString(36)"
         v-bind:is="MyrightComponentName"
         :data="selectItem"
@@ -108,7 +109,8 @@ export default {
         ]
       },
       selectItem: null,
-      featureList: []
+      featureList: [],
+      setClass: ""
     };
   },
   created() {
@@ -137,6 +139,7 @@ export default {
       this.selectItem = item;
       this.selectItem.type = "修改";
       this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
+      // this.setClass = "noAnimation";
     },
     deletChildrenData(item) {
       let select = this.featureList.find((selet) => selet.id === item.id);
@@ -177,6 +180,13 @@ export default {
           if(item.id === data.id) {
             that.point.dotList[index] = data
           }
+        });
+        let select = that.featureList.find((selet) => selet.id === data.id);
+        removeDntitie(select.feature); //删除点
+        let obj = addFeature(data);
+        that.featureList.push({
+          id: data.id,
+          feature: data.feature
         });
       }
       console.log("增加后dotList", this.point.dotList);
@@ -287,4 +297,8 @@ export default {
 }
 </style>
 <style lang="scss">
+.noAnimation {
+  animation-duration: 0;
+  animation-name: none;
+}
 </style>
