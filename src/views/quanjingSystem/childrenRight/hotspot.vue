@@ -42,7 +42,8 @@
     <!-- 失活的组件将会被缓存！-->
     <keep-alive>
       <component
-        v-bind:is="rightTabComponent"
+        :key="Date.now().toString(36)"
+        v-bind:is="MyrightComponentName"
         :data="selectItem"
         @setChildrenData="setChildrenData"
         @deletChildrenData="deletChildrenData">
@@ -107,7 +108,6 @@ export default {
         ]
       },
       selectItem: null,
-      rightTabComponent: "",
       featureList: []
     };
   },
@@ -136,7 +136,6 @@ export default {
       flyToPoint(select.feature);
       this.selectItem = item;
       this.selectItem.type = "修改";
-      // this.rightTabComponent = 'setHotspot';
       this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
     },
     deletChildrenData(item) {
@@ -158,7 +157,17 @@ export default {
     setChildrenData(data) {
       const that = this;
       if(data.type === "增加") {
-        this.point.dotList.push(data);
+        this.point.dotList.push({
+          X:data.X,
+          Y:data.Y,
+          id:data.id,
+          jzcs:data.jzcs,
+          jzjg:data.jzjg,
+          jzlf:data.jzlf,
+          zydw:data.zydw,
+          jzmj:data.jzmj,
+          name:data.name,
+        });
         that.featureList.push({
           id: data.id,
           feature: data.feature
@@ -180,13 +189,7 @@ export default {
   },
   deactivated() {
     // console.log("组件被停用了");
-    // this.rightTabComponent = "";
     this.$store.dispatch("collection/set_ComponentName", "");
-  },
-  watch: {
-    MyrightComponentName(val) {
-      this.rightTabComponent = val;
-    }
   }
 };
 </script>

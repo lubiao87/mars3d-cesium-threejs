@@ -23,6 +23,7 @@
       <keep-alive>
         <component
           class="addHots"
+          :key="Date.now().toString(36)"
           v-bind:is="myTabComponent"
           :data="selectItem"
           @cancelChildrenData="cancelChildrenData"
@@ -88,12 +89,6 @@ export default {
         that.selectItem.Y =params.lat;
         let obj = addFeature(that.selectItem);
 
-        // that.$parent.point.dotList.push(that.selectItem);
-
-        // that.$parent.featureList.push({
-        //   id: that.selectItem.id,
-        //   feature: obj
-        // });
         that.selectItem.feature = obj;
         that.$emit("setChildrenData", that.selectItem);
         that.myTabComponent = "";
