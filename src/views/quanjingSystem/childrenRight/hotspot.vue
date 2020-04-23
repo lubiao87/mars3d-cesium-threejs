@@ -27,7 +27,7 @@
       <div class="SidebarHotspot_title_QWUW0D">当前场景热点(18)</div>
       <div class="SidebarHotspot_list_2NQybN">
         <div class="SidebarHotspotItem_item_3Ugj4a"
-          v-for="(item, index) in point.dotList"
+          v-for="(item, index) in dotList"
           @click="listClickDot(item)">
           <div class="SidebarHotspotItem_icon_2nsHhN">
             <div style="width: 100%; height: 100%;" class="dian_point"></div>
@@ -71,7 +71,7 @@ export default {
   },
   data() {
     return {
-      point: {
+      // point: {
         dotList: [
           // {
           //   name: "丹东港",
@@ -82,7 +82,8 @@ export default {
           //   jzcs: 2,
           //   jzjg: "钢混",
           //   jzlf: "2006年",
-          //   id: 111
+          //   id: 111,
+          //   typeName: "圆点标签"
           // },
           // {
           //   name: "茂民港",
@@ -93,7 +94,8 @@ export default {
           //   jzcs: 4,
           //   jzjg: "钢混",
           //   jzlf: "2003年",
-          //   id: 112
+          //   id: 112,
+          //   typeName: "圆点标签"
           // },
           // {
           //   name: "广州港",
@@ -104,10 +106,11 @@ export default {
           //   jzcs: 4,
           //   jzjg: "钢混",
           //   jzlf: "2003年",
-          //   id: 114
+          //   id: 114,
+          //   typeName: "圆点标签"
           // }
-        ]
-      },
+        ],
+      // },
       selectItem: null,
       featureList: [],
       setClass: ""
@@ -116,13 +119,14 @@ export default {
   created() {
     const that = this;
     this.getUserdata();
-    this.point = this.Userdata.point;
-    // this.Userdata.point =this.point;
+    this.dotList = this.Userdata.dotList;
+    // console.log("this.dotList", this.dotList)
+    // this.Userdata.dotList =this.dotList;
     // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
   mounted() {
     const that = this;
-    this.point.dotList.forEach((item, index, arr) => {
+    this.dotList.forEach((item, index, arr) => {
       let obj = addFeature(item);
       that.featureList.push({
         id: item.id,
@@ -144,12 +148,12 @@ export default {
     deletChildrenData(item) {
       let select = this.featureList.find((selet) => selet.id === item.id);
       removeDntitie(select.feature); //删除点
-      this.point.dotList.forEach((val, index) => {
+      this.dotList.forEach((val, index) => {
         if(item.id === val.id) {
-          this.point.dotList.splice(index, 1);
+          this.dotList.splice(index, 1);
         }
       })
-      console.log("删除后的结果", this.point.dotList);
+      console.log("删除后的结果", this.dotList);
       this.Userdata.point = this.point;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
       this.$store.dispatch("collection/set_ComponentName", "");
@@ -160,7 +164,7 @@ export default {
     setChildrenData(data) {
       const that = this;
       if(data.type === "增加") {
-        this.point.dotList.push({
+        this.dotList.push({
           X:data.X,
           Y:data.Y,
           id:data.id,
@@ -176,9 +180,9 @@ export default {
           feature: data.feature
         });
       } else {
-        this.point.dotList.forEach((item, index, arr) => {
+        this.dotList.forEach((item, index, arr) => {
           if(item.id === data.id) {
-            that.point.dotList[index] = data
+            that.dotList[index] = data
           }
         });
         let select = that.featureList.find((selet) => selet.id === data.id);
@@ -189,7 +193,7 @@ export default {
           feature: data.feature
         });
       }
-      console.log("增加后dotList", this.point.dotList);
+      console.log("增加后dotList", this.dotList);
       this.Userdata.point = this.point;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
     }
