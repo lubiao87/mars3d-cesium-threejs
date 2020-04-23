@@ -26,7 +26,7 @@
           :key="Date.now().toString(36)"
           v-bind:is="myTabComponent"
           :data="selectItem"
-          @cancelChildrenData="cancelChildrenData"
+          @cancelHotData="cancelHotData"
           @addHotData="addHotData"
         ></component>
       </keep-alive>
@@ -97,7 +97,7 @@ export default {
         document.getElementById("cesiumContainer").style.cursor = "default";
       });
     },
-    cancelChildrenData() {
+    cancelHotData() {
       let id = Date.now().toString(36);
       console.log("取消");
       this.selectItem = {

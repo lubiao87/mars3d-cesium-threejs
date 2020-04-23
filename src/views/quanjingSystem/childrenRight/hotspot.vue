@@ -30,7 +30,7 @@
           v-for="(item, index) in dotList"
           @click="listClickDot(item)">
           <div class="SidebarHotspotItem_icon_2nsHhN">
-            <div style="width: 100%; height: 100%;" class="dian_point"></div>
+            <div style="width: 100%; height: 100%;" :class="{'dian_point': item.typeName === '圆点标签'}"></div>
           </div>
           <div class="SidebarHotspotItem_name_3mSobB ellipsis"></div>
           <div class="SidebarHotspotItem_typeName_1KKpEZ">{{item.name}}</div>
@@ -62,53 +62,39 @@ import { getMapConfig } from "@/map/api";
 
 import addHotspot from "@/views/rightPanel/addHotspot";
 import setHotspot_dian from "@/views/rightPanel/setHotspot_dian";
+import setHotspot_text from "@/views/rightPanel/setHotspot_text";
+
 export default {
   mixins: [listSearchMixin],
   name:"hotspot",
   components:{
     addHotspot,
-    setHotspot_dian
+    setHotspot_dian,
+    setHotspot_text
   },
   data() {
     return {
       // point: {
         dotList: [
-          // {
-          //   name: "丹东港",
-          //   X: 119.033069,
-          //   Y: 33.589196,
-          //   zydw: "茂名单位",
-          //   jzmj: "43平方米",
-          //   jzcs: 2,
-          //   jzjg: "钢混",
-          //   jzlf: "2006年",
-          //   id: 111,
-          //   typeName: "圆点标签"
-          // },
-          // {
-          //   name: "茂民港",
-          //   X: 119.031069,
-          //   Y: 33.583196,
-          //   zydw: "茂名单位",
-          //   jzmj: "43平方米",
-          //   jzcs: 4,
-          //   jzjg: "钢混",
-          //   jzlf: "2003年",
-          //   id: 112,
-          //   typeName: "圆点标签"
-          // },
-          // {
-          //   name: "广州港",
-          //   X: 119.034069,
-          //   Y: 33.583796,
-          //   zydw: "茂名单位",
-          //   jzmj: "43平方米",
-          //   jzcs: 4,
-          //   jzjg: "钢混",
-          //   jzlf: "2003年",
-          //   id: 114,
-          //   typeName: "圆点标签"
-          // }
+          {
+            name: "丹东港",
+            X: 119.033069,
+            Y: 33.589196,
+            zydw: "茂名单位",
+            jzmj: "43平方米",
+            jzcs: 2,
+            jzjg: "钢混",
+            jzlf: "2006年",
+            id: 111,
+            typeName: "圆点标签"
+          },
+          {
+            name: "文章港",
+            X: 119.036069,
+            Y: 33.529196,
+            id: 2111,
+            typeName: "文字标签"
+          },
         ],
       // },
       selectItem: null,
@@ -119,30 +105,39 @@ export default {
   created() {
     const that = this;
     this.getUserdata();
-    this.dotList = this.Userdata.dotList;
-    console.log("this.dotList", this.dotList)
+    // this.dotList = this.Userdata.dotList;
+    // console.log("this.dotList", this.dotList)
     // this.Userdata.dotList =this.dotList;
     // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
   mounted() {
     const that = this;
     this.dotList.forEach((item, index, arr) => {
-      let obj = addFeature(item);
-      that.featureList.push({
-        id: item.id,
-        feature: obj
-      })
+      if(item.typeName === "圆点标签") {
+        let obj = addFeature(item);
+        that.featureList.push({
+          id: item.id,
+          feature: obj
+        })
+      }
+
       // arr[index].feature = obj;
     });
   },
   methods: {
     listClickDot(item) {
       console.log("item", item);
-      let select = this.featureList.find((selet) => selet.id === item.id);
-      flyToPoint(select.feature);
+
       this.selectItem = item;
       this.selectItem.type = "修改";
-      this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
+      if (item.typeName === "圆点标签") {
+        let select = this.featureList.find((selet) => selet.id === item.id);
+        flyToPoint(select.feature);
+        this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
+      } else if (item.typeName === "文字标签") {
+        this.$store.dispatch("collection/set_ComponentName", "setHotspot_text");
+      }
+
       // this.setClass = "noAnimation";
     },
     deletHotData(item) {

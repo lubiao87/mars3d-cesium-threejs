@@ -59,7 +59,7 @@ export default {
       this.$emit("addHotData", this.formData);
     },
     cancelHotspot() {
-      this.$emit("cancelChildrenData", null);
+      this.$emit("cancelHotData", null);
     }
   },
   // activated() {
