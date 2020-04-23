@@ -46,8 +46,8 @@
         :key="Date.now().toString(36)"
         v-bind:is="MyrightComponentName"
         :data="selectItem"
-        @setChildrenData="setChildrenData"
-        @deletChildrenData="deletChildrenData">
+        @setHotData="setHotData"
+        @deletHotData="deletHotData">
       </component>
     </keep-alive>
   </div>
@@ -120,7 +120,7 @@ export default {
     const that = this;
     this.getUserdata();
     this.dotList = this.Userdata.dotList;
-    // console.log("this.dotList", this.dotList)
+    console.log("this.dotList", this.dotList)
     // this.Userdata.dotList =this.dotList;
     // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
@@ -145,7 +145,7 @@ export default {
       this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
       // this.setClass = "noAnimation";
     },
-    deletChildrenData(item) {
+    deletHotData(item) {
       let select = this.featureList.find((selet) => selet.id === item.id);
       removeDntitie(select.feature); //删除点
       this.dotList.forEach((val, index) => {
@@ -161,7 +161,7 @@ export default {
     addHotFn() {
       this.$store.dispatch("collection/set_ComponentName", "addHotspot");
     },
-    setChildrenData(data) {
+    setHotData(data) {
       const that = this;
       if(data.type === "增加") {
         this.dotList.push({
@@ -174,6 +174,7 @@ export default {
           zydw:data.zydw,
           jzmj:data.jzmj,
           name:data.name,
+          typeName: "圆点标签"
         });
         that.featureList.push({
           id: data.id,

@@ -27,7 +27,7 @@
           v-bind:is="myTabComponent"
           :data="selectItem"
           @cancelChildrenData="cancelChildrenData"
-          @addChildrenData="addChildrenData"
+          @addHotData="addHotData"
         ></component>
       </keep-alive>
     </div>
@@ -78,7 +78,7 @@ export default {
     };
   },
   methods: {
-    addChildrenData(value) {
+    addHotData(value) { // 增加点标签
       console.log("增加数据", value);
       const that = this;
       this.selectItem = value;
@@ -90,7 +90,8 @@ export default {
         let obj = addFeature(that.selectItem);
 
         that.selectItem.feature = obj;
-        that.$emit("setChildrenData", that.selectItem);
+        that.selectItem.typeName = "圆点标签";
+        that.$emit("setHotData", that.selectItem);
         that.myTabComponent = "";
         that.pointValue = "";
         document.getElementById("cesiumContainer").style.cursor = "default";
@@ -109,7 +110,8 @@ export default {
         jzjg: "",
         jzlf: "",
         id: id,
-        type: "增加"
+        type: "增加",
+        typeName: ""
       };
       this.myTabComponent = "";
       this.pointValue = "";

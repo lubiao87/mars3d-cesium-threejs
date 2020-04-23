@@ -51,12 +51,12 @@ export default {
       this.$store.dispatch("collection/set_ComponentName", "");
     },
     deletHotspot() {
-      this.$emit("deletChildrenData", this.formData);
+      this.$emit("deletHotData", this.formData);
       this.$store.dispatch("collection/set_ComponentName", "");
     },
     addHotspot() {
       this.formData.id = Date.now().toString(36);
-      this.$emit("addChildrenData", this.formData);
+      this.$emit("addHotData", this.formData);
     },
     cancelHotspot() {
       this.$emit("cancelChildrenData", null);
