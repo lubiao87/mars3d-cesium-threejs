@@ -36,7 +36,8 @@
               style="width: 100%; height: 100%;"
               :class="{
                 'dian_point': item.typeName === '圆点标签',
-                'text_point': item.typeName === '文字标签'
+                'text_point': item.typeName === '文字标签',
+                'iconfont icon-ziyuan': item.typeName === '视频标签',
               }"
             ></div>
           </div>
@@ -94,26 +95,35 @@ export default {
     return {
       // point: {
       dotList: [
-        // {
-        //   name: "丹东港",
-        //   X: 119.033069,
-        //   Y: 33.589196,
-        //   zydw: "茂名单位",
-        //   jzmj: "43平方米",
-        //   jzcs: 2,
-        //   jzjg: "钢混",
-        //   jzlf: "2006年",
-        //   id: 111,
-        //   typeName: "圆点标签"
-        // },
-        // {
-        //   name: "文章港",
-        //   X: 119.036069,
-        //   Y: 33.529196,
-        //   id: 2111,
-        //   desc: "此处可以绑定任意Html代码和css效果",
-        //   typeName: "文字标签"
-        // },
+        {
+          name: "丹东港",
+          X: 119.033069,
+          Y: 33.589196,
+          zydw: "茂名单位",
+          jzmj: "43平方米",
+          jzcs: 2,
+          jzjg: "钢混",
+          jzlf: "2006年",
+          id: 111,
+          typeName: "圆点标签"
+        },
+        {
+          name: "文章港",
+          X: 119.036069,
+          Y: 33.529196,
+          id: 2111,
+          desc: "此处可以绑定任意Html代码和css效果",
+          typeName: "文字标签"
+        },
+        {
+          name: "电影院",
+          X: 119.031069,
+          Y: 33.529596,
+          id: 267923,
+          typeName: "视频标签",
+          url:
+            "http://data.marsgis.cn/video/lukou.mp4"
+        }
       ],
       // },
       selectItem: null,
@@ -125,10 +135,10 @@ export default {
   created() {
     const that = this;
     this.getUserdata();
-    this.dotList = this.Userdata.dotList;
+    // this.dotList = this.Userdata.dotList;
     // console.log("this.dotList", this.dotList)
-    // this.Userdata.dotList =this.dotList;
-    // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    this.Userdata.dotList = this.dotList;
+    this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
   mounted() {
     const that = this;
@@ -143,6 +153,19 @@ export default {
         let html = `<div class="divpoint2">
                       <div class="title" id="a${item.id}">${item.name}</div>
                       <div class="content" id="b${item.id}">${item.desc}</div>
+                    </div>`;
+        drawTextPoint(html, item, function(params) {
+          that.divpointList.push({
+            divpoint: params,
+            id: item.id
+          });
+        });
+      } else if (item.typeName === "视频标签") {
+        let html = `<div class="video_con" style="left: 600.707px; bottom: 432.413px;">
+                      <video crossorigin=""  id="b${item.id}" autoplay="autoplay" loop="loop" muted="muted" class="video" src="${item.url}"></video>
+                      <label class="name" id="a${item.id}">${item.name}</label>
+                      <button class="fsbtn"></button>
+                      <span class="arrow"></span>
                     </div>`;
         drawTextPoint(html, item, function(params) {
           that.divpointList.push({
@@ -384,5 +407,82 @@ export default {
 .noAnimation {
   animation-duration: 0;
   animation-name: none;
+}
+// 图片
+.dian_point {
+  background: url("../../../assets/common/image/dian_point.png") no-repeat center;
+  background-size: 70%;
+}
+.text_point {
+  background: url("../../../assets/common/image/div2.png") no-repeat center;
+  background-size: 100%;
+}
+.icon-ziyuan {
+  text-align: right;
+  color: #10c1c1;
+}
+.video_con {
+  position: absolute;
+  width: 266px;
+  height: 155px;
+  background: url("../../../assets/common/image/video.png") no-repeat center;
+  background-size: 100%;
+  .video {
+    width: 256px;
+    margin-left: 6px;
+    margin-top: 6px;
+  }
+  .name {
+    position: absolute;
+    top: 4px;
+    color: #fff;
+    right: 4px;
+    width: 124px;
+    height: 24px;
+    text-align: right;
+    padding-right: 8px;
+    line-height: 24px;
+    background: transparent;
+    // background: url("../../../assets/common/image/video_name.png") no-repeat center;
+    background-size: 100%;
+    font-size: 14px;
+  }
+  .fsbtn {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    background: url("../../../assets/common/image/full_screen.png") no-repeat center;
+    background-size: 100%;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: #0bfcfc;
+  }
+  .mapbtn {
+    position: absolute;
+    bottom: 8px;
+    right: 36px;
+    width: 30px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: transparent;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+  .arrow {
+    display: inline-block;
+    position: absolute;
+    right: 59px;
+    bottom: -28px;
+    width: 138px;
+    height: 30px;
+    background: url("../../../assets/common/image/bottom_triangle.png") no-repeat center;
+    background-size: 100%;
+  }
 }
 </style>
