@@ -26,21 +26,23 @@
     <div class="dangqian">
       <div class="SidebarHotspot_title_QWUW0D">当前场景热点(18)</div>
       <div class="SidebarHotspot_list_2NQybN">
-        <div class="SidebarHotspotItem_item_3Ugj4a"
+        <div
+          class="SidebarHotspotItem_item_3Ugj4a"
           v-for="(item, index) in dotList"
-          @click="listClickDot(item)">
+          @click="listClickDot(item)"
+        >
           <div class="SidebarHotspotItem_icon_2nsHhN">
             <div
               style="width: 100%; height: 100%;"
               :class="{
                 'dian_point': item.typeName === '圆点标签',
                 'text_point': item.typeName === '文字标签'
-              }"></div>
+              }"
+            ></div>
           </div>
           <div class="SidebarHotspotItem_name_3mSobB ellipsis"></div>
           <div class="SidebarHotspotItem_typeName_1KKpEZ">{{item.name}}</div>
         </div>
-
       </div>
     </div>
 
@@ -53,8 +55,10 @@
         :data="selectItem"
         @setHotData="setHotData"
         @deletHotData="deletHotData"
-        @deletTextData="deletTextData">
-      </component>
+        @deletTextData="deletTextData"
+        @setTextData="setTextData"
+        @addTextData="addTextData"
+      ></component>
     </keep-alive>
   </div>
 </template>
@@ -80,8 +84,8 @@ import setHotspot_text from "@/views/rightPanel/setHotspot_text";
 
 export default {
   mixins: [listSearchMixin],
-  name:"hotspot",
-  components:{
+  name: "hotspot",
+  components: {
     addHotspot,
     setHotspot_dian,
     setHotspot_text
@@ -89,28 +93,28 @@ export default {
   data() {
     return {
       // point: {
-        dotList: [
-          // {
-          //   name: "丹东港",
-          //   X: 119.033069,
-          //   Y: 33.589196,
-          //   zydw: "茂名单位",
-          //   jzmj: "43平方米",
-          //   jzcs: 2,
-          //   jzjg: "钢混",
-          //   jzlf: "2006年",
-          //   id: 111,
-          //   typeName: "圆点标签"
-          // },
-          // {
-          //   name: "文章港",
-          //   X: 119.036069,
-          //   Y: 33.529196,
-          //   id: 2111,
-          //   desc: "此处可以绑定任意Html代码和css效果",
-          //   typeName: "文字标签"
-          // },
-        ],
+      dotList: [
+        // {
+        //   name: "丹东港",
+        //   X: 119.033069,
+        //   Y: 33.589196,
+        //   zydw: "茂名单位",
+        //   jzmj: "43平方米",
+        //   jzcs: 2,
+        //   jzjg: "钢混",
+        //   jzlf: "2006年",
+        //   id: 111,
+        //   typeName: "圆点标签"
+        // },
+        // {
+        //   name: "文章港",
+        //   X: 119.036069,
+        //   Y: 33.529196,
+        //   id: 2111,
+        //   desc: "此处可以绑定任意Html代码和css效果",
+        //   typeName: "文字标签"
+        // },
+      ],
       // },
       selectItem: null,
       featureList: [],
@@ -129,23 +133,23 @@ export default {
   mounted() {
     const that = this;
     this.dotList.forEach((item, index, arr) => {
-      if(item.typeName === "圆点标签") {
+      if (item.typeName === "圆点标签") {
         let obj = addFeature(item);
         that.featureList.push({
           id: item.id,
           feature: obj
-        })
-      } else if(item.typeName === "文字标签") {
+        });
+      } else if (item.typeName === "文字标签") {
         let html = `<div class="divpoint2">
-                      <div class="title">测试DIV点2</div>
-                      <div class="content">此处可以绑定任意Html代码和css效果</div>
+                      <div class="title" id="a${item.id}">${item.name}</div>
+                      <div class="content" id="b${item.id}">${item.desc}</div>
                     </div>`;
-        drawTextPoint(html,item, function (params) {
+        drawTextPoint(html, item, function(params) {
           that.divpointList.push({
             divpoint: params,
             id: item.id
-          })
-        })
+          });
+        });
       }
 
       // arr[index].feature = obj;
@@ -158,7 +162,7 @@ export default {
       this.selectItem = item;
       this.selectItem.type = "修改";
       if (item.typeName === "圆点标签") {
-        let select = this.featureList.find((selet) => selet.id === item.id);
+        let select = this.featureList.find(selet => selet.id === item.id);
         flyToPoint(select.feature);
         this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
       } else if (item.typeName === "文字标签") {
@@ -169,15 +173,15 @@ export default {
       // this.setClass = "noAnimation";
     },
     deletHotData(item) {
-      let select = this.featureList.find((selet) => selet.id === item.id);
+      let select = this.featureList.find(selet => selet.id === item.id);
       removeDntitie(select.feature); //删除点
       this.dotList.forEach((val, index) => {
-        if(item.id === val.id) {
+        if (item.id === val.id) {
           this.dotList.splice(index, 1);
         }
-      })
+      });
       console.log("删除后的结果", this.dotList);
-      this.Userdata.point = this.point;
+      this.Userdata.dotList = this.dotList;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
       this.$store.dispatch("collection/set_ComponentName", "");
     },
@@ -186,17 +190,17 @@ export default {
     },
     setHotData(data) {
       const that = this;
-      if(data.type === "增加") {
+      if (data.type === "增加") {
         this.dotList.push({
-          X:data.X,
-          Y:data.Y,
-          id:data.id,
-          jzcs:data.jzcs,
-          jzjg:data.jzjg,
-          jzlf:data.jzlf,
-          zydw:data.zydw,
-          jzmj:data.jzmj,
-          name:data.name,
+          X: data.X,
+          Y: data.Y,
+          id: data.id,
+          jzcs: data.jzcs,
+          jzjg: data.jzjg,
+          jzlf: data.jzlf,
+          zydw: data.zydw,
+          jzmj: data.jzmj,
+          name: data.name,
           typeName: "圆点标签"
         });
         that.featureList.push({
@@ -205,42 +209,73 @@ export default {
         });
       } else {
         this.dotList.forEach((item, index, arr) => {
-          if(item.id === data.id) {
-            that.dotList[index] = data
+          if (item.id === data.id) {
+            that.dotList[index] = data;
           }
         });
-        let select = that.featureList.find((selet) => selet.id === data.id);
+        let select = that.featureList.find(selet => selet.id === data.id);
         removeDntitie(select.feature); //删除点
+
         let obj = addFeature(data);
+        this.featureList.forEach((val, index) => {
+          if (data.id === val.id) {
+            that.featureList.splice(index, 1);
+          }
+        });
         that.featureList.push({
           id: data.id,
           feature: data.feature
         });
       }
       console.log("增加后dotList", this.dotList);
-      this.Userdata.point = this.point;
+      this.Userdata.dotList = this.dotList;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
-    },
-    setTextData(formData) {
-
     },
     deletTextData(formData) {
       const that = this;
       this.dotList.forEach((val, index) => {
-        if(formData.id === val.id) {
+        if (formData.id === val.id) {
           that.dotList.splice(index, 1);
-
-        }
-      })
-      this.divpointList.forEach((val, index) => {
-        if(formData.id === val.id) {
-          val.divpoint.destroy();
-          that.divpointList.splice(index, 1);
-
         }
       });
-      let select = this.divpointList.find((selet) => selet.id === formData.id);
-      // select.divpoint.destroy();
+      this.divpointList.forEach((val, index) => {
+        if (formData.id === val.id) {
+          val.divpoint.destroy();
+          that.divpointList.splice(index, 1);
+        }
+      });
+      this.Userdata.dotList = this.dotList;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    },
+    setTextData(formData) {
+      const that = this;
+      console.log("formData", formData);
+      this.dotList.forEach((item, index, arr) => {
+        if (item.id === formData.id) {
+          that.dotList[index] = formData;
+          document.getElementById("a" + formData.id).innerText = formData.name;
+          document.getElementById("b" + formData.id).innerText = formData.desc;
+        }
+      });
+      this.Userdata.dotList = this.dotList;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    },
+    addTextData(data) {
+      const that = this;
+      this.dotList.push({
+        X: data.X,
+        Y: data.Y,
+        id: data.id,
+        name: data.name,
+        desc: data.desc,
+        typeName: "文字标签"
+      });
+      that.divpointList.push({
+        id: data.id,
+        divpoint: data.divpoint
+      });
+      this.Userdata.dotList = this.dotList;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
     }
   },
   activated() {
@@ -340,7 +375,7 @@ export default {
         color: #aaa;
         font-size: 12px;
         text-align: right;
-     }
+      }
     }
   }
 }

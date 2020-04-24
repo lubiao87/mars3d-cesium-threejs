@@ -262,27 +262,26 @@ export function stopRaodian() {
 }
 // var arrPoint = []
 
-export function drawTextPoint(html,data, fn) {
+export function drawTextPoint(html, data, fn) {
   // viewer.mars.draw.deleteAll()
-  var position = Cesium.Cartesian3.fromDegrees(data.X, data.Y, 10);
+  var position = Cesium.Cartesian3.fromDegrees(data.X, data.Y, 10)
   var divpoint2 = new mars3d.DivPoint(viewer, {
-      html: html,
-      anchor: [0, 0],
-      position: position,
-      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 100000),//按视距距离显示
-      scaleByDistance: new Cesium.NearFarScalar(1000, 1.0, 100000, 0.1),
-      click: function (e) {//单击后的回调
-          // haoutil.msg('单击了点');
-
-      },
-  });
-  fn(divpoint2);
+    html: html,
+    anchor: [0, 0],
+    position: position,
+    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(100, 100000), //按视距距离显示
+    scaleByDistance: new Cesium.NearFarScalar(100, 1.0, 100000, 0.1),
+    click: function(e) {
+      //单击后的回调
+      // haoutil.msg('单击了点');
+    },
+  })
+  fn(divpoint2)
 }
 // 删除文字标签
 export function deletTextPoint(obj) {
-  console.log(obj);
-  viewer.mars.draw.remove(obj);
-
+  console.log(obj)
+  viewer.mars.draw.remove(obj)
 }
 //地图文庙创建 2
 export function createWenmiao(id, config, fn) {
@@ -445,12 +444,8 @@ export function flyToPoint(obj) {
 }
 export function flyToText(data) {
   camera.flyTo({
-    destination: Cesium.Cartesian3.fromDegrees(
-      data.X,
-      data.Y,
-      2000
-    ),
-    easingFunction: Cesium.EasingFunction.LINEAR_NONE
+    destination: Cesium.Cartesian3.fromDegrees(data.X, data.Y, 2000),
+    easingFunction: Cesium.EasingFunction.LINEAR_NONE,
   })
 }
 // 点击地图
@@ -473,9 +468,9 @@ export function left_click(fn) {
     fn({
       lat,
       lng,
-      height
-    });
-    handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+      height,
+    })
+    handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK)
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 }
 export function getWindowObj() {

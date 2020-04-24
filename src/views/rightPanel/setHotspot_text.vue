@@ -2,7 +2,7 @@
   <right-panel>
     <el-form ref="form" :model="formData">
       <el-form-item label="名称">
-        <el-input v-model="formData.names"></el-input>
+        <el-input v-model="formData.name" disabled></el-input>
       </el-form-item>
       <el-form-item label="标签描述">
         <el-input type="textarea" row="2" v-model="formData.desc"></el-input>
@@ -23,7 +23,7 @@
 import rightPanel from "@/components/rightPanel/rightPanel";
 
 export default {
-  name: "setTextspot",
+  name: "setTextspot1",
   components: { rightPanel },
   props: ["data"],
   data: function() {
@@ -42,18 +42,10 @@ export default {
     deletTextspot() {
       this.$emit("deletTextData", this.formData);
       this.$store.dispatch("collection/set_ComponentName", "");
-    },
-    addHotspot() {
-      this.formData.id = Date.now().toString(36);
-      this.$emit("addHotData", this.formData);
-    },
-    cancelHotspot() {
-      this.$emit("cancelHotData", null);
     }
   },
   activated() {
     this.formData = this.data;
-    this.formData.names = this.data.name;
   }
 };
 </script>

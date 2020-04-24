@@ -28,6 +28,8 @@
           :data="selectItem"
           @cancelHotData="cancelHotData"
           @addHotData="addHotData"
+          @canselTextData="canselTextData"
+          @addTextData="addTextData"
         ></component>
       </keep-alive>
     </div>
@@ -37,11 +39,16 @@
 <script>
 import rightPanel from "@/components/rightPanel/rightPanel";
 import setHotspot_dian from "@/views/rightPanel/setHotspot_dian";
-import { left_click, addFeature } from "@/map/app.js";
+import addHotspot_text from "@/views/rightPanel/addHotspot_text";
+import {
+  left_click,
+  addFeature,
+  drawTextPoint
+} from "@/map/app.js";
 
 export default {
   name: "addHotspot",
-  components: { rightPanel, setHotspot_dian },
+  components: { rightPanel, setHotspot_dian, addHotspot_text },
   data: function() {
     return {
       selectItem: {
@@ -68,25 +75,21 @@ export default {
           text: "文字标签",
           imgClass: "dian",
           value: "文字标签"
-        },
-        {
-          text: "文字描述",
-          imgClass: "dian2",
-          value: "文字描述"
         }
       ]
     };
   },
   methods: {
-    addHotData(value) { // 增加点标签
+    addHotData(value) {
+      // 增加点标签
       console.log("增加数据", value);
       const that = this;
       this.selectItem = value;
       document.getElementById("cesiumContainer").style.cursor = "crosshair";
-      left_click(function (params) {
+      left_click(function(params) {
         // console.log("得到增加数据", params);
-        that.selectItem.X =params.lng;
-        that.selectItem.Y =params.lat;
+        that.selectItem.X = params.lng;
+        that.selectItem.Y = params.lat;
         let obj = addFeature(that.selectItem);
 
         that.selectItem.feature = obj;
@@ -116,6 +119,30 @@ export default {
       this.myTabComponent = "";
       this.pointValue = "";
       document.getElementById("cesiumContainer").style.cursor = "default";
+    },
+    addTextData(fromData) {
+      const that = this;
+      let html = `<div class="divpoint2">
+                      <div class="title" id="a${fromData.id}">${fromData.name}</div>
+                      <div class="content" id="b${fromData.id}">${fromData.desc}</div>
+                    </div>`;
+      document.getElementById("cesiumContainer").style.cursor = "crosshair";
+
+      left_click(function(params) {
+        fromData.X = params.lng;
+        fromData.Y = params.lat;
+        drawTextPoint(html, fromData, function(divpoint) {
+          fromData.divpoint = divpoint;
+          that.$emit("addTextData", fromData);
+          document.getElementById("cesiumContainer").style.cursor = "default";
+        });
+      });
+    },
+    canselTextData() {
+      console.log("取消增加");
+      this.myTabComponent = "";
+      this.pointValue = "";
+      document.getElementById("cesiumContainer").style.cursor = "default";
     }
   },
   watch: {
@@ -124,6 +151,9 @@ export default {
       switch (value) {
         case "圆点标签":
           this.myTabComponent = "setHotspot_dian";
+          break;
+        case "文字标签":
+          this.myTabComponent = "addHotspot_text";
           break;
 
         default:
