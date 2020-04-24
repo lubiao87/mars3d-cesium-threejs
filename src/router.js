@@ -26,17 +26,6 @@ export default new Router({
           component: () => import("./views/quanjingSystem/index.vue")
         }
       ]
-    },
-    { // 科技标签
-      path: '/cesiumContainer',
-      name: 'cesiumContainer',
-      component: () => import("./views/webglText/cesiumContainer.vue")
-    },
-
-    // { //单体化文庙
-    //   path: '/createLayer',
-    //   name: 'createLayer',
-    //   component: () => import("./views/webglText/createLayer.vue")
-    // }
+    }
   ]
 })
