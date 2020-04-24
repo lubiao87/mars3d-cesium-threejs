@@ -260,83 +260,29 @@ export function stopRaodian() {
   // }
   mars3d.point.windingPoint.stop()
 }
-var arrPoint = []
+// var arrPoint = []
 
-//当前标签业务相关
-export function initPointWork() {
-  // (121.466139, 31.257341, 2170.8)
-  //============================
-  var divpoint1 = new mars3d.DivPoint(viewer, {
-    html: `<div class="divpoint1">
-                <div class="title">测试DIV点1</div>
-              </div >`,
-    anchor: [0, 0],
-    position: Cesium.Cartesian3.fromDegrees(121.4575159, 31.256899, 100),
-    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 200000), //按视距距离显示
-
-    click: function(e) {
-      //单击后的回调
-      haoutil.msg('单击了点')
-    },
-  })
-  arrPoint.push(divpoint1)
-  //============================
-  var position = Cesium.Cartesian3.fromDegrees(121.4735159, 31.253899, 100)
-
+export function drawTextPoint(html,data, fn) {
+  // viewer.mars.draw.deleteAll()
+  var position = Cesium.Cartesian3.fromDegrees(data.X, data.Y, 10);
   var divpoint2 = new mars3d.DivPoint(viewer, {
-    html: `<div class="divpoint2">
-                <div class="title">省体育馆</div>
-                <textarea class="content" rows="2">此处可以绑定任意Html代码和css效果 </textarea >
-              </div >`,
-    anchor: [0, 0],
-    position: position,
-    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 200000), //按视距距离显示
-    scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 100000, 0.5),
-    click: function(e) {
-      //单击后的回调
-      // haoutil.msg('单击了点');
-    },
-  })
-  arrPoint.push(divpoint2)
-  //添加实体
-  var entitie = viewer.entities.add({
-    name: '测试位置,与DIV点进行对比',
-    position: position,
-    point: {
-      color: new Cesium.Color.fromCssColorString('#00ff00'),
-      pixelSize: 5,
-    },
-  })
-}
-function drawPoint() {
-  viewer.mars.draw.deleteAll()
-
-  viewer.mars.draw.startDraw({
-    type: 'point',
-    style: {
-      pixelSize: 12,
-      color: '#ffff00',
-    },
-    success: function(entity) {
-      var position = entity.position.getValue()
-      viewer.mars.draw.deleteAll()
-
-      var divpoint = new mars3d.DivPoint(viewer, {
-        html: `<div class="divpoint2">
-                  <div class="title">测试DIV点</div>
-                  <div class="content" contenteditable="true">此处可以绑定任意Html代码和css效果 </div >
-              </div >`,
-        position: position,
-        anchor: [0, 0],
-        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 100000),//按视距距离显示
-        click: function(e) {
-          //单击后的回调
+      html: html,
+      anchor: [0, 0],
+      position: position,
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 100000),//按视距距离显示
+      scaleByDistance: new Cesium.NearFarScalar(1000, 1.0, 100000, 0.1),
+      click: function (e) {//单击后的回调
           // haoutil.msg('单击了点');
-        },
-      })
-      arrPoint.push(divpoint)
-    },
-  })
+
+      },
+  });
+  fn(divpoint2);
+}
+// 删除文字标签
+export function deletTextPoint(obj) {
+  console.log(obj);
+  viewer.mars.draw.remove(obj);
+
 }
 //地图文庙创建 2
 export function createWenmiao(id, config, fn) {
@@ -356,7 +302,9 @@ export function createWenmiao(id, config, fn) {
     success: function(_viewer, jsondata) {
       //地图成功加载完成后执行
       viewer = _viewer
-      // console.log("_viewer", _viewer)
+      camera = viewer.camera
+      scene = viewer.scene
+      clock = viewer.clock
       initWenMiaoWork()
       if (fn) {
         fn(viewer)
@@ -494,6 +442,16 @@ export function flyToPoint(obj) {
     },
   })
   // }
+}
+export function flyToText(data) {
+  camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(
+      data.X,
+      data.Y,
+      2000
+    ),
+    easingFunction: Cesium.EasingFunction.LINEAR_NONE
+  })
 }
 // 点击地图
 export function left_click(fn) {

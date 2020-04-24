@@ -1,15 +1,15 @@
 <template>
   <right-panel>
-    <el-form ref="form" :model="formData" label-width="80px">
+    <el-form ref="form" :model="formData">
       <el-form-item label="名称">
-        <el-input v-model="formData.name"></el-input>
+        <el-input v-model="formData.names"></el-input>
       </el-form-item>
       <el-form-item label="标签描述">
-        <el-input v-model="formData.desc"></el-input>
+        <el-input type="textarea" row="2" v-model="formData.desc"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="setHotspot">立即创建</el-button>
-        <el-button>取消</el-button>
+        <el-button type="primary"  @click="setTextspot">确定</el-button>
+        <el-button @click="deletTextspot">删除</el-button>
       </el-form-item>
     </el-form>
     <div class="divpoint2">
@@ -23,7 +23,7 @@
 import rightPanel from "@/components/rightPanel/rightPanel";
 
 export default {
-  name: "setHotspot",
+  name: "setTextspot",
   components: { rightPanel },
   props: ["data"],
   data: function() {
@@ -35,12 +35,12 @@ export default {
   //   this.formData = this.data;
   // },
   methods: {
-    setHotspot() {
-      this.$emit("setChildrenData", this.formData);
+    setTextspot() {
+      this.$emit("setTextData", this.formData);
       this.$store.dispatch("collection/set_ComponentName", "");
     },
-    deletHotspot() {
-      this.$emit("deletHotData", this.formData);
+    deletTextspot() {
+      this.$emit("deletTextData", this.formData);
       this.$store.dispatch("collection/set_ComponentName", "");
     },
     addHotspot() {
@@ -50,10 +50,11 @@ export default {
     cancelHotspot() {
       this.$emit("cancelHotData", null);
     }
+  },
+  activated() {
+    this.formData = this.data;
+    this.formData.names = this.data.name;
   }
-  // activated() {
-  //   this.formData = this.data;
-  // }
 };
 </script>
 
@@ -74,54 +75,7 @@ export default {
     }
   }
 }
-.divpoint2 {
-  top: -1000px;
-  left: -1000px;
-  width: 200px;
-  height: 157px;
-  background: rgba(42, 42, 42, 0.8);
-  border-radius: 4px;
-  position: absolute;
-  background: url("../../assets/common/image/div2.png");
-  background-size: 100%;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
 
-  -webkit-animation: mymove 5s infinite;
-  animation: mymove 5s infinite;
-  animation-duration: 5s;
-  animation-timing-function: ease;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: normal;
-  animation-fill-mode: none;
-  animation-play-state: running;
-  animation-name: mymove;
 
-  /*加上这个css后鼠标可以穿透，但是无法触发单击事件*/
-  /* pointer-events:none; */
-}
 
-.divpoint2 .title {
-  position: inherit;
-  top: 22px;
-  left: 70px;
-  font-size: 14px;
-  text-align: left;
-
-  color: rgba(255, 255, 255, 1);
-  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.75);
-}
-
-.divpoint2 .content {
-  position: inherit;
-  font-size: 14px;
-  top: 50px;
-  left: 50px;
-  width: 140px;
-  height: auto;
-  text-align: left;
-  color: rgba(255, 255, 255, 1);
-}
 </style>

@@ -30,7 +30,12 @@
           v-for="(item, index) in dotList"
           @click="listClickDot(item)">
           <div class="SidebarHotspotItem_icon_2nsHhN">
-            <div style="width: 100%; height: 100%;" :class="{'dian_point': item.typeName === '圆点标签'}"></div>
+            <div
+              style="width: 100%; height: 100%;"
+              :class="{
+                'dian_point': item.typeName === '圆点标签',
+                'text_point': item.typeName === '文字标签'
+              }"></div>
           </div>
           <div class="SidebarHotspotItem_name_3mSobB ellipsis"></div>
           <div class="SidebarHotspotItem_typeName_1KKpEZ">{{item.name}}</div>
@@ -47,7 +52,8 @@
         v-bind:is="MyrightComponentName"
         :data="selectItem"
         @setHotData="setHotData"
-        @deletHotData="deletHotData">
+        @deletHotData="deletHotData"
+        @deletTextData="deletTextData">
       </component>
     </keep-alive>
   </div>
@@ -55,7 +61,15 @@
 
 
 <script>
-import { getWindowObj, addFeature, flyToPoint, removeDntitie } from "@/map/app.js";
+import {
+  getWindowObj,
+  addFeature,
+  flyToPoint,
+  removeDntitie,
+  flyToText,
+  drawTextPoint,
+  deletTextPoint
+} from "@/map/app.js";
 
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { getMapConfig } from "@/map/api";
@@ -76,36 +90,38 @@ export default {
     return {
       // point: {
         dotList: [
-          {
-            name: "丹东港",
-            X: 119.033069,
-            Y: 33.589196,
-            zydw: "茂名单位",
-            jzmj: "43平方米",
-            jzcs: 2,
-            jzjg: "钢混",
-            jzlf: "2006年",
-            id: 111,
-            typeName: "圆点标签"
-          },
-          {
-            name: "文章港",
-            X: 119.036069,
-            Y: 33.529196,
-            id: 2111,
-            typeName: "文字标签"
-          },
+          // {
+          //   name: "丹东港",
+          //   X: 119.033069,
+          //   Y: 33.589196,
+          //   zydw: "茂名单位",
+          //   jzmj: "43平方米",
+          //   jzcs: 2,
+          //   jzjg: "钢混",
+          //   jzlf: "2006年",
+          //   id: 111,
+          //   typeName: "圆点标签"
+          // },
+          // {
+          //   name: "文章港",
+          //   X: 119.036069,
+          //   Y: 33.529196,
+          //   id: 2111,
+          //   desc: "此处可以绑定任意Html代码和css效果",
+          //   typeName: "文字标签"
+          // },
         ],
       // },
       selectItem: null,
       featureList: [],
-      setClass: ""
+      setClass: "",
+      divpointList: []
     };
   },
   created() {
     const that = this;
     this.getUserdata();
-    // this.dotList = this.Userdata.dotList;
+    this.dotList = this.Userdata.dotList;
     // console.log("this.dotList", this.dotList)
     // this.Userdata.dotList =this.dotList;
     // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
@@ -118,6 +134,17 @@ export default {
         that.featureList.push({
           id: item.id,
           feature: obj
+        })
+      } else if(item.typeName === "文字标签") {
+        let html = `<div class="divpoint2">
+                      <div class="title">测试DIV点2</div>
+                      <div class="content">此处可以绑定任意Html代码和css效果</div>
+                    </div>`;
+        drawTextPoint(html,item, function (params) {
+          that.divpointList.push({
+            divpoint: params,
+            id: item.id
+          })
         })
       }
 
@@ -135,6 +162,7 @@ export default {
         flyToPoint(select.feature);
         this.$store.dispatch("collection/set_ComponentName", "setHotspot_dian");
       } else if (item.typeName === "文字标签") {
+        flyToText(item);
         this.$store.dispatch("collection/set_ComponentName", "setHotspot_text");
       }
 
@@ -192,6 +220,27 @@ export default {
       console.log("增加后dotList", this.dotList);
       this.Userdata.point = this.point;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    },
+    setTextData(formData) {
+
+    },
+    deletTextData(formData) {
+      const that = this;
+      this.dotList.forEach((val, index) => {
+        if(formData.id === val.id) {
+          that.dotList.splice(index, 1);
+
+        }
+      })
+      this.divpointList.forEach((val, index) => {
+        if(formData.id === val.id) {
+          val.divpoint.destroy();
+          that.divpointList.splice(index, 1);
+
+        }
+      });
+      let select = this.divpointList.find((selet) => selet.id === formData.id);
+      // select.divpoint.destroy();
     }
   },
   activated() {

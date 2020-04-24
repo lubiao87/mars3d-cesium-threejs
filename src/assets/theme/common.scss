@@ -176,13 +176,6 @@ input[type="text"], input[type="password"] {
   -ms-flex-align: center;
   align-items: center;
 }
-
-// 图片
-.dian_point {
-  background: url("/img/point/dian_point.png") no-repeat center;
-  background-size: 80%;
-}
-
 input[type="text"], input[type="password"] {
   background-color: #2c2c2c;
     border-color: #525252 ;
@@ -191,4 +184,70 @@ input[type="text"], input[type="password"] {
 .el-input.is-disabled .el-input__inner {
   background-color: #2c2c2c;
   border-color: #2c2c2c;
+}
+.el-textarea__inner {
+  background-color: #2c2c2c;
+  border-color: #525252;
+  color: #fff;
+}
+
+
+// 图片
+.dian_point {
+  background: url("/img/point/dian_point.png") no-repeat center;
+  background-size: 70%;
+}
+.text_point {
+  background: url("/img/point/div2.png") no-repeat center;
+  background-size: 100%;
+}
+
+
+
+// 文字标签样式
+.divpoint2 {
+  top: -1000px;
+  left: -1000px;
+  width: 200px;
+  height: 157px;
+  background: rgba(42, 42, 42, 0.8);
+  border-radius: 4px;
+  position: absolute;
+  background: url("/img/point/div2.png");
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+
+  -webkit-animation: mymove 5s infinite;
+  animation: mymove 5s infinite;
+  animation-duration: 5s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
+  animation-name: mymove;
+}
+.divpoint2 .title {
+  position: inherit;
+  top: 22px;
+  left: 70px;
+  font-size: 14px;
+  text-align: left;
+
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.75);
+}
+
+.divpoint2 .content {
+  position: inherit;
+  font-size: 14px;
+  top: 50px;
+  left: 50px;
+  width: 140px;
+  height: auto;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
 }
