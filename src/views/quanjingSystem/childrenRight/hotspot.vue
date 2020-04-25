@@ -59,6 +59,9 @@
         @deletTextData="deletTextData"
         @setTextData="setTextData"
         @addTextData="addTextData"
+        @deletVideoData="deletVideoData"
+        @setVideoData="setVideoData"
+        @addVideoData="addVideoData"
       ></component>
     </keep-alive>
   </div>
@@ -82,6 +85,7 @@ import { getMapConfig } from "@/map/api";
 import addHotspot from "@/views/rightPanel/addHotspot";
 import setHotspot_dian from "@/views/rightPanel/setHotspot_dian";
 import setHotspot_text from "@/views/rightPanel/setHotspot_text";
+import setHotspot_video from "@/views/rightPanel/setHotspot_video";
 
 export default {
   mixins: [listSearchMixin],
@@ -89,41 +93,42 @@ export default {
   components: {
     addHotspot,
     setHotspot_dian,
-    setHotspot_text
+    setHotspot_text,
+    setHotspot_video
   },
   data() {
     return {
       // point: {
       dotList: [
-        {
-          name: "丹东港",
-          X: 119.033069,
-          Y: 33.589196,
-          zydw: "茂名单位",
-          jzmj: "43平方米",
-          jzcs: 2,
-          jzjg: "钢混",
-          jzlf: "2006年",
-          id: 111,
-          typeName: "圆点标签"
-        },
-        {
-          name: "文章港",
-          X: 119.036069,
-          Y: 33.529196,
-          id: 2111,
-          desc: "此处可以绑定任意Html代码和css效果",
-          typeName: "文字标签"
-        },
-        {
-          name: "电影院",
-          X: 119.031069,
-          Y: 33.529596,
-          id: 267923,
-          typeName: "视频标签",
-          url:
-            "http://data.marsgis.cn/video/lukou.mp4"
-        }
+        // {
+        //   name: "丹东港",
+        //   X: 119.033069,
+        //   Y: 33.589196,
+        //   zydw: "茂名单位",
+        //   jzmj: "43平方米",
+        //   jzcs: 2,
+        //   jzjg: "钢混",
+        //   jzlf: "2006年",
+        //   id: 111,
+        //   typeName: "圆点标签"
+        // },
+        // {
+        //   name: "文章港",
+        //   X: 119.036069,
+        //   Y: 33.529196,
+        //   id: 2111,
+        //   desc: "此处可以绑定任意Html代码和css效果",
+        //   typeName: "文字标签"
+        // },
+        // {
+        //   name: "电影院",
+        //   X: 119.031069,
+        //   Y: 33.529596,
+        //   id: 267923,
+        //   typeName: "视频标签",
+        //   url:
+        //     "http://data.marsgis.cn/video/lukou.mp4"
+        // }
       ],
       // },
       selectItem: null,
@@ -135,10 +140,10 @@ export default {
   created() {
     const that = this;
     this.getUserdata();
-    // this.dotList = this.Userdata.dotList;
+    this.dotList = this.Userdata.dotList;
     // console.log("this.dotList", this.dotList)
-    this.Userdata.dotList = this.dotList;
-    this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    // this.Userdata.dotList = this.dotList;
+    // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
   mounted() {
     const that = this;
@@ -191,6 +196,12 @@ export default {
       } else if (item.typeName === "文字标签") {
         flyToText(item);
         this.$store.dispatch("collection/set_ComponentName", "setHotspot_text");
+      } else if (item.typeName === "视频标签") {
+        flyToText(item);
+        this.$store.dispatch(
+          "collection/set_ComponentName",
+          "setHotspot_video"
+        );
       }
 
       // this.setClass = "noAnimation";
@@ -272,11 +283,11 @@ export default {
     },
     setTextData(formData) {
       const that = this;
-      console.log("formData", formData);
+      // console.log("formData", formData);
       this.dotList.forEach((item, index, arr) => {
         if (item.id === formData.id) {
           that.dotList[index] = formData;
-          document.getElementById("a" + formData.id).innerText = formData.name;
+          // document.getElementById("a" + formData.id).innerText = formData.name;
           document.getElementById("b" + formData.id).innerText = formData.desc;
         }
       });
@@ -292,6 +303,39 @@ export default {
         name: data.name,
         desc: data.desc,
         typeName: "文字标签"
+      });
+      that.divpointList.push({
+        id: data.id,
+        divpoint: data.divpoint
+      });
+      this.Userdata.dotList = this.dotList;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    },
+    deletVideoData(data) {
+      this.deletTextData(data);
+    },
+    setVideoData(data) {
+      const that = this;
+      // console.log("formData", formData);
+      this.dotList.forEach((item, index, arr) => {
+        if (item.id === formData.id) {
+          that.dotList[index] = formData;
+          // document.getElementById("a" + formData.id).innerText = formData.name;
+          document.getElementById("b" + formData.id).innerText = formData.url;
+        }
+      });
+      this.Userdata.dotList = this.dotList;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    },
+    addVideoData(data) {
+      const that = this;
+      this.dotList.push({
+        X: data.X,
+        Y: data.Y,
+        id: data.id,
+        name: data.name,
+        url: data.url,
+        typeName: "视频标签"
       });
       that.divpointList.push({
         id: data.id,
@@ -410,7 +454,8 @@ export default {
 }
 // 图片
 .dian_point {
-  background: url("../../../assets/common/image/dian_point.png") no-repeat center;
+  background: url("../../../assets/common/image/dian_point.png") no-repeat
+    center;
   background-size: 70%;
 }
 .text_point {
@@ -453,7 +498,8 @@ export default {
     right: 8px;
     width: 20px;
     height: 20px;
-    background: url("../../../assets/common/image/full_screen.png") no-repeat center;
+    background: url("../../../assets/common/image/full_screen.png") no-repeat
+      center;
     background-size: 100%;
     border: none;
     cursor: pointer;
@@ -473,7 +519,7 @@ export default {
     color: #fff;
     font-size: 20px;
     text-align: center;
-}
+  }
   .arrow {
     display: inline-block;
     position: absolute;
@@ -481,7 +527,8 @@ export default {
     bottom: -28px;
     width: 138px;
     height: 30px;
-    background: url("../../../assets/common/image/bottom_triangle.png") no-repeat center;
+    background: url("../../../assets/common/image/bottom_triangle.png")
+      no-repeat center;
     background-size: 100%;
   }
 }

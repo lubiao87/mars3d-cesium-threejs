@@ -319,7 +319,7 @@ export default {
 .GlobalToggles_toggles_fxGXfs {
   display: inline-block;
   margin-right: 30px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 .EditBasic_thumbTip_1gyY0X {

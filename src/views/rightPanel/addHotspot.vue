@@ -30,6 +30,7 @@
           @addHotData="addHotData"
           @canselTextData="canselTextData"
           @addTextData="addTextData"
+          @addVideoData="addVideoData"
         ></component>
       </keep-alive>
     </div>
@@ -40,6 +41,7 @@
 import rightPanel from "@/components/rightPanel/rightPanel";
 import setHotspot_dian from "@/views/rightPanel/setHotspot_dian";
 import addHotspot_text from "@/views/rightPanel/addHotspot_text";
+import addHotspot_video from "@/views/rightPanel/addHotspot_video";
 import {
   left_click,
   addFeature,
@@ -48,7 +50,12 @@ import {
 
 export default {
   name: "addHotspot",
-  components: { rightPanel, setHotspot_dian, addHotspot_text },
+  components: {
+    rightPanel,
+    setHotspot_dian,
+    addHotspot_text,
+    addHotspot_video
+  },
   data: function() {
     return {
       selectItem: {
@@ -73,9 +80,14 @@ export default {
         },
         {
           text: "文字标签",
-          imgClass: "dian",
+          imgClass: "text_point",
           value: "文字标签"
-        }
+        },
+        {
+          text: "视频标签",
+          imgClass: "video_point",
+          value: "视频标签"
+        },
       ]
     };
   },
@@ -143,6 +155,28 @@ export default {
       this.myTabComponent = "";
       this.pointValue = "";
       document.getElementById("cesiumContainer").style.cursor = "default";
+    },
+    addVideoData(fromData) {
+      const that = this;
+      let html = `<div class="video_con" style="left: 600.707px; bottom: 432.413px;">
+              <video crossorigin=""  id="b${fromData.id}" autoplay="autoplay" loop="loop" muted="muted" class="video" src="${fromData.url}"></video>
+              <label class="name" id="a${fromData.id}">${fromData.name}</label>
+              <button class="fsbtn"></button>
+              <span class="arrow"></span>
+            </div>`;
+      document.getElementById("cesiumContainer").style.cursor = "crosshair";
+      left_click(function(params) {
+        fromData.X = params.lng;
+        fromData.Y = params.lat;
+        drawTextPoint(html, fromData, function(divpoint) {
+          fromData.divpoint = divpoint;
+          that.$emit("addVideoData", fromData);
+          document.getElementById("cesiumContainer").style.cursor = "default";
+        });
+      });
+    },
+    canselVideoData(){
+      this.canselTextData();
     }
   },
   watch: {
@@ -154,6 +188,9 @@ export default {
           break;
         case "文字标签":
           this.myTabComponent = "addHotspot_text";
+          break;
+        case "视频标签":
+          this.myTabComponent = "addHotspot_video";
           break;
 
         default:
