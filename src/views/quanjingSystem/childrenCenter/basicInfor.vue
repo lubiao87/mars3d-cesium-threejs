@@ -24,10 +24,7 @@
         </div>
         <div class="EditBasic_basic_8PY8_A">
           <div class="EditBasic_thumb_1m04VK">
-            <img
-              src=""
-              style="width: 100%; height: 100%;"
-            />
+            <img src="http://m3d2.okaygis.com:8000/static/reparo/web/images/logo.png" style="width: 100%; height: 100%;" />
             <div class="EditBasic_thumbBtn_1v7tq-">
               <div>
                 <input
@@ -35,32 +32,21 @@
                   accept="image/jpeg, image/png"
                   style="position: absolute; z-index: -1; width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden;"
                 />
-                <a
+                <!-- <a
                   class="StyledButton_button_3hxqk3 StyledButton_default_25Ch8E"
                   href="javascript: void 0;"
                   style="width: 85px; height: 30px; padding-left: 0px; padding-right: 0px;"
-                >修改封面</a>
+                >修改封面</a> -->
               </div>
-              <div class="EditBasic_thumbTip_1gyY0X">
+              <!-- <div class="EditBasic_thumbTip_1gyY0X">
                 <p>建议尺寸</p>
                 <p>512 X 512</p>
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- 输入框 -->
           <div class="EditBasic_detail_1f1dZn">
             <div class="EditBasic_row_15Q7LM EditBasic_channel_2Qpsfk">
-              <div class="DropdownSelect_container_Rwamey">
-                <div class="DropdownSelect_trigger_dqkT0F EditBasic_select_345xyp">
-                  城市
-                  <svg width="11" height="7" viewBox="0 0 11 7">
-                    <path
-                      d="M6.02 6.77l4.792-5.52a.776.776 0 0 0-.03-1.045.631.631 0 0 0-.958.032L5.54 5.202 1.168.237A.656.656 0 0 0 .21.205C.06.335 0 .565 0 .76c0 .196.06.36.18.523L5.032 6.77s.03 0 .03.032l.03.033c.03.033.09.033.12.065.299.163.598.13.808-.13z"
-                      fill-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
               <div class="DictSearch_container_L6Hx5J">
                 <input
                   type="text"
@@ -71,22 +57,34 @@
                   autocomplete="off"
                   id="downshift-9-input"
                   name="subChannel"
-                  placeholder="请输入城市名称"
-                  value="广州"
+                  placeholder="请输入模型名称"
+                  :value="modelName"
                 />
               </div>
-              <div class="EditBasic_count_31c106">2/50</div>
+
+              <!-- <div class="EditBasic_count_31c106">2/50</div> -->
+            </div>
+            <div class="EditBasic_row_15Q7LM DropdownSelect_container_Rwamey">
+              <el-select
+                v-model="classifyValue"
+                placeholder="选择分类"
+                style="width: 240px;"
+              >
+                <el-option
+                  v-for="item in classifyList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </div>
             <div class="EditBasic_row_15Q7LM">
-              <input
-                type="text"
-                class="pano-input pano-input-md pano-input-dark"
-                name="name"
-                maxlength="50"
-                placeholder="作品标题"
-                value="11"
-              />
-              <div class="EditBasic_count_31c106">2/50</div>
+              <!-- <div class="EditBasic_count_31c106">2/50</div> -->
+              <el-col :span="4" style="line-height: 1;">模型公开：</el-col>
+              <el-col :span="20">
+                <el-radio v-model="radio" label="公开">公开</el-radio>
+                <el-radio v-model="radio" label="仅自己可见">仅自己可见</el-radio>
+              </el-col>
             </div>
             <div class="EditBasic_row_15Q7LM">
               <textarea
@@ -95,7 +93,8 @@
                 placeholder="作品简介"
               ></textarea>
             </div>
-            <div class="EditBasic_tag_AHm2km EditBasic_row_15Q7LM">
+
+            <!-- <div class="EditBasic_tag_AHm2km EditBasic_row_15Q7LM">
               <a
                 class="StyledButton_button_3hxqk3 StyledButton_default_25Ch8E"
                 href="javascript: void 0;"
@@ -106,7 +105,7 @@
                   <span class="BasicTag_text_3eW56_ ellipsis">地面</span>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -124,7 +123,11 @@
       </div>
       <div>
         <div class="GlobalToggles_title_37rLpE">全局开关</div>
-        <div class="GlobalToggles_toggles_fxGXfs" v-for="(item, index) in btnList" :key="index + 'a'">
+        <div
+          class="GlobalToggles_toggles_fxGXfs"
+          v-for="(item, index) in btnList"
+          :key="index + 'a'"
+        >
           <div
             class="Item_item_wUwqyA tether-target tether-element-attached-bottom tether-element-attached-center tether-target-attached-top tether-target-attached-center"
           >
@@ -133,10 +136,9 @@
               v-model="item.show"
               active-color="#286efa"
               @change="switchBtn(item)"
-              inactive-color="#2c2c2c">
-            </el-switch>
+              inactive-color="#2c2c2c"
+            ></el-switch>
           </div>
-
         </div>
       </div>
     </div>
@@ -153,8 +155,41 @@ import { Message } from "element-ui";
 export default {
   name: "jiChuCenter",
   mixins: [listSearchMixin],
-  data: function (params) {
+  data: function(params) {
     return {
+      radio: "公开",
+      modelName: "",
+      classifyList: [
+        {
+          value: "1",
+          label: "古遗迹"
+        },
+        {
+          value: "2",
+          label: "古墓葬"
+        },
+        {
+          value: "3",
+          label: "古建筑"
+        },
+        {
+          value: "4",
+          label: "石窟寺\\时刻"
+        },
+        {
+          value: "5",
+          label: "近现在史迹\\建筑"
+        },
+        {
+          value: "6",
+          label: "可移动文物"
+        },
+        {
+          value: "7",
+          label: "其它"
+        }
+      ],
+      classifyValue: "",
       btnList: [
         {
           value: "geocoder",
@@ -190,19 +225,32 @@ export default {
           value: "vrButton",
           text: "vr模式",
           show: true
+        },
+        {
+          value: "baseMap",
+          text: "底图",
+          show: true
+        },
+        {
+          value: "layer",
+          text: "图层",
+          show: true
+        },
+        {
+          value: "toolBtn",
+          text: "工具",
+          show: true
         }
       ]
-
-    }
+    };
   },
   created() {
     const that = this;
     getMapConfig(3).then(data => {
       that.Userdata = data.data;
       that.btnList.forEach((item, i) => {
-        that.btnList[i].show = that.Userdata.map3d[item.value]
-      })
-
+        that.btnList[i].show = that.Userdata.map3d[item.value];
+      });
     });
   },
   methods: {
@@ -219,13 +267,13 @@ export default {
       let formData = new FormData();
       formData.append("data", JSON.stringify(this.Userdata));
       console.log("this.Userdata提交", this.Userdata);
-      if(this.Userdata) {
+      if (this.Userdata) {
         putUserdata(formData, 3);
       } else {
         Message({
           showClose: true,
           message: "系统错误",
-          type: 'error',
+          type: "error",
           duration: 1000
         });
       }
@@ -240,6 +288,10 @@ export default {
 .StyledButton_default_25Ch8E {
   background-color: $mainColor;
   color: #fff;
+}
+.EditBasic_row_15Q7LM {
+  margin-bottom: 15px;
+  width: 500px;
 }
 .StyledButton_button_3hxqk3 {
   display: -webkit-inline-box;
@@ -287,7 +339,7 @@ export default {
   position: relative;
 }
 .EditBasic_subTitle_2vGxsD {
-  width: 415px;
+  width: 240px;
 }
 .DropdownSelect_trigger_dqkT0F {
   position: relative;
@@ -319,15 +371,26 @@ export default {
 .GlobalToggles_toggles_fxGXfs {
   display: inline-block;
   margin-right: 30px;
-    margin-bottom: 10px;
-    cursor: pointer;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 .EditBasic_thumbTip_1gyY0X {
+  font-size: 12px;
+  // line-height: 15px;
+  margin-left: 10px;
+  p {
     font-size: 12px;
-    // line-height: 15px;
-    margin-left: 10px;
-    p {
-      font-size: 12px;
-    }
+  }
+}
+</style>
+<style lang="scss">
+.el-input--suffix .el-input__inner {
+  height: 34px;
+}
+.DropdownSelect_container_Rwamey > div {
+  margin-top: 0;
+}
+.el-input__icon {
+  line-height: 34px;
 }
 </style>

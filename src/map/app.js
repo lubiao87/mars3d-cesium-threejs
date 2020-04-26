@@ -290,6 +290,7 @@ export function createWenmiao(id, config, fn) {
     id: id,
     data: config.map3d,
     infoBox: false,
+    serverURL: config.serverURL,
     center: {
       y: JSON.parse(config.map3d.center.y),
       x: JSON.parse(config.map3d.center.x),
