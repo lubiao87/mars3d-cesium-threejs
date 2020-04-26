@@ -225,21 +225,6 @@ export default {
           value: "vrButton",
           text: "vr模式",
           show: true
-        },
-        {
-          value: "baseMap",
-          text: "底图",
-          show: true
-        },
-        {
-          value: "layer",
-          text: "图层",
-          show: true
-        },
-        {
-          value: "toolBtn",
-          text: "工具",
-          show: true
         }
       ]
     };
