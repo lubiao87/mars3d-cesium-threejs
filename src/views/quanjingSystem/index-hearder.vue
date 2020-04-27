@@ -1,6 +1,6 @@
 <template>
   <div class="index-hearder border-style1">
-    项目001
+    {{MyprojectData.name}}
     <div class="fanhui">
       <span class="iconfont icon-undo-outline"></span>
        <span class="fh">返回</span>

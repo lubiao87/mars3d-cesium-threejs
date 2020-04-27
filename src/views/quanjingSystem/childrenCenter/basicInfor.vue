@@ -58,7 +58,7 @@
                   id="downshift-9-input"
                   name="subChannel"
                   placeholder="请输入模型名称"
-                  :value="modelName"
+                  v-model="modelName"
                 />
               </div>
 
@@ -71,7 +71,7 @@
                 style="width: 240px;"
               >
                 <el-option
-                  v-for="item in classifyList"
+                  v-for="item in tags"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -82,8 +82,8 @@
               <!-- <div class="EditBasic_count_31c106">2/50</div> -->
               <el-col :span="4" style="line-height: 1;">模型公开：</el-col>
               <el-col :span="20">
-                <el-radio v-model="radio" label="公开">公开</el-radio>
-                <el-radio v-model="radio" label="仅自己可见">仅自己可见</el-radio>
+                <el-radio v-model="radio" :label="true">公开</el-radio>
+                <el-radio v-model="radio" :label="false">仅自己可见</el-radio>
               </el-col>
             </div>
             <div class="EditBasic_row_15Q7LM">
@@ -91,21 +91,23 @@
                 class="pano-textarea pano-textarea-dark EditBasic_textarea_1q0Kwq"
                 name="remark"
                 placeholder="作品简介"
+                v-model="description"
               ></textarea>
             </div>
 
-            <!-- <div class="EditBasic_tag_AHm2km EditBasic_row_15Q7LM">
+            <div class="EditBasic_tag_AHm2km EditBasic_row_15Q7LM">
               <a
                 class="StyledButton_button_3hxqk3 StyledButton_default_25Ch8E"
                 href="javascript: void 0;"
                 style="width: 85px; height: 30px; padding-left: 0px; padding-right: 0px;"
-              >添加标签</a>
-              <div class="EditBasic_tagList_jAI1mS">
-                <div class="BasicTag_item_1Fm1tw" title="地面">
-                  <span class="BasicTag_text_3eW56_ ellipsis">地面</span>
+                @click="baocun"
+              >保存</a>
+              <!-- <div class="EditBasic_tagList_jAI1mS">
+                <div class="BasicTag_item_1Fm1tw" title="取消">
+                  <span class="BasicTag_text_3eW56_ ellipsis">取消</span>
                 </div>
-              </div>
-            </div> -->
+              </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -149,7 +151,7 @@
 import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { getMapConfig } from "@/map/api";
-import { putUserdata } from "@/api/api"; //api配置请求的路径
+import { putUserdata, project_setting } from "@/api/api"; //api配置请求的路径
 import { Message } from "element-ui";
 
 export default {
@@ -157,39 +159,39 @@ export default {
   mixins: [listSearchMixin],
   data: function(params) {
     return {
-      radio: "公开",
+      radio: true,
       modelName: "",
-      classifyList: [
+      tags: [
         {
-          value: "1",
+          value: 1,
           label: "古遗迹"
         },
         {
-          value: "2",
+          value: 2,
           label: "古墓葬"
         },
         {
-          value: "3",
+          value: 3,
           label: "古建筑"
         },
         {
-          value: "4",
+          value: 4,
           label: "石窟寺\\时刻"
         },
         {
-          value: "5",
+          value: 5,
           label: "近现在史迹\\建筑"
         },
         {
-          value: "6",
+          value: 6,
           label: "可移动文物"
         },
         {
-          value: "7",
+          value: 7,
           label: "其它"
         }
       ],
-      classifyValue: "",
+      classifyValue: 0,
       btnList: [
         {
           value: "geocoder",
@@ -231,11 +233,23 @@ export default {
           text: "底图切换",
           show: true
         },
-      ]
+      ],
+      description: ""
     };
   },
   created() {
     const that = this;
+    let uuid = this.$route.query.uuid;
+     if(uuid) {
+       project_setting("916bf9fc-34be-4979-af4c-0f08f328448c").then(data => {
+         console.log("---", data)
+        that.classifyValue = data.data[0].tags;
+        that.modelName = data.data[0].name;
+        that.radio = data.data[0].is_public;
+        that.description = data.data[0].description;
+        that.$store.dispatch("collection/set_ProjectData", data.data[0]);
+      })
+     }
     getMapConfig(3).then(data => {
       that.Userdata = data.data;
       that.btnList.forEach((item, i) => {
@@ -249,6 +263,16 @@ export default {
       "ORDERSDATA", //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
       "setViewer"
     ]),
+    baocun() {
+      const that = this;
+      let MyprojectData = that.MyprojectData;
+      MyprojectData.tags = that.classifyValue;
+      MyprojectData.name = that.modelName;
+      MyprojectData.is_public = that.radio;
+      MyprojectData.description = that.description;
+      that.$store.dispatch("collection/set_ProjectData", MyprojectData);
+      console.log(that.MyprojectData)
+    },
     switchBtn(value) {
       // console.log(value);
       const that = this;

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { getMenus, settingapi, project_setting} from "@/api/api"; //api配置请求的路径
+import { getMenus, settingapi} from "@/api/api"; //api配置请求的路径
 import { listSearchMixin } from "@/mixin"; //混淆请求
 
 export default {
@@ -52,12 +52,9 @@ export default {
       return this.$route.path;
     }
   },
-  mounted() {
-    // settingapi('916bf9fc-34be-4979-af4c-0f08f328448c').then(data => {
-    //     console.log("916bf9fc-34be-4979-af4c-0f08f328448c", data)
-    //   });
-    project_setting()
-  },
+  // mounted() {
+
+  // },
   methods: {
     tologin() {
       this.$router.push("/login");

@@ -5,7 +5,8 @@ const state = {
     name: ""
   },
   viewer: null,
-  rightComponentName: ""
+  rightComponentName: "",
+  projectData: {}
 };
 const getters = {
   renderCollects(state) {
@@ -24,6 +25,10 @@ const getters = {
     //承载变化的ordersData
     return state.rightComponentName;
   },
+  renderProjectData(state) {
+    //承载变化的ordersData
+    return state.projectData;
+  },
 };
 const mutations = {
   pushCollects(state, items) {
@@ -38,7 +43,10 @@ const mutations = {
   },
   setComponentName(state, obj) {
     state.rightComponentName = obj;
-  }
+  },
+  setProjectData(state, obj) {
+    state.projectData = obj;
+  },
 };
 const actions = {
   invokePushItems(context, item) {
@@ -56,7 +64,11 @@ const actions = {
   set_ComponentName(context, obj) {
     //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
     context.commit("setComponentName", obj);
-  }
+  },
+  set_ProjectData(context, obj) {
+    //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
+    context.commit("setProjectData", obj);
+  },
 };
 export default {
   namespaced: true, //用于在全局引用此文件里的方法时标识这一个的文件名

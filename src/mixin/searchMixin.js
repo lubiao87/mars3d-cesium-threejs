@@ -12,6 +12,7 @@ export const listSearch = {
       //这里的...是超引用，ES6的语法，意思是state里有多少属性值用户1可以在这里放多少属性值
       MyordersData: state => state.collection.MyordersData,
       MyrightComponentName: state => state.collection.rightComponentName,
+      MyprojectData: state => state.collection.projectData
       // arrList: state => state.collection.collects
       //里面定义的showFooter是指footerStatus.js里state的showFooter
     })
