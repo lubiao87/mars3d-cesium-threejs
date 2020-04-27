@@ -9,8 +9,6 @@
     "geocoder": true,
     "baseLayerPicker": false,
     "showRenderLoopErrors": true,
-    "animation": true,
-    "timeline": false,
     "center": {
       "y": 33.589536,
       "x": 119.032216,
@@ -63,7 +61,8 @@
         "hasLayer": true,
         "order": 0
       }
-    ]
+    ],
+    "animation": true
   },
   "dotList": [
     {
@@ -92,8 +91,7 @@
       "Y": 33.529596,
       "id": 267923,
       "typeName": "视频标签",
-      "url": "http://data.marsgis.cn/video/lukou.mp4",
-      "type": "修改"
+      "url": "http://data.marsgis.cn/video/lukou.mp4"
     }
   ]
 }

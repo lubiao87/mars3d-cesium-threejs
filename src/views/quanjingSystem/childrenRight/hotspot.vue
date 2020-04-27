@@ -140,8 +140,7 @@ export default {
   created() {
     const that = this;
     this.getUserdata();
-    this.dotList = this.Userdata.dotList;
-    // console.log("this.dotList", this.dotList)
+    this.dotList = this.Userdata.dotList || [];
     // this.Userdata.dotList = this.dotList;
     // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
