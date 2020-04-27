@@ -225,7 +225,12 @@ export default {
           value: "vrButton",
           text: "vr模式",
           show: true
-        }
+        },
+        {
+          value: "baseLayerPicker",
+          text: "底图切换",
+          show: true
+        },
       ]
     };
   },
@@ -245,13 +250,13 @@ export default {
       "setViewer"
     ]),
     switchBtn(value) {
-      console.log(value);
+      // console.log(value);
       const that = this;
       that.Userdata.map3d[value.value] = value.show;
       that.$store.dispatch("collection/ORDERS_DATA", that.Userdata);
       let formData = new FormData();
       formData.append("data", JSON.stringify(this.Userdata));
-      console.log("this.Userdata提交", this.Userdata);
+      // console.log("this.Userdata提交", this.Userdata);
       if (this.Userdata) {
         putUserdata(formData, 3);
       } else {

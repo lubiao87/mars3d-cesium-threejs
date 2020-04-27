@@ -138,7 +138,7 @@ export default {
       position: absolute;
       display: inline-block;
       margin: 0 3px;
-      right: 50px;
+      right: 0;
       top: -50px;
   }
 

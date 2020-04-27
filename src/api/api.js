@@ -47,3 +47,16 @@ export function settingapi(id) {
     return Promise.resolve(res.data)
   })
 }
+export function project_setting() {
+  // const url = 'config/config.json';
+  const url = '/api/project_setting/'
+  return axios
+    .get(url, {
+      // params: data,
+      dataType: 'json',
+    })
+    .then((res) => {
+      console.log('project_setting--', res)
+      return Promise.resolve(res.data)
+    })
+}

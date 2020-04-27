@@ -26,6 +26,14 @@ module.exports = {
         pathRewrite: {
           "^/cesium": "/"
         }
+      },
+      "/api": {
+        target: "http://172.16.13.95:8000/api/",
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          "^/api": "/"
+        }
       }
     }
   },

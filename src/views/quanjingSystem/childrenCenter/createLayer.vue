@@ -6,6 +6,7 @@
 import * as Cesium from "cesium/Cesium";
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { createWenmiao } from "@/map/app";
+// import { load_model } from "@/utils/cesium/model_loader.js";
 import { getMapConfig } from "@/map/api";
 
 import { expImage } from "@/views/quanjingSystem/childrenRight/visualAngle";
@@ -62,7 +63,13 @@ export default {
           text: "vr模式",
           show: true,
           className: "cesium-viewer-vrContainer"
-        }
+        },
+        {
+          value: "baseLayerPicker",
+          text: "底图切换",
+          show: true,
+          className: "cesium-baseLayerPicker-selected"
+        },
       ]
     };
   },
@@ -72,7 +79,7 @@ export default {
   mounted() {
     const that = this;
     this.getUserdata();
-    console.log("this.MyordersData: ", that.MyordersData);
+    // console.log("this.MyordersData: ", that.MyordersData);
     that.btnList.forEach((item, i) => {
       that.Userdata.map3d[item.value]= true;
       that.btnList[i].show = that.MyordersData.map3d[item.value];
@@ -80,27 +87,7 @@ export default {
     })
     createWenmiao("cesiumContainer", that.Userdata, function(viewer) {
       that.viewer = viewer;
-      that.btnList.forEach((item, i) => {
-        console.log(that.Userdata.map3d[item.value]);
-        let domArr = document.getElementsByClassName(item.className);
-        if(domArr.length) {
-          domArr[0].style.zIndex= -1;
-        }
-      })
-      getMapConfig(3).then(data => {
-        // console.log("this.Userdata: ", that.Userdata);
-        that.btnList.forEach((item, i) => {
-          that.btnList[i].show = data.data.map3d[item.value];
-          let domArr = document.getElementsByClassName(item.className);
-          if(domArr.length) {
-            if(that.btnList[i].show ) {
-              domArr[0].style.zIndex= 1;
-            } else {
-              domArr[0].style.zIndex= -1;
-            }
-          }
-        })
-      });
+      that.getBtnShow();
     });
   },
   methods: {
@@ -130,29 +117,41 @@ export default {
       console.log("this.center: ", this.center);
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
 
-    }
-  },
-  activated() {
-    const that = this;
-    getMapConfig(3).then(data => {
-        console.log("data.data: ", data.data);
+    },
+    getBtnShow() {
+      const that = this;
+      getMapConfig(3).then(data => {
         that.btnList.forEach((item, i) => {
           that.btnList[i].show = data.data.map3d[item.value];
           let domArr = document.getElementsByClassName(item.className);
           if(domArr.length) {
-            if(that.btnList[i].show ) {
-              domArr[0].style.zIndex= 1;
-            } else {
-              domArr[0].style.zIndex= -1;
-            }
+            domArr[0].style.zIndex = that.btnList[i].show ? 1 : -1;
+          }
+          if (item.text === "底图切换") {
+            domArr = domArr[0].parentNode;
+            domArr.style.zIndex = that.btnList[i].show ? 1 : -1;
           }
         })
       });
-    console.log("3d地图组件被激活了", this.btnList);
+      let btnList = document.getElementsByClassName("cesium-baseLayerPicker-item");
+      for (let index = 0; index < that.viewer.baseLayerPicker.viewModel.imageryProviderViewModels.length; index++) {
+        const element = btnList[index];
+          element.addEventListener("click",that.baseLayerPickerClick.bind(this,index,element),false);
+      }
+    },
+    baseLayerPickerClick(index,element) {
+      // console.log(index,element)
+      this.Userdata.map3d.selectedImageryIndex = index;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    }
+  },
+  activated() {
+    this.getBtnShow();
+    // console.log("3d地图组件被激活了", this.btnList);
 
   },
   deactivated() {
-    console.log("3d地图组件被停用了");
+    // console.log("3d地图组件被停用了");
   }
 };
 </script>

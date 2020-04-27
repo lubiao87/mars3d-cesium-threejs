@@ -6,8 +6,8 @@
     "infoBox": false,
     "vrButton": true,
     "fullscreenButton": true,
-    "geocoder": true,
-    "baseLayerPicker": false,
+    "geocoder": false,
+    "baseLayerPicker": true,
     "showRenderLoopErrors": true,
     "center": {
       "y": 33.589536,
@@ -50,6 +50,11 @@
     },
     "basemaps": [
       {
+        "id": 10,
+        "name": "地图底图",
+        "type": "group"
+      },
+      {
         "name": "谷歌卫星",
         "icon": "img/basemaps/google_img.png",
         "type": "www_google",
@@ -60,6 +65,94 @@
         "pid": -1,
         "hasLayer": true,
         "order": 0
+      },
+      {
+        "name": "ArcGIS卫星",
+        "icon": "img/basemaps/esriWorldImagery.png",
+        "type": "arcgis",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+        "enablePickFeatures": false
+      },
+      {
+        "name": "微软卫星",
+        "icon": "img/basemaps/bingAerial.png",
+        "type": "www_bing",
+        "layer": "Aerial"
+      },
+      {
+        "name": "天地图卫星",
+        "icon": "img/basemaps/tdt_img.png",
+        "type": "group",
+        "layers": [
+          {
+            "name": "底图",
+            "type": "www_tdt",
+            "layer": "img_d",
+            "key": ["6c99c7793f41fccc4bd595b03711913e"]
+          },
+          {
+            "name": "注记",
+            "type": "www_tdt",
+            "layer": "img_z",
+            "key": ["56b81006f361f6406d0e940d2f89a39c"]
+          }
+        ]
+      },
+      {
+        "name": "天地图电子",
+        "icon": "img/basemaps/tdt_vec.png",
+        "type": "group",
+        "layers": [
+          {
+            "name": "底图",
+            "type": "www_tdt",
+            "layer": "vec_d",
+            "key": ["313cd4b28ed520472e8b43de00b2de56"]
+          },
+          {
+            "name": "注记",
+            "type": "www_tdt",
+            "layer": "vec_z",
+            "key": ["83b36ded6b43b9bc81fbf617c40b83b5"]
+          }
+        ]
+      },
+      {
+        "name": "OSM地图",
+        "type": "xyz",
+        "icon": "img/basemaps/osm.png",
+        "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "subdomains": "abc"
+      },
+      {
+        "name": "黑色底图",
+        "icon": "img/basemaps/bd-c-dark.png",
+        "type": "mapbox",
+        "mapId": "mapbox.dark"
+      },
+      {
+        "name": "灰色底图",
+        "icon": "img/basemaps/bd-c-grayscale.png",
+        "type": "mapbox",
+        "mapId": "mapbox.light"
+      },
+      {
+        "name": "离线地图  (供参考)",
+        "type": "xyz",
+        "icon": "img/basemaps/mapboxSatellite.png",
+        "url": "http://data.marsgis.cn/maptile/wgs3857img/{z}/{x}/{y}.jpg",
+        "rectangle": {
+          "xmin": -180,
+          "xmax": 180,
+          "ymin": -85,
+          "ymax": 85
+        }
+      },
+      {
+        "name": "单张图片  (本地离线)",
+        "icon": "img/basemaps/offline.png",
+        "type": "image",
+        "url": "img/world/world.jpg"
       }
     ],
     "animation": true
