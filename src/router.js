@@ -16,16 +16,22 @@ export default new Router({
       name: "index",
       component: () => import("./components/index.vue"),
       redirect: "/quanjingSystem",
-      meta: {
-        auth: false // 这里设置，当前路由需要校验
-      },
       children: [
-        { // 中关村
+        { // 文庙
           path: '/quanjingSystem',
           name: 'quanjingSystem',
-          component: () => import("./views/quanjingSystem/index.vue")
+          component: () => import("./views/quanjingSystem/index.vue"),
+          meta: {
+            auth: false, // 这里设置，当前路由需要校验
+            keepAlive: true
+          },
         }
       ]
-    }
+    },
+    {
+      path: "/createLayer",
+      name: 'createLayer',
+      component: () => import("./views/quanjingSystem/childrenCenter/createLayer.vue"),
+    },
   ]
 })

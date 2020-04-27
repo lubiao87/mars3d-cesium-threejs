@@ -9,7 +9,7 @@
       <span class="iconfont icon-checkmark-square-outline"></span>
        <span class="fh">保存</span>
     </div>
-    <div class="baocun">
+    <div class="baocun" @click="yuLan">
       <span class="iconfont icon-yulan"></span>
        <span class="fh">预览</span>
     </div>
@@ -50,8 +50,8 @@ export default {
         self.navList = data[0].data;
       });
     },
-    tologin() {
-      this.$router.push("/login");
+    yuLan() {
+      this.$router.push("/createLayer");
     },
     baocunPut() {
       const that = this;
