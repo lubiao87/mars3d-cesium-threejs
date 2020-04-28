@@ -26,6 +26,11 @@
       disabled
       value="https://720yun.com/t/23vkslpwg2m"
     />
+
+    <el-table :data="tableData" border style="width: 100%;margin-top: 30px;">
+      <el-table-column prop="name" label="类别"></el-table-column>
+      <el-table-column prop="value" label="内容"></el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -39,26 +44,35 @@ export default {
   mixins: [listSearchMixin],
   data() {
     return {
-      base64: "",
-      // creadflag: false,
-      Userdata: null
+      tableData: [
+        {
+          value: "",
+          name: "拍摄设备"
+        },
+        {
+          value: "",
+          name: "照片尺寸"
+        },
+        {
+          value: "",
+          name: "照片数量"
+        },
+        {
+          value: "",
+          name: "数据量"
+        }
+      ]
     };
   },
   created() {
     const that = this;
-    getMapConfig(3).then(data => {
-      that.Userdata = data.data;
-      that.$store.dispatch("collection/ORDERS_DATA", that.Userdata);
-      that.base64 = that.Userdata.viewerImgbase64;
-    });
+    this.tableData[0].value = this.MyprojectData.device.name;
+    this.tableData[1].value = '4000x3000(单位像素)';
+    this.tableData[2].value = this.MyprojectData.img_num;
+    this.tableData[3].value = this.MyprojectData.mana_use;
   },
   mounted() {},
   methods: {
-    // getBase64(data) {
-    //   this.Userdata.viewerImgbase64 = data;
-    //   this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
-    //   this.base64 = data;
-    // }
   },
   activated() {
     // console.log("组件被激活了");
@@ -67,8 +81,7 @@ export default {
     }
   },
   deactivated() {
-    if(this.frameHtml)
-    this.frameHtml.parentNode.removeChild(this.frameHtml);
+    if (this.frameHtml) this.frameHtml.parentNode.removeChild(this.frameHtml);
     // console.log("组件被停用了");
   }
 };
@@ -140,7 +153,38 @@ export default {
     color: #fff;
   }
 }
-
 </style>
 <style lang="scss">
+.SidebarBasic_container_1H0kS_ .el-table--border::after, .el-table--group::after, .el-table::before {
+  background-color: transparent;
+  display: none;
+}
+.SidebarBasic_container_1H0kS_ .el-table--border, .SidebarBasic_container_1H0kS_ .el-table--group {
+    border: 0 solid transparent;
+}
+.SidebarBasic_container_1H0kS_ .el-table td, .SidebarBasic_container_1H0kS_ .el-table th.is-leaf {
+    border-bottom: 1px solid #525252;
+}
+.SidebarBasic_container_1H0kS_ .el-table--border td, .SidebarBasic_container_1H0kS_  .el-table--border th{
+    border-right: 1px solid #525252;
+}
+.SidebarBasic_container_1H0kS_ .el-table--border td:nth-child(2) {
+  border-right: none;
+}
+.SidebarBasic_container_1H0kS_ .el-table th.is-leaf:nth-child(2) {
+  border-right: none;
+}
+.SidebarBasic_container_1H0kS_ .el-table td, .SidebarBasic_container_1H0kS_  .el-table th {
+      padding: 6px 0;
+}
+.SidebarBasic_container_1H0kS_  .el-table .cell {
+  line-height: 16px;
+}
+.SidebarBasic_container_1H0kS_  .el-table__row:hover {
+  background-color: transparent;
+  cursor: initial;
+}
+.SidebarBasic_container_1H0kS_  .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: transparent;
+}
 </style>

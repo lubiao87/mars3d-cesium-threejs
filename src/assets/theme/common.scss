@@ -281,7 +281,9 @@ input[type="password"] {
   text-align: left;
   color: rgba(255, 255, 255, 1);
 }
-
+.el-table th, .el-table tr, .el-table, .el-table__expanded-cell {
+  background-color: transparent !important;
+}
 
 /*>=1100的设备屏幕*/
 // @media (min-width: 1280px) {
@@ -299,6 +301,15 @@ input[type="password"] {
   .GlobalToggles_toggles_fxGXfs {
     margin-bottom: 0 !important;
   }
+  .GlobalToggles_title_37rLpE {
+    margin-bottom: 15px;
+  }
+  .EditBasic_header_wTsDFd {
+    margin-bottom: 15px;
+  }
+  .Item_item_wUwqyA {
+    margin-bottom: 20px;
+  }
 }
 
 /*>=1440的设备屏幕*/
@@ -315,6 +326,15 @@ input[type="password"] {
     margin-bottom: 20px !important;
   }
   .GlobalToggles_toggles_fxGXfs {
-    margin-bottom: 10px !important;
+    margin-bottom: 0 !important;
+  }
+  .GlobalToggles_title_37rLpE {
+    margin-bottom: 20px;
+  }
+  .EditBasic_header_wTsDFd {
+    margin-bottom: 20px;
+  }
+  .Item_item_wUwqyA {
+    margin-bottom: 25px;
   }
 }
