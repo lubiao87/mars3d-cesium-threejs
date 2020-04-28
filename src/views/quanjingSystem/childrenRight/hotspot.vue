@@ -64,6 +64,7 @@
         @setVideoData="setVideoData"
         @addVideoData="addVideoData"
         @setLinkData="setLinkData"
+        @deletLinkData="deletLinkData"
       ></component>
     </keep-alive>
   </div>
@@ -376,7 +377,7 @@ export default {
         if (item.id === data.id) {
           that.dotList[index] = data;
           let demo = document.getElementById("a" + item.id);
-          demo.removeEventListener('click');
+          demo.title = data.link;
           demo.onclick = function(params) {
             window.open(data.link);
           };
@@ -384,6 +385,9 @@ export default {
       });
       this.Userdata.dotList = this.dotList;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    },
+    deletLinkData(data) {
+      this.deletTextData(data);
     }
   },
   activated() {

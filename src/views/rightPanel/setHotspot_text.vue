@@ -60,7 +60,8 @@ export default {
     align-items: center;
     justify-content: center;
     .el-form-item__label {
-      flex: 0 0 70px;
+     padding: 0;
+      flex: 0 0 60px;
     }
     .el-form-item__content {
       margin-left: 10px !important;
