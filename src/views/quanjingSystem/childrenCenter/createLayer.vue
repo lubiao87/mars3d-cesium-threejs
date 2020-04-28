@@ -308,4 +308,9 @@ export default {
 .toolbar-dropdown-menu i {
   padding-right: 5px;
 }
+.image_link .iconfont {
+  font-size: 30px;
+    color: #286efa;
+    cursor: pointer;
+}
 </style>

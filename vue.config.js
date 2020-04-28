@@ -35,6 +35,14 @@ module.exports = {
           "^/api": "/"
         }
       }
+      // "/projects": {
+      //   target: "http://172.16.13.95:8000/projects/",
+      //   changeOrigin: true,
+      //   ws: true,
+      //   pathRewrite: {
+      //     "^/projects": "/"
+      //   }
+      // },
     }
   },
   chainWebpack: config => {

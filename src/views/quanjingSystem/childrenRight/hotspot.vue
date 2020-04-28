@@ -38,6 +38,7 @@
                 'dian_point': item.typeName === '圆点标签',
                 'text_point': item.typeName === '文字标签',
                 'iconfont icon-ziyuan': item.typeName === '视频标签',
+                'iconfont icon-lianjie': item.typeName === '链接标签',
               }"
             ></div>
           </div>
@@ -62,6 +63,7 @@
         @deletVideoData="deletVideoData"
         @setVideoData="setVideoData"
         @addVideoData="addVideoData"
+        @setLinkData="setLinkData"
       ></component>
     </keep-alive>
   </div>
@@ -86,6 +88,7 @@ import addHotspot from "@/views/rightPanel/addHotspot";
 import setHotspot_dian from "@/views/rightPanel/setHotspot_dian";
 import setHotspot_text from "@/views/rightPanel/setHotspot_text";
 import setHotspot_video from "@/views/rightPanel/setHotspot_video";
+import setHotspot_link from "@/views/rightPanel/setHotspot_link";
 
 export default {
   mixins: [listSearchMixin],
@@ -94,41 +97,49 @@ export default {
     addHotspot,
     setHotspot_dian,
     setHotspot_text,
-    setHotspot_video
+    setHotspot_video,
+    setHotspot_link
   },
   data() {
     return {
       // point: {
       dotList: [
-        // {
-        //   name: "丹东港",
-        //   X: 119.033069,
-        //   Y: 33.589196,
-        //   zydw: "茂名单位",
-        //   jzmj: "43平方米",
-        //   jzcs: 2,
-        //   jzjg: "钢混",
-        //   jzlf: "2006年",
-        //   id: 111,
-        //   typeName: "圆点标签"
-        // },
-        // {
-        //   name: "文章港",
-        //   X: 119.036069,
-        //   Y: 33.529196,
-        //   id: 2111,
-        //   desc: "此处可以绑定任意Html代码和css效果",
-        //   typeName: "文字标签"
-        // },
-        // {
-        //   name: "电影院",
-        //   X: 119.031069,
-        //   Y: 33.529596,
-        //   id: 267923,
-        //   typeName: "视频标签",
-        //   url:
-        //     "http://data.marsgis.cn/video/lukou.mp4"
-        // }
+        {
+          name: "丹东港",
+          X: 119.033069,
+          Y: 33.589196,
+          zydw: "茂名单位",
+          jzmj: "43平方米",
+          jzcs: 2,
+          jzjg: "钢混",
+          jzlf: "2006年",
+          id: 111,
+          typeName: "圆点标签"
+        },
+        {
+          name: "文章港",
+          X: 119.036069,
+          Y: 33.529196,
+          id: 2111,
+          desc: "此处可以绑定任意Html代码和css效果",
+          typeName: "文字标签"
+        },
+        {
+          name: "电影院",
+          X: 119.031069,
+          Y: 33.529596,
+          id: 267923,
+          typeName: "视频标签",
+          url: "http://data.marsgis.cn/video/lukou.mp4"
+        },
+        {
+          name: "超级链接",
+          X: 119.021069,
+          Y: 33.539596,
+          id: 113479,
+          typeName: "链接标签",
+          link: "http://www.baidu.com"
+        }
       ],
       // },
       selectItem: null,
@@ -140,9 +151,9 @@ export default {
   created() {
     const that = this;
     this.getUserdata();
-    this.dotList = this.Userdata.dotList || [];
-    // this.Userdata.dotList = this.dotList;
-    // this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    // this.dotList = this.Userdata.dotList || [];
+    this.Userdata.dotList = this.dotList;
+    this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
   },
   mounted() {
     const that = this;
@@ -177,6 +188,19 @@ export default {
             id: item.id
           });
         });
+      } else if (item.typeName === "链接标签") {
+        let html = `<div class="image_link" id="a${item.id}" title="${item.link}">
+                      <span class="iconfont icon-lianjie"></span>
+                    </div>`;
+        drawTextPoint(html, item, function(params) {
+          that.divpointList.push({
+            divpoint: params,
+            id: item.id
+          });
+          document.getElementById("a" + item.id).onclick = function(params) {
+            window.open(item.link);
+          };
+        });
       }
 
       // arr[index].feature = obj;
@@ -201,6 +225,9 @@ export default {
           "collection/set_ComponentName",
           "setHotspot_video"
         );
+      } else if(item.typeName === "链接标签") {
+        flyToText(item);
+        this.$store.dispatch("collection/set_ComponentName", "setHotspot_link");
       }
 
       // this.setClass = "noAnimation";
@@ -315,12 +342,11 @@ export default {
     },
     setVideoData(data) {
       const that = this;
-      // console.log("formData", formData);
       this.dotList.forEach((item, index, arr) => {
-        if (item.id === formData.id) {
-          that.dotList[index] = formData;
+        if (item.id === data.id) {
+          that.dotList[index] = data;
           // document.getElementById("a" + formData.id).innerText = formData.name;
-          document.getElementById("b" + formData.id).innerText = formData.url;
+          document.getElementById("b" + data.id).innerText = data.url;
         }
       });
       this.Userdata.dotList = this.dotList;
@@ -339,6 +365,22 @@ export default {
       that.divpointList.push({
         id: data.id,
         divpoint: data.divpoint
+      });
+      this.Userdata.dotList = this.dotList;
+      this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
+    },
+    setLinkData(data) {
+      const that = this;
+      // console.log("formData", formData);
+      this.dotList.forEach((item, index, arr) => {
+        if (item.id === data.id) {
+          that.dotList[index] = data;
+          let demo = document.getElementById("a" + item.id);
+          demo.removeEventListener('click');
+          demo.onclick = function(params) {
+            window.open(data.link);
+          };
+        }
       });
       this.Userdata.dotList = this.dotList;
       this.$store.dispatch("collection/ORDERS_DATA", this.Userdata);
@@ -451,6 +493,11 @@ export default {
   animation-duration: 0;
   animation-name: none;
 }
+.icon-lianjie {
+    font-size: 20px;
+    color: #286efa;
+    margin-left: 2px;
+  }
 // 图片
 .dian_point {
   background: url("../../../assets/common/image/dian_point.png") no-repeat
@@ -530,5 +577,6 @@ export default {
       no-repeat center;
     background-size: 100%;
   }
+
 }
 </style>

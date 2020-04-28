@@ -2,7 +2,7 @@
   <div class="SidebarBasic_container_1H0kS_">
     <p>作品二维码</p>
     <img
-      src="https://apiv4.720yun.com/qr/out/aHR0cHM6Ly83MjB5dW4uY29tL3QvMjN2a3NscHdnMm0=/aHR0cHM6Ly9zc2wtYXZhdGFyLjcyMHN0YXRpYy5jb20vQC9hdmF0YXIvc3lzdGVtLzI0LmpwZw=="
+      :src="imgSrc"
       class="SidebarBasic_qr_1IBDjS"
     />
     <div class="SidebarBasic_footer_YjRste">
@@ -61,17 +61,24 @@ export default {
           value: "",
           name: "数据量"
         }
-      ]
+      ],
+      imgSrc: ''
     };
   },
   created() {
     const that = this;
-    this.tableData[0].value = this.MyprojectData.device.name;
-    this.tableData[1].value = '4000x3000(单位像素)';
-    this.tableData[2].value = this.MyprojectData.img_num;
-    this.tableData[3].value = this.MyprojectData.mana_use;
+
   },
-  mounted() {},
+
+  mounted() {
+    // if(this.MyprojectData.device) {
+    //   this.tableData[0].value = this.MyprojectData.device.name;
+    //   this.tableData[1].value = '4000x3000(单位像素)';
+    //   this.tableData[2].value = this.MyprojectData.img_num;
+    //   this.tableData[3].value = this.MyprojectData.mana_use;
+    // }
+
+  },
   methods: {
   },
   activated() {
@@ -83,7 +90,17 @@ export default {
   deactivated() {
     if (this.frameHtml) this.frameHtml.parentNode.removeChild(this.frameHtml);
     // console.log("组件被停用了");
-  }
+  },
+   watch: {
+    MyprojectData(val) {
+      this.tableData[0].value = val.device.name;
+      this.tableData[1].value = '4000x3000(单位像素)';
+      this.tableData[2].value = val.img_num;
+      this.tableData[3].value = val.mana_use;
+      this.imgSrc = `http://172.16.13.95:8000/projects/${val.uuid}/gen-qrcode`;
+      // this.imgSrc = `${window.location.host}/projects/${val.uuid}/gen-qrcode`;
+    }
+  },
 };
 </script>
 

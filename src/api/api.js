@@ -52,11 +52,18 @@ export function project_setting(id) {
   const url = `/api/project_setting/?uuid=${id}`;
   return axios
     .get(url, {
-      // params: data,
       dataType: 'json',
     })
     .then((res) => {
       // console.log('project_setting--', res)
       return Promise.resolve(res.data)
     })
+}
+export function project_setting_put(id, data) {
+  // const url = 'config/config.json';
+  const url = `/api/project_setting/${id}/`;
+
+  return axios.put(url, data).then((res) => {
+    return Promise.resolve(res.data)
+  })
 }

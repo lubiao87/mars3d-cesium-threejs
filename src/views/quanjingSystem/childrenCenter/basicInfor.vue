@@ -151,7 +151,7 @@
 import { mapState, mapGetters, mapActions } from "vuex"; //先要引入
 import { listSearchMixin } from "@/mixin"; //混淆请求
 import { getMapConfig } from "@/map/api";
-import { putUserdata, project_setting } from "@/api/api"; //api配置请求的路径
+import { putUserdata, project_setting, project_setting_put } from "@/api/api"; //api配置请求的路径
 import { Message } from "element-ui";
 
 export default {
@@ -239,9 +239,9 @@ export default {
   },
   created() {
     const that = this;
-    let uuid = this.$route.query.uuid;
-     if(uuid) {
-       project_setting("916bf9fc-34be-4979-af4c-0f08f328448c").then(data => {
+    this.uuid = this.$route.query.uuid;
+     if(this.uuid) {
+       project_setting(this.uuid).then(data => {
          console.log("---", data)
         that.classifyValue = data.data[0].tags;
         that.modelName = data.data[0].name;
@@ -255,6 +255,7 @@ export default {
       that.btnList.forEach((item, i) => {
         that.btnList[i].show = that.Userdata.map3d[item.value];
       });
+      this.$store.dispatch("collection/ORDERS_DATA", that.Userdata);
     });
   },
   methods: {
@@ -266,12 +267,23 @@ export default {
     baocun() {
       const that = this;
       let MyprojectData = that.MyprojectData;
+      // let select = this.tags.find(item => {return that.classifyValue === item.value})
       MyprojectData.tags = that.classifyValue;
       MyprojectData.name = that.modelName;
-      MyprojectData.is_public = that.radio;
+      MyprojectData.is_public = JSON.stringify(that.radio) ;
       MyprojectData.description = that.description;
       that.$store.dispatch("collection/set_ProjectData", MyprojectData);
-      console.log(that.MyprojectData)
+      // console.log(that.MyprojectData)
+      let data = {
+        name: MyprojectData.name,
+        tags: MyprojectData.tags,
+        is_public: MyprojectData.is_public,
+        description: MyprojectData.description,
+        uuid: this.uuid
+      }
+      project_setting_put(this.uuid, data).then(data => {
+        console.log("修改后的数据：", data)
+      })
     },
     switchBtn(value) {
       // console.log(value);
